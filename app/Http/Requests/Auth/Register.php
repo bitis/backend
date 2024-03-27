@@ -15,19 +15,22 @@ class Register extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required',
-            'mobile' => 'required|unique:users,account',
-            'invite_code' => 'required|exists:companies'
+            'store_name' => 'required',
+            'mobile' => 'required|unique:users,mobile',
+            'password' => 'required|min:6',
+            'verify_code' => 'required'
         ];
     }
 
     public function messages(): array
     {
         return [
+            'store_name.required' => '请填写门店名称',
             'mobile.required' => '请填写手机号',
             'mobile.unique' => '账号已存在',
-            'invite_code.required' => '请填写邀请码',
-            'invite_code.exists' => '当前邀请码无效',
+            'password.required' => '请填写密码',
+            'password.min' => '密码最少6位',
+            'verify_code.required' => '请填写验证码',
         ];
     }
 }

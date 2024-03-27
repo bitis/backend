@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Store;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\Login;
 use App\Http\Requests\Auth\Register;
-use App\Models\Enumerations\Status;
+use App\Models\Enumerations\UserStatus;
+use App\Models\Store;
 use App\Models\User;
 use App\Models\VerificationCode;
 use Illuminate\Http\JsonResponse;
@@ -22,17 +24,26 @@ class AccountController extends Controller
      */
     public function register(Register $request): JsonResponse
     {
+        if (!VerificationCode::verify($request->input('mobile'), $request->input('verify_code')))
+            return fail('验证码错误');
+
+        $store = Store::create([
+            'name' => $request->input('store_name'),
+        ]);
+
         $user = User::create(array_merge($request->only([
-            'name', 'mobile'
+            'mobile'
         ]), [
-            'account' => $request->input('mobile'),
+            'name' => '管理员',
             'password' => bcrypt($request->input('password', config('default.password'))),
-            'store_id' => 0
+            'store_id' => $store->id,
+            'is_admin' => true,
+            'status' => UserStatus::Normal->value
         ]));
 
         $user->save();
 
-        $token = $user->createToken($request->header('platform', '未命名'));
+        $token = $user->createToken($request->header('User-Agent', 'Unknown'));
 
         $user->api_token = $token->plainTextToken;
 
@@ -47,24 +58,24 @@ class AccountController extends Controller
      */
     public function login(Login $request): JsonResponse
     {
-        $account = $request->input('account');
+        $mobile = $request->input('mobile');
         $password = $request->input('password');
 
-        $user = User::where('account', $account)->first();
+        $user = User::with('store')->where('mobile', $mobile)->first();
 
         if (!Hash::check($password, $user->password)) {
             return fail('密码校验失败');
         }
 
-        if ($user->status == Status::Disable->value) {
+        if ($user->status == UserStatus::Disable->value) {
             return fail('账号已被禁用');
         }
 
-        if ($user->status == Status::Destroy->value) {
+        if ($user->status == UserStatus::Destroy->value) {
             return fail('账号不存在');
         }
 
-        $token = $user->createToken($request->header('platform', '未命名'));
+        $token = $user->createToken($request->header('User-Agent', 'Unknown'));
 
         $user->api_token = $token->plainTextToken;
 
@@ -123,7 +134,7 @@ class AccountController extends Controller
             $user->api_token = Str::random(32);
         }
 
-        $user->fill($request->only(['name', 'account', 'push_id']));
+        $user->fill($request->only(['name', 'mobile', 'push_id']));
 
         $user->save();
 
@@ -138,11 +149,11 @@ class AccountController extends Controller
      */
     public function resetPassword(Request $request): JsonResponse
     {
-        $mobile = $request->input('account');
+        $mobile = $request->input('mobile');
 
         $user = User::where('mobile', $mobile)->first();
 
-        if (!VerificationCode::verify($mobile, $request->input('code')))
+        if (!VerificationCode::verify($mobile, $request->input('verify_code')))
             return fail('验证码错误');
 
         $user->password = bcrypt($request->input('password'));
@@ -161,7 +172,7 @@ class AccountController extends Controller
             return fail('密码校验失败');
         }
 
-        $user->status = 2;
+        $user->status = UserStatus::Destroy->value;
 
         $user->save();
 

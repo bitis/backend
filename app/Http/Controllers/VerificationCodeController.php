@@ -17,15 +17,15 @@ class VerificationCodeController extends Controller
     {
         $code = rand(100000, 999999);
 
-        $phone = $request->input('phone_number') ?: User::where('account', $request->input('account'))->first()?->mobile;
+        $phone = $request->input('mobile') ?: User::where('mobile', $request->input('mobile'))->first()?->mobile;
 
         if (!$phone) return fail('账号/手机号不能为空');
 
         try {
-            $result = $easySms->send($request->input('phone_number'), new VerificationCode($code));
+            $result = $easySms->send($request->input('mobile'), new VerificationCode($code));
 
             VerificationCodeModel::create([
-                'phone_number' => $request->input('phone_number'),
+                'mobile' => $request->input('mobile'),
                 'code' => $code,
                 'getaway' => last($result)['gateway'],
                 'expiration_date' => now()->addMinutes(config('sms.expiration'))

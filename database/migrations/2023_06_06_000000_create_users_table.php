@@ -17,11 +17,15 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('avatar')->nullable();
-            $table->string('account')->unique();
-            $table->string('mobile', '11');
-            $table->integer('company_id');
+            $table->string('mobile');
+            $table->string('store_id');
+            $table->timestamp('mobile_verified_at')->nullable();
             $table->string('password');
-            $table->string('api_token', 32)->unique();
+            $table->string('openid')->nullable();
+            $table->string('unionid')->nullable();
+            $table->boolean('is_admin')->default(false);
+            $table->boolean('status')->default(0);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

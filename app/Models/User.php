@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Enumerations\Status;
+use App\Models\Enumerations\UserStatus;
 use App\Models\Traits\DefaultDatetimeFormat;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -24,16 +24,13 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'avatar',
-        'account',
         'mobile',
-        'company_id',
+        'store_id',
+        'mobile_verified_at',
         'password',
-        'api_token',
-        'status',
-        'identity_id',
-        'employee_id',
-        'remark',
-        'push_id'
+        'openid',
+        'unionid',
+        'is_admin',
     ];
 
     /**
@@ -42,7 +39,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-        'password'
+        'password', 'deleted_at'
     ];
 
     /**
@@ -53,16 +50,16 @@ class User extends Authenticatable
     protected $casts = [
     ];
 
-    public function company(): BelongsTo
-    {
-        return $this->belongsTo(Company::class);
-    }
-
     public function avatar(): Attribute
     {
         return Attribute::make(
-            get: fn(mixed $value) => $value ?: Company::find($this->company_id)?->logo,
+            get: fn(mixed $value) => $value ?: '',
         );
+    }
+
+    public function store(): BelongsTo
+    {
+        return $this->belongsTo(Store::class);
     }
 
     protected static function booted()
@@ -70,11 +67,14 @@ class User extends Authenticatable
         static::updating(function ($user) {
 
             // 封禁用户
-            if ($user->status == Status::Disable->value) {
+            if ($user->status == UserStatus::Disable->value) {
                 $user->api_token = '';
             }
         });
     }
 
-    protected function getDefaultGuardName(): string { return 'api'; }
+    protected function getDefaultGuardName(): string
+    {
+        return 'api';
+    }
 }

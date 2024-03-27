@@ -15,7 +15,7 @@ class Login extends FormRequest
     public function rules()
     {
         return [
-            'account' => 'required|exists:users,account',
+            'mobile' => 'required|exists:users,mobile',
             'password' => 'required',
         ];
     }
@@ -23,8 +23,8 @@ class Login extends FormRequest
     public function messages()
     {
         return [
-            'account.required' => '账号信息必填',
-            'account.exists' => '账号不存在',
+            'mobile.required' => '账号信息必填',
+            'mobile.exists' => '账号不存在',
         ];
     }
 }

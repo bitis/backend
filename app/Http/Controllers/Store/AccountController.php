@@ -29,6 +29,10 @@ class AccountController extends Controller
 
         $store = Store::create([
             'name' => $request->input('store_name'),
+            'industry_id' => $request->input('industry_id'),
+            'contact_name' => $request->input('store_name'),
+            'contact_mobile' => $request->input('mobile'),
+            'expiration_date' => now()->addDays(config('default.expiration_date')),
         ]);
 
         $user = User::create(array_merge($request->only([

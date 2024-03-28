@@ -18,7 +18,8 @@ class Register extends FormRequest
             'store_name' => 'required',
             'mobile' => 'required|unique:users,mobile',
             'password' => 'required|min:6',
-            'verify_code' => 'required'
+            'verify_code' => 'required',
+            'industry_id' => 'required|exists:industries,id',
         ];
     }
 
@@ -31,6 +32,8 @@ class Register extends FormRequest
             'password.required' => '请填写密码',
             'password.min' => '密码最少6位',
             'verify_code.required' => '请填写验证码',
+            'industry_id.required' => '请选择行业',
+            'industry_id.industries' => '行业代码错误',
         ];
     }
 }

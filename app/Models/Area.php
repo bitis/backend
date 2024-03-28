@@ -14,7 +14,7 @@ class Area extends Model
 
     protected $hidden = ['created_at', 'updated_at', 'pid'];
 
-    protected $with = ['children'];
+//    protected $with = ['children'];
 
     public function children(): HasMany
     {

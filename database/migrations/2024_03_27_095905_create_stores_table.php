@@ -15,6 +15,16 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('avatar')->nullable();
+            $table->integer('industry_id')->nullable()->comment('行业ID');
+            $table->string('province')->nullable();
+            $table->string('city')->nullable();
+            $table->string('area')->nullable();
+            $table->string('address')->nullable();
+            $table->string('contact_name');
+            $table->string('contact_mobile');
+            $table->string('contact_wechat')->nullable();
+            $table->string('official_account_qrcode')->nullable()->comment('微信公众号二维码');
+            $table->timestamp('expiration_date')->comment('到期时间');
             $table->softDeletes();
             $table->timestamps();
         });

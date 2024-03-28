@@ -12,10 +12,15 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-Route::get('area', 'AreaController@index');
 Route::get('verify/code', 'VerificationCodeController@get');
 
 include __DIR__ . '/store.php';
+
+Route::prefix('common')->group(function () {
+    Route::get('area', 'CommonController@area');
+    Route::get('industry', 'CommonController@industry');
+});
+
 
 Route::prefix('appVersion')->group(function () {
     Route::get('latest', 'AppVersionController@latest');

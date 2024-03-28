@@ -13,6 +13,17 @@ class Store extends Model
 
     protected $fillable = [
         'name',
+        'avatar',
+        'industry_id',
+        'province',
+        'city',
+        'area',
+        'address',
+        'contact_name',
+        'contact_mobile',
+        'contact_wechat',
+        'official_account_qrcode',
+        'expiration_date',
     ];
 
     protected $hidden = [

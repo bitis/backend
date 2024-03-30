@@ -21,7 +21,7 @@ class LevelController extends Controller
 
     public function form(Request $request): JsonResponse
     {
-        $level = Level::findOr($request->input('id'), new Level(['store_id' => $this->store_id]));
+        $level = Level::findOr($request->input('id'), fn() => new Level(['store_id' => $this->store_id]));
 
         $level->fill($request->only(['name', 'flag', 'discount', 'item_limit', 'item_count']));
 

@@ -37,7 +37,7 @@ class MemberController extends Controller
     public function form(Request $request): JsonResponse
     {
         $member = Member::where('store_id', $this->store_id)
-            ->findOr(request('id'), new Member(['store_id' => $this->store_id]));
+            ->findOr(request('id'), fn() => new Member(['store_id' => $this->store_id]));
 
         $member->fill($request->all());
 

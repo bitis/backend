@@ -22,7 +22,7 @@ class SpecController extends Controller
      */
     public function form(Request $request): JsonResponse
     {
-        $spec = Spec::findOr($request->input('id'), new Spec(['store_id' => $this->store_id]));
+        $spec = Spec::findOr($request->input('id'), fn() => new Spec(['store_id' => $this->store_id]));
 
         $spec->fill($request->only(['name', 'values']));
 

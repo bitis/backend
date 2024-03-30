@@ -19,7 +19,7 @@ class CategoryController extends Controller
 
     public function form(Request $request): JsonResponse
     {
-        $category = Category::findOr(request('id'), new Category(['store_id' => $this->store_id]));
+        $category = Category::findOr(request('id'), fn() => new Category(['store_id' => $this->store_id]));
 
         $category->fill($request->only(['name', 'sort']));
 

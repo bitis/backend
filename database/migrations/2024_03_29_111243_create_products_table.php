@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('type')->comment('0 服务 1 实物');
             $table->string('name')->comment('商品名称');
             $table->string('subtitle')->nullable()->comment('副标题');
+            $table->string('first_image')->comment('首图');
             $table->string('bar_code')->nullable()->comment('条码');
             $table->decimal('price', 12)->default(0.00)->comment('价格');
             $table->decimal('original_price', 12)->default(0.00)->comment('原价');

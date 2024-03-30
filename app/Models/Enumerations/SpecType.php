@@ -4,18 +4,18 @@ namespace App\Models\Enumerations;
 
 use App\Models\Enumerations\Traits\EnumArray;
 
-enum ProductType: int
+enum SpecType: int
 {
     use EnumArray;
 
-    case Service = 1;
-    case Product = 2;
+    case Single = 1;
+    case Multi = 2;
 
     public function name(): string
     {
         return match ($this) {
-            ProductType::Service => '服务',
-            ProductType::Product => '商品',
+            SpecType::Single => '单规格',
+            SpecType::Multi => '商品',
         };
     }
 }

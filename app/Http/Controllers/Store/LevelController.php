@@ -21,7 +21,7 @@ class LevelController extends Controller
 
     public function form(Request $request): JsonResponse
     {
-        $level = Level::findOr(request('id'), new Level(['store_id' => $this->store_id]));
+        $level = Level::findOr($request->input('id'), new Level(['store_id' => $this->store_id]));
 
         $level->fill($request->only(['name', 'flag', 'discount', 'item_limit', 'item_count']));
 
@@ -56,6 +56,19 @@ class LevelController extends Controller
             $level->item_count = count($links);
             $level->save();
         }
+
+        return success($level);
+    }
+
+    /**
+     * 详情
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function detail(Request $request): JsonResponse
+    {
+        $level = Level::with(['linkProductIds', 'linkServiceIds'])->find($request->input('id'));
 
         return success($level);
     }

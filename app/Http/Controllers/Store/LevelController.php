@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Store;
 
 use App\Http\Controllers\Controller;
+use App\Models\Enumerations\ProductType;
 use App\Models\Level;
+use App\Models\LevelProduct;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -19,13 +21,43 @@ class LevelController extends Controller
 
     public function form(Request $request): JsonResponse
     {
-        $category = Level::findOr(request('id'), new Level(['store_id' => $this->store_id]));
+        $level = Level::findOr(request('id'), new Level(['store_id' => $this->store_id]));
 
-        $category->fill($request->only(['name', 'flag', 'discount']));
+        $level->fill($request->only(['name', 'flag', 'discount', 'item_limit', 'item_count']));
 
-        $category->save();
+        $level->save();
 
-        return success($category);
+        if ($level->item_limit) {
+            $links = [];
+
+            LevelProduct::where('level_id', $level->id)->delete();
+
+            $linkProductIds = $request->input('product_ids', []);
+            $linkServiceIds = $request->input('service_ids', []);
+
+            foreach ($linkProductIds as $linkProductId) {
+                $links[] = [
+                    'level_id' => $level->id,
+                    'product_id' => $linkProductId,
+                    'type' => ProductType::Product->value
+                ];
+            }
+
+            foreach ($linkServiceIds as $linkServiceId) {
+                $links[] = [
+                    'level_id' => $level->id,
+                    'product_id' => $linkServiceId,
+                    'type' => ProductType::Service->value
+                ];
+            }
+
+            LevelProduct::insert($links);
+
+            $level->item_count = count($links);
+            $level->save();
+        }
+
+        return success($level);
     }
 
 

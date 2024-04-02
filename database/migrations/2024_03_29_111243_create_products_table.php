@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('category_id')->default(0)->comment('分类ID');
             $table->integer('type')->comment('1 服务 2 实物');
             $table->string('name')->comment('商品名称');
+            $table->string('unit', 20)->comment('商品单位');
             $table->string('subtitle')->nullable()->comment('副标题');
             $table->string('first_image')->nullable()->comment('首图');
             $table->string('bar_code')->nullable()->comment('条码');

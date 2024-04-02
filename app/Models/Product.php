@@ -18,6 +18,7 @@ class Product extends Model
         'category_id',
         'type',
         'name',
+        'unit',
         'subtitle',
         'first_image',
         'bar_code',

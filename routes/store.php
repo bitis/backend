@@ -36,6 +36,8 @@ Route::namespace('Store')->prefix('store')->group(function () {
         });
 
         Route::get('list', 'ProductController@index');
+        Route::get('units', 'ProductController@units');
         Route::post('form', 'ProductController@form');
+        Route::post('destroy', 'ProductController@destroy');
     })->middleware('auth:sanctum');
 });

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Enumerations\SpecType;
 use App\Models\Product;
 use App\Models\ProductContent;
+use App\Models\Unit;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -44,6 +45,12 @@ class ProductController extends Controller
         $product->fill($request->all());
         $product->save();
 
+        if ($unit = $request->input('unit')) {
+            if (Unit::whereIn('store_id', [0, $this->store_id])->where('name', $unit)->doesntExist()) {
+                Unit::create(['store_id' => $this->store_id, 'name' => $unit]);
+            }
+        }
+
         if ($request->input('content')) {
             ProductContent::updateOrCreate(['product_id' => $product->id], ['content' => $request->input('content')]);
         }
@@ -59,5 +66,28 @@ class ProductController extends Controller
         }
 
         return success($product);
+    }
+
+    /**
+     * 删除
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function destroy(Request $request): JsonResponse
+    {
+        Product::where('store_id', $this->store_id)->where('id', $request->input('id'))->delete();
+
+        return success();
+    }
+
+    /**
+     * 商品单位
+     *
+     * @return JsonResponse
+     */
+    public function units(): JsonResponse
+    {
+        return success(Unit::whereIn('store_id', [0 ,$this->store_id])->get());
     }
 }

@@ -10,7 +10,6 @@
   "require": {
     "php": "^8.1",
     "ext-fileinfo": "*",
-    "ext-xlswriter": "*",
     "alphasnow/aliyun-oss-flysystem": "^3.3",
     "barryvdh/laravel-snappy": "^1.0",
     "chillerlan/php-qrcode": "dev-main",
@@ -22,7 +21,6 @@
     "laravel/tinker": "^2.8",
     "overtrue/easy-sms": "^2.4",
     "overtrue/flysystem-cos": "^5.1",
-    "phpoffice/phpspreadsheet": "^1.29",
     "wilon/php-number2chinese": "^1.0"
   },
   "require-dev": {

@@ -40,4 +40,10 @@ Route::namespace('Store')->prefix('store')->group(function () {
         Route::post('form', 'ProductController@form');
         Route::post('destroy', 'ProductController@destroy');
     })->middleware('auth:sanctum');
+
+    Route::prefix('card')->group(function () {
+        Route::get('list', 'CardController@index');
+        Route::post('form', 'CardController@form');
+        Route::post('destroy', 'CardController@destroy');
+    })->middleware('auth:sanctum');
 });

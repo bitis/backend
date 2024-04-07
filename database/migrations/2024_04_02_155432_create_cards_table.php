@@ -16,10 +16,11 @@ return new class extends Migration
             $table->integer('store_id');
             $table->string('name');
             $table->integer('type')->comment('1 次卡 2 时长卡');
-            $table->decimal('price', 12);
-            $table->integer('valid_type')->comment('1 永久 2 限时（购买后多少天） 3 截止日期');
-            $table->json('setting')->comment('1 永久 2 限时（购买后多少天） 3 截止日期');
-            $table->string('remark');
+            $table->decimal('price', 12)->comment('售价');
+            $table->integer('valid_type')->comment('1 永久 2 限时（购买后多少天）');
+            $table->integer('valid_days')->default(0)->comment('有效期：购买后多少天');
+            $table->string('remark')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

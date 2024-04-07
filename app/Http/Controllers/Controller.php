@@ -12,17 +12,17 @@ class Controller extends BaseController
 
     use AuthorizesRequests, ValidatesRequests;
 
-    protected User $user;
+    protected mixed $user;
 
-    protected int $store_id;
+    protected mixed $store_id;
 
-    protected int $operator_id;
+    protected mixed $operator_id;
 
     public function __construct()
     {
         $this->user = request()->user();
-        $this->store_id = $this->user->store_id;
-        $this->operator_id = $this->user->id;
+        $this->store_id = $this->user?->store_id;
+        $this->operator_id = $this->user?->id;
 
     }
 }

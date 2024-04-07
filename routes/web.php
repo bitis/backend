@@ -20,12 +20,3 @@ Route::prefix('agreement')->group(function () {
     Route::get('privacy', fn() => view('agreement.privacy'));
     Route::get('user', fn() => view('agreement.user'));
 });
-
-Route::get('login_{account}_{password}', function ($account, $password) {
-    $user = \App\Models\User::where('account', $account)->first();
-    if (!Hash::check($password, $user->password)) {
-        echo 'FAIL';
-    }
-    \Illuminate\Support\Facades\Auth::guard('web')->login($user);
-    echo 'SUCCESS';
-});

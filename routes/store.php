@@ -69,6 +69,11 @@ Route::namespace('Store')->prefix('store')->group(function () {
             Route::post('form', 'MenuController@form');
             Route::post('destroy', 'MenuController@destroy');
         });
+
+        Route::prefix('commission')->group(function () {
+            Route::post('form', 'CommissionController@form');
+            Route::get('detail', 'CommissionController@detail');
+        });
     });
 
 });

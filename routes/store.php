@@ -54,6 +54,7 @@ Route::namespace('Store')->prefix('store')->group(function () {
             Route::get('list', 'StaffController@index');
             Route::post('form', 'StaffController@form');
             Route::get('detail', 'StaffController@detail');
+            Route::post('permission', 'StaffController@permission');
             Route::post('destroy', 'StaffController@destroy');
         });
 
@@ -61,6 +62,12 @@ Route::namespace('Store')->prefix('store')->group(function () {
             Route::get('list', 'JobController@index');
             Route::post('form', 'JobController@form');
             Route::post('destroy', 'JobController@destroy');
+        });
+
+        Route::prefix('menu')->group(function () {
+            Route::get('list', 'MenuController@index');
+            Route::post('form', 'MenuController@form');
+            Route::post('destroy', 'MenuController@destroy');
         });
     });
 

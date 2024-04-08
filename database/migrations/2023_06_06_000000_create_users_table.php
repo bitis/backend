@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
             $table->string('openid')->nullable();
             $table->string('unionid')->nullable();
             $table->boolean('is_admin')->default(false);
+            $table->boolean('system_operator')->default(false);
             $table->boolean('status')->default(0);
             $table->softDeletes();
             $table->timestamps();

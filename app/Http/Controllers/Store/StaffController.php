@@ -7,6 +7,7 @@ use App\Models\CardProduct;
 use App\Models\Job;
 use App\Models\Product;
 use App\Models\User;
+use App\Models\UserPermission;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -44,7 +45,29 @@ class StaffController extends Controller
      */
     public function detail(Request $request): JsonResponse
     {
-        return success(User::with('job')->find($request->input('id')));
+        return success(User::with('job', 'permissions')->find($request->input('id')));
+    }
+
+
+    /**
+     * 设置权限
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function permission(Request $request): JsonResponse
+    {
+        $user = User::find($request->input('user_id'));
+
+        if ($user?->store_id != $this->store_id) return fail('用户不存在');
+
+        UserPermission::updateOrCreate([
+            'user_id' => $request->input('user_id')
+        ], [
+            'permissions' => $request->input('permissions')
+        ]);
+
+        return success();
     }
 
 

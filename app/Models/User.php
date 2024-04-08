@@ -31,6 +31,9 @@ class User extends Authenticatable
         'openid',
         'unionid',
         'is_admin',
+        'status',
+        'job_id',
+        'remark',
     ];
 
     /**
@@ -73,8 +76,8 @@ class User extends Authenticatable
         });
     }
 
-    protected function getDefaultGuardName(): string
+    public function job(): BelongsTo
     {
-        return 'api';
+        return $this->belongsTo(Job::class);
     }
 }

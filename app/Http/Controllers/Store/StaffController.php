@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\Store;
 
 use App\Http\Controllers\Controller;
-use App\Models\CardProduct;
-use App\Models\Job;
 use App\Models\Product;
 use App\Models\User;
 use App\Models\UserPermission;
@@ -29,6 +27,10 @@ class StaffController extends Controller
         $user = $request->input('id') ? User::where('store_id', $this->store_id)
             ->findOr($request->input('id'), fn() => new User(['store_id' => $this->store_id]))
             : new User(['store_id' => $this->store_id]);
+
+        $exits = User::where('mobile', $request->input('mobile'))->first();
+
+        if ($exits && $exits->id != $user->id) return fail('手机号已存在');
 
         $user->fill($request->only(['name', 'avatar', 'mobile', 'password', 'status', 'job_id', 'remark']));
         $user->password = bcrypt($request->input('password', config('default.password')));
@@ -76,7 +78,7 @@ class StaffController extends Controller
      */
     public function destroy(Request $request): JsonResponse
     {
-        Product::where('store_id', $this->store_id)->where('id', $request->input('id'))->delete();
+        User::where('store_id', $this->store_id)->where('id', $request->input('id'))->delete();
 
         return success();
     }

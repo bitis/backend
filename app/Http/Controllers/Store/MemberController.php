@@ -58,4 +58,17 @@ class MemberController extends Controller
 
         return success();
     }
+
+
+    /**
+     * 余额流水
+     *
+     * @return JsonResponse
+     */
+    public function transaction(): JsonResponse
+    {
+
+
+        return success();
+    }
 }

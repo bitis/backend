@@ -29,6 +29,7 @@ return new class extends Migration
             $table->integer('stock_warn')->nullable()->default(0)->comment('库存预警数量');
             $table->boolean('flag')->default(false)->comment('是否上架');
             $table->enum('spec_type', [SpecType::Single->value, SpecType::Multi->value])->default(SpecType::Single->value)->comment('规格类型');
+            $table->boolean('commission_config')->default(false)->comment('是否开启提成');
             $table->softDeletes();
             $table->timestamps();
         });

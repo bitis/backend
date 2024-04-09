@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Store;
 
 use App\Http\Controllers\Controller;
+use App\Models\Card;
 use App\Models\CommissionConfig;
 use App\Models\Enumerations\CommissionConfigurableType;
+use App\Models\Product;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -37,6 +39,14 @@ class CommissionController extends Controller
                         'configurable_id' => $configurable_id,
                         'configurable_type' => $configurable_type,
                     ]));
+                }
+
+                if ($configurable_type == CommissionConfigurableType::Product->value) {
+                    Product::where('id', $configurable_id)->update(['commission_config' => true]);
+                }
+
+                if ($configurable_type == CommissionConfigurableType::Card->value) {
+                    Card::where('id', $configurable_id)->update(['commission_config' => true]);
                 }
             }
             DB::commit();

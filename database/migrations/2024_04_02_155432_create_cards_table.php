@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('valid_type')->comment('1 永久 2 限时（购买后多少天）');
             $table->integer('valid_days')->default(0)->comment('有效期：购买后多少天');
             $table->string('remark')->nullable();
+            $table->boolean('commission_config')->default(false)->comment('是否开启提成');
             $table->softDeletes();
             $table->timestamps();
         });

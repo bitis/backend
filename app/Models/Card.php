@@ -12,7 +12,7 @@ class Card extends Model
 {
     use HasFactory, DefaultDatetimeFormat, SoftDeletes;
 
-    protected $fillable = ['store_id', 'name', 'type', 'price', 'valid_type', 'valid_time', 'remark'];
+    protected $fillable = ['store_id', 'name', 'type', 'price', 'valid_type', 'valid_time', 'remark', 'commission_config'];
 
 
     public function products(): HasMany

@@ -29,6 +29,7 @@ class Product extends Model
         'stock_warn',
         'flag',
         'spec_type',
+        'commission_config'
     ];
 
     protected $hidden = ['created_at', 'updated_at', 'deleted_at'];

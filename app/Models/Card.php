@@ -14,6 +14,8 @@ class Card extends Model
 
     protected $fillable = ['store_id', 'name', 'type', 'price', 'valid_type', 'valid_time', 'remark', 'commission_config'];
 
+    const VALID_FOREVER = 1;
+    const VALID_DAYS = 2;
 
     public function products(): HasMany
     {

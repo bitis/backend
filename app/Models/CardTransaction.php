@@ -26,7 +26,7 @@ class CardTransaction extends Model
         'remark',
     ];
 
-    const TYPE_INCOME = 1; // 办卡
+    const TYPE_OPEN = 1; // 办卡
     const TYPE_CONSUME = 2; // 消费
     const TYPE_REFUND = 3; // 退款
     const TYPE_EXPAND = 4; // 手动增加

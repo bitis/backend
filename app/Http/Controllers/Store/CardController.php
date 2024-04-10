@@ -41,10 +41,12 @@ class CardController extends Controller
         $gifts = $request->input('gifts', []);
 
         foreach ($services as $service) {
+            if ($service['number_type'] == CardProduct::NUMBER_TYPE_UNLIMIT) $service['number'] = 999;
             $card_products[] = array_merge($service, ['card_id' => $card->id, 'type' => CardProduct::TYPE_SERVICE]);
         }
 
         foreach ($gifts as $gift) {
+            if ($gift['number_type'] == CardProduct::NUMBER_TYPE_UNLIMIT) $gift['number'] = 999;
             $card_products[] = array_merge($gift, ['card_id' => $card->id, 'type' => CardProduct::TYPE_GIFT]);
         }
 

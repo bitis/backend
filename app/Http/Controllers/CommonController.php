@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Area;
+use App\Models\Enumerations\PaymentType;
 use App\Models\Industry;
+use App\Models\PaymentChannel;
 use Illuminate\Http\JsonResponse;
 
 class CommonController extends Controller
@@ -26,5 +28,12 @@ class CommonController extends Controller
     public function industry(): JsonResponse
     {
         return success(Industry::with('children')->where('pid', 0)->get());
+    }
+
+    public function config(): JsonResponse
+    {
+        return success([
+            'payment_types' => PaymentChannel::all(),
+        ]);
     }
 }

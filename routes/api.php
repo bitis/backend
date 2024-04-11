@@ -19,6 +19,7 @@ include __DIR__ . '/store.php';
 Route::prefix('common')->group(function () {
     Route::get('area', 'CommonController@area');
     Route::get('industry', 'CommonController@industry');
+    Route::get('config', 'CommonController@config');
 });
 
 

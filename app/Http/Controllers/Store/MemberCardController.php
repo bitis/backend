@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Store;
 
 use App\Http\Controllers\Controller;
+use App\Models\BalanceTransaction;
 use App\Models\Card;
 use App\Models\CardTransaction;
+use App\Models\Member;
 use App\Models\MemberCard;
 use App\Models\MemberCardProduct;
 use App\Models\Order;
@@ -48,6 +50,10 @@ class MemberCardController extends Controller
 
         if (empty($card)) return fail('会员卡不存在');
 
+        $member = Member::where('store_id', $this->store_id)->find($memberId);
+
+        if (empty($member)) return fail('会员不存在');
+
         /**
          * 创建订单
          */
@@ -64,7 +70,7 @@ class MemberCardController extends Controller
             'operator_id' => $this->operator_id,
         ]);
 
-        $product = OrderProduct::create([
+        OrderProduct::create([
             'order_id' => $order->id,
             'type' => $card->type,
             'product_id' => $card->id,
@@ -97,47 +103,69 @@ class MemberCardController extends Controller
         /**
          * 开卡
          */
-        $valid_time = $card->valid_type == Card::VALID_FOREVER ? null : now()->addDays($card->valid_days);
+        if ($card->type == Card::TYPE_RECHARGE) {
+            // 储值卡
+            $stored_money = $card->price + $card->bonus;
+            $member->balance += $stored_money;
 
-        $memberCard = MemberCard::create([
-            'member_id' => $memberId,
-            'store_id' => $this->store_id,
-            'type' => $card->type,
-            'status' => MemberCard::STATUS_ENABLE,
-            'card_id' => $card->id,
-            'price' => $pay_amount,
-            'valid_type' => $card->valid_type,
-            'valid_time' => $valid_time,
-            'remark' => $remark,
-            'commission_config' => $card->commission_config,
-        ]);
-
-        foreach ($card->products as $product) {
-            MemberCardProduct::create([
-                'member_card_id' => $memberCard->id,
-                'product_id' => $product->id,
-                'store_id' => $this->store_id,
-                'number_type' => $product->number_type,
-                'origin_number' => $product->number,
-                'used_number' => 0,
-                'current_number' => $product->number,
-                'valid_time' => $valid_time,
-                'status' => MemberCardProduct::STATUS_ENABLE
-            ]);
-
-            CardTransaction::create([
+            BalanceTransaction::create([
                 'member_id' => $memberId,
+                'type' => BalanceTransaction::TYPE_RECHARGE,
                 'store_id' => $this->store_id,
-                'member_card_id' => $memberCard->id,
-                'type' => CardTransaction::TYPE_OPEN,
-                'product_id' => $product->id,
-                'value' => $product->number,
-                'after' => $product->number,
+                'amount' => $stored_money,
+                'after' => $member->balance,
                 'order_id' => $order->id,
                 'refund' => 0,
+                'remark' => '开卡',
                 'operator_id' => $this->operator_id,
-                'remark',
             ]);
+
+            $member->save();
+        } else {
+            // 次卡 时长卡
+            $valid_time = $card->valid_type == Card::VALID_FOREVER ? null : now()->addDays($card->valid_days);
+
+            $memberCard = MemberCard::create([
+                'member_id' => $memberId,
+                'store_id' => $this->store_id,
+                'type' => $card->type,
+                'status' => MemberCard::STATUS_ENABLE,
+                'card_id' => $card->id,
+                'price' => $pay_amount,
+                'valid_type' => $card->valid_type,
+                'valid_time' => $valid_time,
+                'remark' => $remark,
+                'commission_config' => $card->commission_config,
+            ]);
+
+            foreach ($card->products as $product) {
+                MemberCardProduct::create([
+                    'member_card_id' => $memberCard->id,
+                    'product_id' => $product->id,
+                    'type' => $product->type,
+                    'store_id' => $this->store_id,
+                    'number_type' => $product->number_type,
+                    'origin_number' => $product->number,
+                    'used_number' => 0,
+                    'current_number' => $product->number,
+                    'valid_time' => $valid_time,
+                    'status' => MemberCardProduct::STATUS_ENABLE
+                ]);
+
+                CardTransaction::create([
+                    'member_id' => $memberId,
+                    'store_id' => $this->store_id,
+                    'member_card_id' => $memberCard->id,
+                    'type' => CardTransaction::TYPE_OPEN,
+                    'product_id' => $product->id,
+                    'value' => $product->number,
+                    'after' => $product->number,
+                    'order_id' => $order->id,
+                    'refund' => 0,
+                    'operator_id' => $this->operator_id,
+                    'remark',
+                ]);
+            }
         }
 
         return success();

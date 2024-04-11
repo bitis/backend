@@ -17,6 +17,10 @@ class Card extends Model
     const VALID_FOREVER = 1;
     const VALID_DAYS = 2;
 
+    const TYPE_TIMES = 1;
+    const TYPE_DURATION = 2;
+    const TYPE_RECHARGE = 3;
+
     public function products(): HasMany
     {
         return $this->hasMany(CardProduct::class);

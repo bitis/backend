@@ -14,7 +14,7 @@ class BalanceTransaction extends Model
 
     protected $hidden = ['deleted_at'];
 
-    const TYPE_INCOME = 1; // 充值
+    const TYPE_RECHARGE = 1; // 充值
     const TYPE_PAY = 2; // 支付
     const TYPE_REFUND = 3; // 退款
     const TYPE_EXPAND = 4; // 手动增加

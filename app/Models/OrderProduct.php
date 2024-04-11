@@ -14,7 +14,7 @@ class OrderProduct extends Model
 
     const TYPE_TIMES_CARD = 1;
     const TYPE_DURATION_CARD = 2;
-    const TYPE_STORED_VALUE_CARD = 3;
+    const TYPE_RECHARGE_CARD = 3;
     const TYPE_SERVICE = 4;
     const TYPE_PRODUCT = 5;
 

@@ -14,6 +14,19 @@ class MemberCardProduct extends Model
     const STATUS_DISABLE = 2;
 
     protected $fillable = [
-
+        'member_card_id',
+        'product_id',
+        'store_id',
+        'number_type',
+        'origin_number',
+        'used_number',
+        'current_number',
+        'valid_time',
+        'status',
     ];
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
 }

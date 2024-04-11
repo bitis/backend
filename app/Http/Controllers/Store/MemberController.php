@@ -23,7 +23,7 @@ class MemberController extends Controller
             })
             ->when($request->filled('name'), function ($query) use ($request) {
                 $query->where('name', 'like', "%{$request->input('name')}%");
-            })->paginate(getPerPage());
+            })->simplePaginate(getPerPage());
 
         return success($members);
     }

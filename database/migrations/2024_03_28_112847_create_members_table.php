@@ -13,6 +13,7 @@ return new class extends Migration {
         Schema::create('members', function (Blueprint $table) {
             $table->id();
             $table->integer('pid')->default(0)->comment('上级会员ID');
+            $table->unsignedInteger('store_id')->comment('商家ID');
             $table->string('name')->default('未定义会员名')->comment('姓名');
             $table->string('avatar')->nullable()->comment('头像');
             $table->enum('gender', [0, 1, 2])->default('0')->comment('性别 0:未知 1:男 2:女');

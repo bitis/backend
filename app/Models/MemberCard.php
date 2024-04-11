@@ -27,4 +27,9 @@ class MemberCard extends Model
 
     const STATUS_ENABLE = 1;
     const STATUS_DISABLE = 2;
+
+    public function products()
+    {
+        return $this->hasMany(MemberCardProduct::class);
+    }
 }

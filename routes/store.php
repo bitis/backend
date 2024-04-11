@@ -23,6 +23,11 @@ Route::namespace('Store')->prefix('store')->group(function () {
                 Route::post('form', 'LevelController@form');
                 Route::post('destroy', 'LevelController@destroy');
             });
+
+            Route::prefix('card')->group(function () {
+                Route::get('list', 'MemberCardController@index');
+                Route::post('open', 'MemberCardController@open');
+            });
         });
 
         Route::prefix('product')->group(function () {

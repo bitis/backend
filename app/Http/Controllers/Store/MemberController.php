@@ -69,7 +69,8 @@ class MemberController extends Controller
      */
     public function transaction(Request $request): JsonResponse
     {
-        $transactions = BalanceTransaction::where('member_id', $request->input('member_id'))
+        $transactions = BalanceTransaction::with('operator:id,name,avatar')
+            ->where('member_id', $request->input('member_id'))
             ->orderBy('id', 'desc')
             ->simplePaginate(getPerPage());
 

@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Traits\DefaultDatetimeFormat;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class BalanceTransaction extends Model
 {
@@ -33,5 +34,10 @@ class BalanceTransaction extends Model
     public function getTypeTextAttribute(): string
     {
         return self::TYPE_MAP[$this->type];
+    }
+
+    public function operator(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'operator_id', 'id')->withTrashed();
     }
 }

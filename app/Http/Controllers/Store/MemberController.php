@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Store;
 
 use App\Http\Controllers\Controller;
+use App\Models\BalanceTransaction;
 use App\Models\Member;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -63,12 +64,15 @@ class MemberController extends Controller
     /**
      * 余额流水
      *
+     * @param Request $request
      * @return JsonResponse
      */
-    public function transaction(): JsonResponse
+    public function transaction(Request $request): JsonResponse
     {
+        $transactions = BalanceTransaction::where('member_id', $request->input('member_id'))
+            ->orderBy('id', 'desc')
+            ->simplePaginate(getPerPage());
 
-
-        return success();
+        return success($transactions);
     }
 }

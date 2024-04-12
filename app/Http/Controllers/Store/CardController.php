@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Store;
 use App\Http\Controllers\Controller;
 use App\Models\Card;
 use App\Models\CardProduct;
-use App\Models\Product;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -31,7 +30,7 @@ class CardController extends Controller
     {
         $card = Card::findOr($request->input('id'), fn() => new Card(['store_id' => $this->store_id]));
 
-        $card->fill($request->only(['store_id', 'name', 'type', 'price', 'valid_type', 'valid_time', 'remark']));
+        $card->fill($request->only(['store_id', 'name', 'type', 'price', 'valid_type', 'valid_time', 'remark', 'bonus']));
 
         $card->save();
 

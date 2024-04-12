@@ -12,7 +12,7 @@ class Card extends Model
 {
     use HasFactory, DefaultDatetimeFormat, SoftDeletes;
 
-    protected $fillable = ['store_id', 'name', 'type', 'price', 'valid_type', 'valid_time', 'remark', 'commission_config'];
+    protected $fillable = ['store_id', 'name', 'type', 'price', 'valid_type', 'valid_time', 'remark', 'commission_config', 'bonus'];
 
     const VALID_FOREVER = 1;
     const VALID_DAYS = 2;

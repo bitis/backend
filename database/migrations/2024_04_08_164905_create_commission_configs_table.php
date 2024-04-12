@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('commission_configs', function (Blueprint $table) {
             $table->id();
             $table->integer('job_id');
-            $table->tinyInteger('configurable_type')->comment('配置类型 1:服务 2:商品 3:快速消费 4:办卡 5:储值卡');
+            $table->integer('store_id');
+            $table->tinyInteger('configurable_type')->comment('配置类型 1:商品 2:快速消费 3:办卡 4:储值卡');
             $table->integer('configurable_id')->comment('配置对象id')->default(0);
             $table->boolean('share_out')->comment('均摊提成 1:均摊 0:不均摊')->default(0);
             $table->tinyInteger('type')->comment('计算方式 1:固定金额 2:百分比')->default(1);

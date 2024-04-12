@@ -37,13 +37,43 @@ class CommissionConfig extends Model
         return $this->hasOne(Product::class, 'id', 'configurable_id');
     }
 
-    public static function getCardConfig($cardId, $jobId)
+    public static function getCardConfig($jobId, $cardId)
     {
-        return static::where('configurable_id', $cardId)
-            ->where('job_id', $jobId)
-            ->where('configurable_type', CommissionConfigurableType::Card->value)
-            ->first();
+        return static::getConfig(CommissionConfigurableType::OpenCard->value, $jobId, $cardId);
     }
 
+    public static function getProductConfig($jobId, $productId)
+    {
+        return static::getConfig(CommissionConfigurableType::Product->value, $jobId, $productId);
+    }
+
+    public static function getFastConsumeConfig($jobId)
+    {
+        return static::getConfig(CommissionConfigurableType::FastConsume->value, $jobId);
+    }
+
+    public static function getFastStoredConfig($jobId)
+    {
+        return static::getConfig(CommissionConfigurableType::FastStored->value, $jobId);
+    }
+
+    public static function getFastTimesConfig($jobId)
+    {
+        return static::getConfig(CommissionConfigurableType::FastTimes->value, $jobId);
+    }
+
+    public static function getConfig($configurable_type, $jobId, $configurable_id = null)
+    {
+        if (empty($jobId)) return null;
+
+        $config = static::where('configurable_id', $configurable_id)
+            ->where('job_id', $jobId)
+            ->where('configurable_type', $configurable_type)
+            ->first();
+
+        if ($config) return $config->toArray();
+
+        return null;
+    }
 
 }

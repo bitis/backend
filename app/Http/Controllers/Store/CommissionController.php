@@ -37,6 +37,7 @@ class CommissionController extends Controller
                         ->delete($configurable_id);
 
                     CommissionConfig::create(array_merge($config, [
+                        'store_id' => $this->store_id,
                         'configurable_id' => $configurable_id,
                         'configurable_type' => $configurable_type,
                     ]));
@@ -46,7 +47,7 @@ class CommissionController extends Controller
                     Product::where('id', $configurable_id)->update(['commission_config' => true]);
                 }
 
-                if ($configurable_type == CommissionConfigurableType::Card->value) {
+                if ($configurable_type == CommissionConfigurableType::OpenCard->value) {
                     Card::where('id', $configurable_id)->update(['commission_config' => true]);
                 }
             }
@@ -83,7 +84,7 @@ class CommissionController extends Controller
 
         // 办卡
         switch ($type) {
-            case "open_card":
+            case "open-card":
                 $_card = $request->input('card');
                 $_staffs = $request->input('staffs');
 
@@ -96,7 +97,7 @@ class CommissionController extends Controller
                     $staff['performance'] = $_card['price'];
                     $staff['commission'] = 0;
 
-                    $commissionConfig = $staff['job_id'] ?: CommissionConfig::getCardConfig($_card['id'], $staff['job_id']);
+                    $commissionConfig = CommissionConfig::getCardConfig($staff['job_id'], $_card['id']);
 
                     if ($commissionConfig) {
                         $share_percent = $commissionConfig['share_out'] ? 1 / count($_staffs) : 1;
@@ -110,10 +111,109 @@ class CommissionController extends Controller
                 }
 
                 return success(compact('staffs'));
-                break;
             case "consume":
+                $_memberId = $request->input('member_id');
+                $_products = $request->input('products');
 
-                break;
+                foreach ($_products as &$_product) {
+                    $product = Product::find($_product['id']);
+                    if (empty($product)) continue;
+                    $staffs = [];
+                    foreach ($_product['staffs'] as $_staff) {
+                        $staff = User::select('id', 'name', 'avatar', 'job_id')->find($_staff['id']);
+                        if (empty($staff)) continue;
+                        $staff = $staff->toArray();
+
+                        // 初始化
+                        $staff['performance'] = $_product['price'];
+                        $staff['commission'] = 0;
+
+                        $commissionConfig = CommissionConfig::getProductConfig($staff['job_id'], $_product['id']);
+
+                        if ($commissionConfig) {
+                            $share_percent = $commissionConfig['share_out'] ? 1 / count($_product['staffs']) : 1;
+
+                            $staff['commission'] = $commissionConfig['type'] == CommissionConfig::TYPE_FIXED
+                                ? round($commissionConfig['fixed_amount'] * $share_percent)
+                                : round($_product['price'] * $commissionConfig['rate'] / 100 * $share_percent);
+                        }
+
+                        $staffs[] = $staff;
+                    }
+
+                    $_product['staffs'] = $staffs;
+                }
+                return success($_products);
+            case "fast-consume":
+                $amount = $request->input('amount');
+                $_staffs = $request->input('staffs');
+
+                $staffs = [];
+                foreach ($_staffs as $_staff) {
+                    $staff = User::select('id', 'name', 'avatar', 'job_id')->find($_staff['id']);
+                    if (empty($staff)) continue;
+                    $staff = $staff->toArray();
+                    // 初始化
+                    $staff['performance'] = $amount;
+                    $staff['commission'] = 0;
+
+                    $commissionConfig = CommissionConfig::getFastConsumeConfig($staff['job_id']);
+
+                    if ($commissionConfig) {
+                        $share_percent = $commissionConfig['share_out'] ? 1 / count($_staffs) : 1;
+                        $staff['commission'] = round($amount * $commissionConfig['rate'] / 100 * $share_percent);
+                    }
+
+                    $staffs[] = $staff;
+                }
+
+                return success(compact('staffs'));
+            case "fast-stored":
+                $amount = $request->input('amount');
+                $_staffs = $request->input('staffs');
+                $staffs = [];
+                foreach ($_staffs as $_staff) {
+                    $staff = User::select('id', 'name', 'avatar', 'job_id')->find($_staff['id']);
+                    if (empty($staff)) continue;
+                    $staff = $staff->toArray();
+                    // 初始化
+                    $staff['performance'] = $amount;
+                    $staff['commission'] = 0;
+
+                    $commissionConfig = CommissionConfig::getFastStoredConfig($staff['job_id']);
+
+                    if ($commissionConfig) {
+                        $share_percent = $commissionConfig['share_out'] ? 1 / count($_staffs) : 1;
+                        $staff['commission'] = round($amount * $commissionConfig['rate'] / 100 * $share_percent);
+                    }
+
+                    $staffs[] = $staff;
+                }
+
+                return success(compact('staffs'));
+            case "fast-times":
+                $amount = $request->input('amount');
+                $_staffs = $request->input('staffs');
+                $staffs = [];
+                foreach ($_staffs as $_staff) {
+                    $staff = User::select('id', 'name', 'avatar', 'job_id')->find($_staff['id']);
+                    if (empty($staff)) continue;
+                    $staff = $staff->toArray();
+                    // 初始化
+                    $staff['performance'] = $amount;
+                    $staff['commission'] = 0;
+
+                    $commissionConfig = CommissionConfig::getFastTimesConfig($staff['job_id']);
+
+                    if ($commissionConfig) {
+                        $share_percent = $commissionConfig['share_out'] ? 1 / count($_staffs) : 1;
+                        $staff['commission'] = round($amount * $commissionConfig['rate'] / 100 * $share_percent);
+                    }
+
+                    $staffs[] = $staff;
+                }
+
+                return success(compact('staffs'));
         }
 
         return success();

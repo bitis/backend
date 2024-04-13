@@ -23,4 +23,13 @@ class OrderStaff extends Model
         'commission',
         'remark'
     ];
+
+    // 1 次卡 2 时长卡 3 储值卡 4 服务 5 商品 6 未记录商品
+
+    const TYPE_TIMES_CARD = 1;
+    const TYPE_DURATION_CARD = 2;
+    const TYPE_STORING_CARD = 3;
+    const TYPE_SERVICE = 4;
+    const TYPE_PRODUCT = 5;
+    const TYPE_NOT_RECORD = 6;
 }

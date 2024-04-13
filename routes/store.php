@@ -29,6 +29,11 @@ Route::namespace('Store')->prefix('store')->group(function () {
                 Route::get('list', 'MemberCardController@index');
                 Route::post('open', 'MemberCardController@open');
             });
+
+            Route::prefix('order')->group(function () {
+                Route::get('list', 'MemberOrderController@index');
+                Route::get('detail', 'MemberOrderController@detail');
+            });
         });
 
         Route::prefix('product')->group(function () {
@@ -80,6 +85,10 @@ Route::namespace('Store')->prefix('store')->group(function () {
             Route::post('form', 'CommissionController@form');
             Route::get('detail', 'CommissionController@detail');
             Route::post('calc', 'CommissionController@calc');
+        });
+
+        Route::prefix('consume')->group(function () {
+            Route::post('fast', 'ConsumeController@fast');
         });
     });
 

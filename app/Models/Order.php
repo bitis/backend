@@ -24,10 +24,13 @@ class Order extends Model
         'operator_id',
         'refund',
         'refund_at',
+        'remark'
     ];
 
-    const TYPE_OPEN = 1;
-    const TYPE_CONSUME = 2;
+    const TYPE_OPEN = 1; // 开卡
+    const TYPE_FAST_STORED = 1; // 快速充值
+    const TYPE_FAST_TIMES = 1; // 快速充次
+    const TYPE_CONSUME_FAST = 2; // 快速消费
 
     /**
      * 生成22位订单号
@@ -44,5 +47,10 @@ class Order extends Model
     public function products(): HasMany
     {
         return $this->hasMany(OrderProduct::class);
+    }
+
+    public function staffs(): HasMany
+    {
+        return $this->hasMany(OrderStaff::class);
     }
 }

@@ -17,6 +17,7 @@ class OrderProduct extends Model
     const TYPE_RECHARGE_CARD = 3;
     const TYPE_SERVICE = 4;
     const TYPE_PRODUCT = 5;
+    const TYPE_FAST_CONSUME = 6;
 
     protected $fillable = [
         'type',

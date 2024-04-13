@@ -25,6 +25,7 @@ return new class extends Migration
             $table->integer('operator_id')->nullable()->comment('操作人ID');
             $table->boolean('refund')->default(0)->comment('是否退款 0 未退款 1 退款');
             $table->timestamp('refund_at')->nullable()->comment('退款时间');
+            $table->string('remark')->nullable()->comment('备注');
             $table->timestamps();
         });
     }

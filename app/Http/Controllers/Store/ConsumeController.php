@@ -17,12 +17,13 @@ class ConsumeController extends Controller
     {
         $memberId = $request->input('member_id');
         $pay_amount = $request->input('pay_amount');
+        $real_amount = $request->input('real_amount');
         $total_amount = $request->input('total_amount');
         $payment_type = $request->input('payment_type');
         $deduct_amount = $request->input('deduct_amount');
         $staffs = $request->input('staffs');
 
-        $use_member_card = $request->input('use_member_card');
+        $deductions = $request->input('deductions');
 
         $order = Order::create([
             'member_id' => $memberId,
@@ -32,6 +33,7 @@ class ConsumeController extends Controller
             'intro' => '快速消费',
             'total_amount' => $total_amount,
             'deduct_amount' => $deduct_amount,
+            'real_amount' => $real_amount,
             'pay_amount' => $pay_amount,
             'payment_type' => $payment_type,
             'operator_id' => $this->operator_id,
@@ -65,26 +67,30 @@ class ConsumeController extends Controller
             ]);
         }
 
-        if ($memberId && $use_member_card) {
+        if ($memberId && $deductions) {
             $member = Member::where('store_id', $this->store_id)->find($memberId);
             if (empty($member)) return fail('会员不存在');
 
-            if ($member->balance < $deduct_amount) return fail('会员卡余额不足');
+            foreach ($deductions as $deduction) {
+                if ($deduction['type'] == 1) {
+                    if ($member->balance < $deduction['amount']) return fail('会员卡余额不足');
 
-            $member->balance -= $pay_amount;
+                    $member->balance -= $deduction['amount'];
 
-            $member->save();
+                    $member->save();
 
-            BalanceTransaction::create([
-                'store_id' => $this->store_id,
-                'type' => BalanceTransaction::TYPE_PAY,
-                'member_id' => $memberId,
-                'amount' => $pay_amount,
-                'after' => $member->balance,
-                'order_id' => $order->id,
-                'operator_id' => $this->operator_id,
-                'remark' => '快速消费 - ' . $pay_amount,
-            ]);
+                    BalanceTransaction::create([
+                        'store_id' => $this->store_id,
+                        'type' => BalanceTransaction::TYPE_PAY,
+                        'member_id' => $memberId,
+                        'amount' => $deduction['amount'],
+                        'after' => $member->balance,
+                        'order_id' => $order->id,
+                        'operator_id' => $this->operator_id,
+                        'remark' => '快速消费 - ' . $deduction['amount'],
+                    ]);
+                }
+            }
         }
 
         return success($order);

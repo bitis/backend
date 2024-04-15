@@ -19,6 +19,7 @@ class Order extends Model
         'intro',
         'total_amount',
         'deduct_amount',
+        'real_amount',
         'pay_amount',
         'payment_type',
         'operator_id',

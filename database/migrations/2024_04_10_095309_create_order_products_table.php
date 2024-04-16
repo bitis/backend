@@ -22,12 +22,12 @@ return new class extends Migration
             $table->unsignedInteger('number')->comment('数量');
             $table->decimal('price', 12)->comment('单价');
             $table->decimal('total_amount', 12)->comment('总价');
-            $table->decimal('deduct_amount', 12)->comment('手动减少');
-            $table->decimal('level_deduct', 12)->comment('等级折扣');
-            $table->decimal('times_card_deduct', 12)->comment('次卡抵扣');
-            $table->decimal('duration_card_deduct', 12)->comment('时长卡抵扣');
-            $table->string('deduct_desc')->comment('抵扣描述');
-            $table->string('use_card_id')->comment('使用卡片ID');
+            $table->decimal('deduct_amount', 12)->default(0)->comment('手动减少');
+            $table->decimal('level_deduct', 12)->default(0)->comment('等级折扣');
+            $table->decimal('times_card_deduct', 12)->default(0)->comment('次卡抵扣');
+            $table->decimal('duration_card_deduct', 12)->default(0)->comment('时长卡抵扣');
+            $table->string('deduct_desc')->nullable()->comment('抵扣描述');
+            $table->string('use_card_id')->nullable()->comment('使用卡片ID');
             $table->decimal('real_amount', 12)->comment('实际总价');
             $table->string('remark')->nullable();
             $table->timestamps();

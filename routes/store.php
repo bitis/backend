@@ -28,6 +28,7 @@ Route::namespace('Store')->prefix('store')->group(function () {
             Route::prefix('card')->group(function () {
                 Route::get('list', 'MemberCardController@index');
                 Route::post('open', 'MemberCardController@open');
+                Route::get('products', 'MemberCardController@products');
             });
 
             Route::prefix('order')->group(function () {

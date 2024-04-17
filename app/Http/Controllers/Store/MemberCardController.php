@@ -14,6 +14,7 @@ use App\Models\OrderProduct;
 use App\Models\OrderStaff;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 class MemberCardController extends Controller
@@ -135,6 +136,7 @@ class MemberCardController extends Controller
                     'type' => $card->type,
                     'status' => MemberCard::STATUS_ENABLE,
                     'card_id' => $card->id,
+                    'card_name' => $card->name,
                     'price' => $pay_amount,
                     'valid_type' => $card->valid_type,
                     'valid_time' => $valid_time,
@@ -178,5 +180,50 @@ class MemberCardController extends Controller
         }
 
         return success();
+    }
+
+    /**
+     * 扣卡消费时展示会员有的产品
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function products(Request $request): JsonResponse
+    {
+        $memberId = $request->input('member_id');
+
+        $memberCardProducts = MemberCardProduct::with('product', 'memberCard')
+            ->where('member_id', $memberId)
+            ->get()->toArray();
+
+        $products = [];
+
+        foreach ($memberCardProducts as $memberCardProduct) {
+            $_product = $memberCardProduct['product'];
+            $_card = array_merge(Arr::only($memberCardProduct['member_card'], [
+                'id',
+                'member_id',
+                'store_id',
+                'type',
+                'card_id',
+                'card_name',
+                'price',
+                'valid_type',
+                'valid_time'
+            ]), Arr::only($memberCardProduct, [
+                'product_id',
+                'number_type',
+                'origin_number',
+                'used_number',
+                'current_number',
+                'valid_time',
+                'status',
+            ]));
+
+            $products[$_product['id']] = $_product;
+            $products[$_product['id']]['cards'][] = $_card;
+        }
+
+        return success($products);
     }
 }

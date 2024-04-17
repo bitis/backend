@@ -13,6 +13,12 @@ use Illuminate\Http\Request;
 
 class ConsumeController extends Controller
 {
+    /**
+     * 只输金额的消费
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function fast(Request $request): JsonResponse
     {
         $memberId = $request->input('member_id');

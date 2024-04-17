@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Traits\DefaultDatetimeFormat;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class MemberCardProduct extends Model
 {
@@ -14,6 +15,7 @@ class MemberCardProduct extends Model
     const STATUS_DISABLE = 2;
 
     protected $fillable = [
+        'member_id',
         'member_card_id',
         'product_id',
         'store_id',
@@ -25,8 +27,13 @@ class MemberCardProduct extends Model
         'status',
     ];
 
-    public function product()
+    public function product(): BelongsTo
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Product::class)->withTrashed();
+    }
+
+    public function memberCard(): BelongsTo
+    {
+        return $this->belongsTo(MemberCard::class);
     }
 }

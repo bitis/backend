@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('store_id')->comment('门店ID');
             $table->integer('type')->comment('类型 1 次卡 2 时长卡 3 储值卡');
             $table->integer('card_id')->comment('会员卡ID');
+            $table->string('card_name')->nullable()->comment('会员卡名称');
             $table->decimal('price', 12)->comment('售价');
             $table->integer('valid_type')->comment('1 永久 2 限时');
             $table->timestamp('valid_time')->nullable()->comment('截止日期');

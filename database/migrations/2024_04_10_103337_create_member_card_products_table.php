@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('member_card_products', function (Blueprint $table) {
             $table->id();
+            $table->unsignedInteger('member_id')->comment('会员ID');
             $table->unsignedInteger('member_card_id')->comment('会员卡ID');
             $table->unsignedInteger('product_id')->comment('商品ID');
             $table->unsignedInteger('store_id')->comment('门店ID');

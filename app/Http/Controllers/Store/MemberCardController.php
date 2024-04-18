@@ -71,6 +71,7 @@ class MemberCardController extends Controller
                 'total_amount' => $total_amount,
                 'deduct_amount' => $deduct_amount,
                 'pay_amount' => $pay_amount,
+                'real_amount' => $pay_amount,
                 'payment_type' => $payment_type,
                 'operator_id' => $this->operator_id,
             ]);
@@ -86,7 +87,7 @@ class MemberCardController extends Controller
                 'price' => $card->price,
                 'total_amount' => $total_amount,
                 'deduct_amount' => $deduct_amount,
-                'deduct_desc' => '手动调整金额',
+                'deduct_desc' => '开卡',
                 'use_card_id' => 0,
                 'real_amount' => $pay_amount,
             ]);
@@ -146,6 +147,7 @@ class MemberCardController extends Controller
 
                 foreach ($card->products as $product) {
                     MemberCardProduct::create([
+                        'member_id' => $memberId,
                         'member_card_id' => $memberCard->id,
                         'product_id' => $product->product_id,
                         'type' => $product->type,
@@ -220,7 +222,8 @@ class MemberCardController extends Controller
                 'status',
             ]));
 
-            $products[$_product['id']] = $_product;
+            if (!isset($products[$_product['id']]))
+                $products[$_product['id']] = $_product;
             $products[$_product['id']]['cards'][] = $_card;
         }
 

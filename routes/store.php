@@ -90,6 +90,7 @@ Route::namespace('Store')->prefix('store')->group(function () {
 
         Route::prefix('consume')->group(function () {
             Route::post('fast', 'ConsumeController@fast');
+            Route::post('normal', 'ConsumeController@normal');
         });
     });
 

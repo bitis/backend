@@ -29,9 +29,10 @@ class Order extends Model
     ];
 
     const TYPE_OPEN = 1; // 开卡
-    const TYPE_FAST_STORED = 1; // 快速充值
-    const TYPE_FAST_TIMES = 1; // 快速充次
     const TYPE_CONSUME_FAST = 2; // 快速消费
+    const TYPE_CONSUME_NORMAL = 3; // 普通消费
+    const TYPE_FAST_STORED = 3; // 快速充值
+    const TYPE_FAST_TIMES = 4; // 快速充次
 
     /**
      * 生成22位订单号

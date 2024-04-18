@@ -101,4 +101,33 @@ class ConsumeController extends Controller
 
         return success($order);
     }
+
+    /**
+     * 普通消费
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function normal(Request $request): JsonResponse
+    {
+        $memberId = $request->input('member_id');
+
+        Order::create([
+            'member_id' => $memberId,
+            'store_id' => $this->store_id,
+            'order_number' => Order::generateNumber($this->store_id),
+            'type' => Order::TYPE_CONSUME_NORMAL,
+            'intro' => '普通消费',
+            'total_amount' => $request->input('total_amount'),
+            'deduct_amount' => $request->input('deduct_amount'),
+            'real_amount' => $request->input('real_amount'),
+            'pay_amount' => $request->input('pay_amount'),
+            'payment_type' => $request->input('payment_type'),
+            'operator_id' => $this->operator_id,
+            'remark' => $request->input('remark'),
+        ]);
+
+
+        return success();
+    }
 }

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('product_image')->nullable()->comment('商品图片');
             $table->unsignedInteger('number')->comment('数量');
             $table->decimal('price', 12)->comment('单价');
+            $table->decimal('original_price', 12)->comment('原价');
             $table->decimal('total_amount', 12)->comment('总价');
             $table->decimal('deduct_amount', 12)->default(0)->comment('手动减少');
             $table->decimal('level_deduct', 12)->default(0)->comment('等级折扣');

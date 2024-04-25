@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Exceptions\InsufficientException;
+use App\Exceptions\MemberNotFoundException;
 use App\Models\Traits\DefaultDatetimeFormat;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -54,5 +56,43 @@ class Order extends Model
     public function staffs(): HasMany
     {
         return $this->hasMany(OrderStaff::class);
+    }
+
+    /**
+     * @param $deductions
+     * @param $memberId
+     * @param $storeId
+     * @param $orderId
+     * @param $operatorId
+     * @return void
+     * @throws InsufficientException
+     * @throws MemberNotFoundException
+     */
+    public static function deduction($deductions, $memberId, $storeId, $orderId, $operatorId)
+    {
+        $member = Member::where('store_id', $storeId)->find($memberId);
+        if (empty($member)) throw new MemberNotFoundException('会员不存在');
+
+        foreach ($deductions as $deduction) {
+            if ($deduction['type'] == 1) {
+                if ($member->balance < $deduction['amount'])
+                    throw new InsufficientException('余额不足');
+
+                $member->balance -= $deduction['amount'];
+
+                $member->save();
+
+                BalanceTransaction::create([
+                    'store_id' => $storeId,
+                    'type' => BalanceTransaction::TYPE_PAY,
+                    'member_id' => $memberId,
+                    'amount' => $deduction['amount'],
+                    'after' => $member->balance,
+                    'order_id' => $orderId,
+                    'operator_id' => $operatorId,
+                    'remark' => '快速消费 - ' . $deduction['amount'],
+                ]);
+            }
+        }
     }
 }

@@ -77,6 +77,12 @@ class CommissionController extends Controller
             ->get());
     }
 
+    /**
+     * 计算提成
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function calc(Request $request): JsonResponse
     {
 

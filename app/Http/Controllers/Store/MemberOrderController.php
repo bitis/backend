@@ -22,7 +22,7 @@ class MemberOrderController extends Controller
             ->where('member_id', $request->input('member_id'))
             ->with('products')
             ->orderByDesc('id')
-            ->simplePaginate(getPerPage());
+            ->paginate(getPerPage());
 
         return success($orders);
     }

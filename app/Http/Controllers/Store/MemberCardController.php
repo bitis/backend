@@ -30,7 +30,7 @@ class MemberCardController extends Controller
         $cards = MemberCard::with('products', 'products.product')
             ->where('member_id', $request->input('member_id'))
             ->where('status', $request->input('status', 1))
-            ->simplePaginate(getPerPage());
+            ->paginate(getPerPage());
 
         return success($cards);
     }

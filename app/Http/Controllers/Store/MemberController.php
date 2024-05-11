@@ -24,7 +24,7 @@ class MemberController extends Controller
             })
             ->when($request->filled('name'), function ($query) use ($request) {
                 $query->where('name', 'like', "%{$request->input('name')}%");
-            })->simplePaginate(getPerPage());
+            })->paginate(getPerPage());
 
         return success($members);
     }
@@ -72,7 +72,7 @@ class MemberController extends Controller
         $transactions = BalanceTransaction::with('operator:id,name,avatar')
             ->where('member_id', $request->input('member_id'))
             ->orderBy('id', 'desc')
-            ->simplePaginate(getPerPage());
+            ->paginate(getPerPage());
 
         return success($transactions);
     }

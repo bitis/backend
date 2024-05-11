@@ -49,8 +49,13 @@ Route::namespace('Store')->prefix('store')->group(function () {
                 Route::post('destroy', 'CategoryController@destroy');
             });
 
+            Route::prefix('unit')->group(function () {
+                Route::get('list', 'UnitController@index');
+                Route::post('form', 'UnitController@form');
+                Route::post('destroy', 'UnitController@destroy');
+            });
+
             Route::get('list', 'ProductController@index');
-            Route::get('units', 'ProductController@units');
             Route::post('form', 'ProductController@form');
             Route::post('destroy', 'ProductController@destroy');
         });

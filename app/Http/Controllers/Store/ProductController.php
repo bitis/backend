@@ -26,7 +26,7 @@ class ProductController extends Controller
             ->when($request->get('type'), fn($query, $type) => $query->where('type', $type))
             ->when($request->get('category'), fn($query, $category) => $query->where('category_id', $category))
             ->when($request->get('keyword'), fn($query, $keyword) => $query->where('name', 'like', "%{$keyword}%"))
-            ->simplePaginate(getPerPage());
+            ->paginate(getPerPage());
 
         return success($products);
     }
@@ -99,15 +99,5 @@ class ProductController extends Controller
         Product::where('store_id', $this->store_id)->where('id', $request->input('id'))->delete();
 
         return success();
-    }
-
-    /**
-     * 商品单位
-     *
-     * @return JsonResponse
-     */
-    public function units(): JsonResponse
-    {
-        return success(Unit::whereIn('store_id', [0, $this->store_id])->get());
     }
 }

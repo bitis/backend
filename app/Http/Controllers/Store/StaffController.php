@@ -16,7 +16,7 @@ class StaffController extends Controller
      */
     public function index(): JsonResponse
     {
-        return success(User::with('job')->where('store_id', $this->store_id)->simplePaginate(getPerPage()));
+        return success(User::with('job')->where('store_id', $this->store_id)->paginate(getPerPage()));
     }
 
     /**

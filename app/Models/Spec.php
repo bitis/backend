@@ -9,9 +9,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Spec extends Model
 {
-    use HasFactory, SoftDeletes, DefaultDatetimeFormat;
+    use HasFactory, DefaultDatetimeFormat;
 
     protected $fillable = ['store_id', 'name', 'values'];
 
-    protected $hidden = ['deleted_at', 'created_at', 'updated_at'];
+    protected $hidden = ['store_id', 'deleted_at', 'created_at', 'updated_at'];
+
+    protected $casts = [
+        'values' => 'array',
+    ];
 }

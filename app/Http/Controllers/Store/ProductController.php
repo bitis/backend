@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Store;
 
 use App\Http\Controllers\Controller;
-use App\Models\Enumerations\SpecType;
 use App\Models\Product;
 use App\Models\ProductContent;
+use App\Models\ProductItem;
+use App\Models\ProductSpec;
 use App\Models\Unit;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -38,9 +39,8 @@ class ProductController extends Controller
      */
     public function form(Request $request): JsonResponse
     {
-        $product = $request->input('id') ? Product::where('store_id', $this->store_id)
-            ->findOr($request->input('id'), fn() => new Product(['store_id' => $this->store_id]))
-            : new Product(['store_id' => $this->store_id]);
+        $product = Product::where('store_id', $this->store_id)
+            ->findOr($request->input('id'), fn() => new Product(['store_id' => $this->store_id]));
 
         $product->fill($request->all());
         $product->save();
@@ -60,9 +60,29 @@ class ProductController extends Controller
             $product->images()->createMany($request->input('images'));
         }
 
-        if ($product->spec_type == SpecType::Multi) {
-            $specs = $request->input('specs');
-            // TODO
+        if ($request->input('multi_spec')) {
+            $newSpecs = [];
+
+            ProductSpec::where('product_id', $product->id)->delete(); // 删除原有规格
+            ProductItem::where('product_id', $product->id)->delete(); // 删除原有SKU
+
+            foreach ($request->input('items') as $item) {
+
+                $productItem = ProductItem::create(array_merge($item, ['product_id' => $product->id]));
+
+                foreach ($item['specs'] as $spec) {
+                    $newSpecs[] = array_merge($spec, [
+                        'product_id' => $product->id,
+                        'product_item_id' => $productItem->id
+                    ]);
+                }
+            }
+
+            ProductSpec::insert($newSpecs);
+        } else {
+            ProductItem::updateOrCreate([
+                'product_id' => $product->id,
+            ], $request->only(['price', 'original_price', 'member_price', 'stock', 'bar_code', 'duration']));
         }
 
         return success($product);
@@ -88,6 +108,6 @@ class ProductController extends Controller
      */
     public function units(): JsonResponse
     {
-        return success(Unit::whereIn('store_id', [0 ,$this->store_id])->get());
+        return success(Unit::whereIn('store_id', [0, $this->store_id])->get());
     }
 }

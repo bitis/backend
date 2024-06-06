@@ -15,7 +15,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, DefaultDatetimeFormat, HasRoles, SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, DefaultDatetimeFormat, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -64,17 +64,6 @@ class User extends Authenticatable
     public function store(): BelongsTo
     {
         return $this->belongsTo(Store::class);
-    }
-
-    protected static function booted()
-    {
-        static::updating(function ($user) {
-
-            // 封禁用户
-            if ($user->status == UserStatus::Disable->value) {
-                $user->api_token = '';
-            }
-        });
     }
 
     public function job(): BelongsTo

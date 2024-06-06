@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use AlphaSnow\Flysystem\Aliyun\AliyunFactory;
-use Illuminate\Contracts\Foundation\Application;
+use EasyWeChat\OfficialAccount\Application;
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Schema;
@@ -32,6 +32,10 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->singleton(EasySms::class, function ($app) {
             return new EasySms($app->config->get('sms'));
+        });
+
+        $this->app->singleton(Application::class, function ($app) {
+            return new Application($app->config->get('wechat'));
         });
 
     }

@@ -109,7 +109,7 @@ class AccountController extends Controller
      */
     public function detail(Request $request): JsonResponse
     {
-        $user = $request->user()->load('roles', 'company');
+        $user = $request->user()->load('store');
 
         return success($user);
     }

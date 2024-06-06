@@ -23,3 +23,7 @@ Bearer Token
 | 0    | 成功                |
 | -1   | 当前提交业务处理失败（一般性错误） |
 | 403  | 身份校验失败（token过期）   |
+
+
+## License
+[MIT license](LICENSE).

@@ -11,7 +11,7 @@ class DingTalk
     {
     }
 
-    public static function send($title, $message, $atMobiles = [], $isAtAll = false): void
+    public static function send($message, $atMobiles = [], $isAtAll = false): void
     {
         $timestamp = time() * 1000;
         $secret = config('dingtalk.secret');
@@ -25,11 +25,11 @@ class DingTalk
             'json' => [
                 "msgtype" => "markdown",
                 "at" => [
-                    "atMobiles" => [],
-                    "isAtAll" => true
+                    "atMobiles" => $atMobiles,
+                    "isAtAll" => $isAtAll
                 ],
                 "markdown" => [
-                    "title" => $title,
+                    "title" => $message,
                     "text" => $message,
                 ]
             ]

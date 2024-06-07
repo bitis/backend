@@ -52,12 +52,12 @@ class Lenovo extends Command
                 if ($data['result']['stockWithCdt']['salesNumber'] > 0) {
                     $this->info(now()->toDateTimeString() . "\t" . $data['result']['stockWithCdt']['salesNumber']);
                     if ($this->send_time + 60 < time()) {
-                        DingTalk::send("500 立减金到货", "500 立减金，库存：" . $data['result']['stockWithCdt']['salesNumber']);
+                        DingTalk::send("500 立减金，库存：" . $data['result']['stockWithCdt']['salesNumber']);
                         $this->send_time = time();
                     }
                 }
             } catch (\Exception $exception) {
-                $this->error($exception->getMessage());
+                $this->error(now()->toDateTimeString() . "\t" . $exception->getMessage());
             }
 
             sleep(20);

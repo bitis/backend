@@ -114,6 +114,13 @@ class AccountController extends Controller
         return success($user);
     }
 
+    public function upload(Request $request)
+    {
+        $file = $request->file('file');
+
+        return success();
+    }
+
 
     /**
      * 编辑资料

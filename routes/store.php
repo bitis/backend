@@ -14,6 +14,8 @@ Route::namespace('Store')->prefix('store')->group(function () {
 
     Route::middleware('auth:sanctum')->group(function (){
 
+        Route::post('upload', 'UploadController@form');
+
         Route::prefix('member')->group(function () {
             Route::get('list', 'MemberController@index');
             Route::post('form', 'MemberController@form');

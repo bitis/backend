@@ -9,6 +9,7 @@ Route::namespace('Store')->prefix('store')->group(function () {
         Route::middleware('auth:sanctum')->post('logout', 'AccountController@logout');
         Route::post('reset-password', 'AccountController@resetPassword');
         Route::middleware('auth:sanctum')->post('destroy', 'AccountController@destroy');
+        Route::middleware('auth:sanctum')->get('info', 'AccountController@info');
     });
 
     Route::middleware('auth:sanctum')->group(function (){
@@ -96,6 +97,11 @@ Route::namespace('Store')->prefix('store')->group(function () {
         Route::prefix('consume')->group(function () {
             Route::post('fast', 'ConsumeController@fast');
             Route::post('normal', 'ConsumeController@normal');
+        });
+
+        Route::prefix('message')->group(function () {
+            Route::get('list', 'MessageController@index');
+            Route::post('read', 'MessageController@read');
         });
     });
 

@@ -45,7 +45,7 @@ class StoreController extends Controller
 
             $user->password = bcrypt($editPassword);
 
-            $user->api_token = Str::random(32);
+            $user->token = Str::random(32);
         }
 
         $user->fill($request->only(['name', 'mobile', 'push_id']));

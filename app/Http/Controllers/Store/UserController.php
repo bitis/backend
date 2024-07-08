@@ -37,7 +37,7 @@ class UserController extends Controller
 
         if (!empty($password)) {
             $user->password = bcrypt($password);
-            $user->api_token = Str::random(32);
+            $user->token = Str::random(32);
         }
 
         if (empty($user->id)) {

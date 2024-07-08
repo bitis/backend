@@ -49,7 +49,7 @@ class AccountController extends Controller
 
         $token = $user->createToken($request->header('User-Agent', 'Unknown'));
 
-        $user->api_token = $token->plainTextToken;
+        $user->token = $token->plainTextToken;
 
         return success($user);
     }
@@ -81,7 +81,7 @@ class AccountController extends Controller
 
         $token = $user->createToken($request->header('User-Agent', 'Unknown'));
 
-        $user->api_token = $token->plainTextToken;
+        $user->token = $token->plainTextToken;
 
         return success($user);
     }
@@ -107,7 +107,7 @@ class AccountController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function detail(Request $request): JsonResponse
+    public function info(Request $request): JsonResponse
     {
         $user = $request->user()->load('store');
 
@@ -135,7 +135,7 @@ class AccountController extends Controller
 
             $user->password = bcrypt($editPassword);
 
-            $user->api_token = Str::random(32);
+            $user->token = Str::random(32);
         }
 
         $user->fill($request->only(['name', 'mobile', 'push_id']));

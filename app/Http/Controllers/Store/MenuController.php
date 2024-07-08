@@ -41,7 +41,6 @@ class MenuController extends Controller
         foreach ($menus as $_menu) {
             if ($_menu['parent_id'] == 0) {
                 $folder = array_merge($_menu, ['children' => [], 'meta' => [
-                    'locale' => 'menu.server.dashboard',
                     'requiresAuth' => true,
                     'icon' => $_menu['icon'],
                     'order' => $_menu['sort'],
@@ -50,7 +49,6 @@ class MenuController extends Controller
                 foreach ($menus as $__menu) {
                     if ($__menu['parent_id'] == $_menu['id']) {
                         $menu = array_merge($__menu, ['children' => [], 'meta' => [
-                            'locale' => 'element.name',
                             'requiresAuth' => true,
                             'icon' => $__menu['icon'],
                             'order' => $__menu['sort'],
@@ -59,7 +57,6 @@ class MenuController extends Controller
                         foreach ($menus as $___menu) {
                             if ($___menu['parent_id'] == $__menu['id']) {
                                 $___menu['meta'] = [
-                                    'locale' => 'element.name',
                                     'requiresAuth' => true,
                                     'icon' => $___menu['icon'],
                                     'order' => $___menu['sort'],

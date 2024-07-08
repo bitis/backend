@@ -24,10 +24,10 @@ class Member extends Model
         'level_id',
         'balance',
         'integral',
-        'total_consumption_amount',
-        'total_consumption_times',
-        'first_consumption_at',
-        'last_consumption_at',
+        'total_consume_amount',
+        'total_consume_times',
+        'first_consume_at',
+        'last_consume_at',
         'openid'
     ];
 

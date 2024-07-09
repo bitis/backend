@@ -44,7 +44,8 @@ class MenuController extends Controller
                     'requiresAuth' => true,
                     'icon' => $_menu['icon'],
                     'order' => $_menu['sort'],
-                    'hideInMenu' => false
+                    'hideInMenu' => !$_menu['visible'],
+                    'hideChildrenInMenu' => $_menu['id'] == 1
                 ]]);
                 foreach ($menus as $__menu) {
                     if ($__menu['parent_id'] == $_menu['id']) {
@@ -52,7 +53,7 @@ class MenuController extends Controller
                             'requiresAuth' => true,
                             'icon' => $__menu['icon'],
                             'order' => $__menu['sort'],
-                            'hideInMenu' => false
+                            'hideInMenu' => !$_menu['visible']
                         ]]);
                         foreach ($menus as $___menu) {
                             if ($___menu['parent_id'] == $__menu['id']) {
@@ -60,7 +61,7 @@ class MenuController extends Controller
                                     'requiresAuth' => true,
                                     'icon' => $___menu['icon'],
                                     'order' => $___menu['sort'],
-                                    'hideInMenu' => false
+                                    'hideInMenu' => !$_menu['visible']
                                 ];
                                 $menu['children'][] = $___menu;
                             }

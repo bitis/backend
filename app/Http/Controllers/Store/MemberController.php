@@ -18,13 +18,14 @@ class MemberController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
+        $words = $request->input('words');
+
         $members = Member::with('level')
-            ->when($request->filled('mobile'), function ($query) use ($request) {
-                $query->where('mobile', $request->input('mobile'));
+            ->when($words, function ($query, $words) {
+                $query->where('mobile', 'like', "%{$words}%")
+                    ->orWhere('name', 'like', "%{$words}%");
             })
-            ->when($request->filled('name'), function ($query) use ($request) {
-                $query->where('name', 'like', "%{$request->input('name')}%");
-            })->paginate(getPerPage());
+            ->paginate(getPerPage());
 
         return success($members);
     }

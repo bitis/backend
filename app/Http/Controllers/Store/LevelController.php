@@ -16,14 +16,14 @@ class LevelController extends Controller
      */
     public function index(): JsonResponse
     {
-        return success(Level::where('store_id', $this->store_id)->get());
+        return success(Level::withCount('members')->where('store_id', $this->store_id)->get());
     }
 
     public function form(Request $request): JsonResponse
     {
         $level = Level::findOr($request->input('id'), fn() => new Level(['store_id' => $this->store_id]));
 
-        $level->fill($request->only(['name', 'flag', 'discount', 'item_limit', 'item_count']));
+        $level->fill($request->only(['name', 'discount', 'item_limit', 'item_count']));
 
         $level->save();
 

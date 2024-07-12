@@ -27,7 +27,7 @@ Route::namespace('Store')->prefix('store')->group(function () {
             Route::get('transaction', 'MemberController@transaction');
 
             Route::prefix('level')->group(function () {
-                Route::get('list', 'LevelController@index');
+                Route::post('list', 'LevelController@index');
                 Route::post('form', 'LevelController@form');
                 Route::post('destroy', 'LevelController@destroy');
             });

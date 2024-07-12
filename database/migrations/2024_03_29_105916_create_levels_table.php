@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('levels', function (Blueprint $table) {
             $table->id();
+            $table->integer('store_id')->comment('门店ID');
             $table->string('name')->comment('等级名称');
-            $table->boolean('flag')->default(false)->comment('是否启用折扣');
             $table->decimal('discount', 2,1)->comment('折扣 ');
             $table->boolean('item_limit')->default(false)->comment('折扣限制 0 不限制 1 限制');
             $table->integer('item_count')->default(0)->comment('折扣项目数量');

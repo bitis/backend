@@ -13,7 +13,7 @@ class Level extends Model
 {
     use HasFactory, SoftDeletes, DefaultDatetimeFormat;
 
-    protected $fillable = ['name', 'flag', 'discount', 'item_limit', 'item_count'];
+    protected $fillable = ['store_id', 'name', 'discount', 'item_limit', 'item_count'];
 
     protected $hidden = ['deleted_at'];
 
@@ -25,5 +25,10 @@ class Level extends Model
     public function linkServiceIds(): HasMany
     {
         return $this->hasMany(LevelProduct::class)->where('type', ProductType::Product->value);
+    }
+
+    public function members(): HasMany
+    {
+        return $this->hasMany(Member::class);
     }
 }

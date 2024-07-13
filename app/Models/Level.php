@@ -13,7 +13,7 @@ class Level extends Model
 {
     use HasFactory, SoftDeletes, DefaultDatetimeFormat;
 
-    protected $fillable = ['store_id', 'name', 'discount', 'item_limit', 'item_count'];
+    protected $fillable = ['store_id', 'name', 'discount', 'item_limit', 'item_count', 'remark'];
 
     protected $hidden = ['deleted_at'];
 

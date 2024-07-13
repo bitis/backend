@@ -23,7 +23,7 @@ class LevelController extends Controller
     {
         $level = Level::findOr($request->input('id'), fn() => new Level(['store_id' => $this->store_id]));
 
-        $level->fill($request->only(['name', 'discount', 'item_limit', 'item_count']));
+        $level->fill($request->only(['name', 'discount', 'item_limit', 'item_count', 'remark']));
 
         $level->save();
 

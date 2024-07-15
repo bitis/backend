@@ -45,7 +45,7 @@ class MenuController extends Controller
                     'icon' => $_menu['icon'],
                     'order' => $_menu['sort'],
                     'hideInMenu' => !$_menu['visible'],
-                    'hideChildrenInMenu' => $_menu['id'] == 1
+                    'hideChildrenInMenu' => !$_menu['children_visible']
                 ]]);
                 foreach ($menus as $__menu) {
                     if ($__menu['parent_id'] == $_menu['id']) {

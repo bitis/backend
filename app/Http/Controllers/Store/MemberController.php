@@ -61,6 +61,18 @@ class MemberController extends Controller
         return success();
     }
 
+    /**
+     * 会员详情
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function detail(Request $request): JsonResponse
+    {
+        $member = Member::with('level')->find($request->input('id'));
+
+        return success($member);
+    }
 
     /**
      * 余额流水

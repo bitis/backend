@@ -53,15 +53,15 @@ class MenuController extends Controller
                             'requiresAuth' => true,
                             'icon' => $__menu['icon'],
                             'order' => $__menu['sort'],
-                            'hideInMenu' => !$_menu['visible']
+                            'hideInMenu' => !$__menu['visible']
                         ]]);
                         foreach ($menus as $___menu) {
-                            if ($___menu['parent_id'] == $__menu['id']) {
+                            if ($___menu['parent_id'] == $___menu['id']) {
                                 $___menu['meta'] = [
                                     'requiresAuth' => true,
                                     'icon' => $___menu['icon'],
                                     'order' => $___menu['sort'],
-                                    'hideInMenu' => !$_menu['visible']
+                                    'hideInMenu' => !$___menu['visible']
                                 ];
                                 $menu['children'][] = $___menu;
                             }

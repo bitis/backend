@@ -3,11 +3,8 @@
 namespace App\Console\Commands;
 
 use App\Common\DingTalk;
-use App\Common\Messages\VerificationCode;
-use EasyWeChat\OfficialAccount\Application;
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
-use Overtrue\EasySms\EasySms;
 
 class Lenovo extends Command
 {
@@ -30,13 +27,16 @@ class Lenovo extends Command
     /**
      * Execute the console command.
      */
-    public function handle(Application $application)
+    public function handle()
     {
         $client = new Client();
 
+        $choose = true;
         while (true) {
             try {
-                $response = $client->request('get', 'https://f.lenovo.com.cn/goods/new/detail/B00001?terminal=2&gcode=1037657&roomId=', [
+                $choose = !$choose;
+                $code = [1034686, 1037657][(int)$choose];
+                $response = $client->request('get', 'https://f.lenovo.com.cn/goods/new/detail/B00001?terminal=2&gcode=' . $code . '&roomId=', [
                     'headers' => [
                         'User-Agent' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1',
                         'Accept' => 'application/json, text/plain, */*',
@@ -52,7 +52,7 @@ class Lenovo extends Command
                 if ($data['result']['stockWithCdt']['salesNumber'] > 0) {
                     $this->info(now()->toDateTimeString() . "\t" . $data['result']['stockWithCdt']['salesNumber']);
                     if ($this->send_time + 60 < time()) {
-                        DingTalk::send("500 立减金，库存：" . $data['result']['stockWithCdt']['salesNumber']);
+                        DingTalk::send($data['result']['name'] . "，库存：" . $data['result']['stockWithCdt']['salesNumber']);
                         $this->send_time = time();
                     }
                 }

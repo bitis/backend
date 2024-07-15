@@ -24,6 +24,7 @@ Route::namespace('Store')->prefix('store')->group(function () {
             Route::post('list', 'MemberController@index');
             Route::post('form', 'MemberController@form');
             Route::post('detail', 'MemberController@detail');
+            Route::post('avatar', 'MemberController@avatar');
             Route::post('destroy', 'MemberController@destroy');
             Route::get('transaction', 'MemberController@transaction');
 

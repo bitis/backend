@@ -87,7 +87,7 @@ class MemberController extends Controller
 
         $ext = $file->getClientOriginalExtension();
 
-        $fileName = '/uploads/' . date('Ymd') . '/' . Str::random(40) . ($ext ? '.' . $ext : '');
+        $fileName = '/uploads/' . date('Ym') . '/avatars/' . Str::random(40) . ($ext ? '.' . $ext : '');
 
         if (Storage::disk('qcloud')->put($fileName, $file->getContent())) {
             CloudFile::create([

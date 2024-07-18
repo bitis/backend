@@ -21,6 +21,7 @@ return new class extends Migration
             $table->tinyInteger('type')->default(0)->comment('0:目录,1:菜单,2:按钮');
             $table->string('permission')->nullable();
             $table->boolean('visible')->default(true);
+            $table->boolean('children_visible')->default(true);
             $table->softDeletes();
             $table->timestamps();
         });

@@ -16,6 +16,14 @@ class LevelController extends Controller
      */
     public function index(): JsonResponse
     {
+        if (request('base')) {
+            return success(
+                array_merge(
+                    [['id' => 0, 'name' => '暂无等级']],
+                    Level::where('store_id', $this->store_id)->select(['id', 'name'])->get()->toArray()
+                )
+            );
+        }
         return success(Level::withCount('members')->where('store_id', $this->store_id)->get());
     }
 

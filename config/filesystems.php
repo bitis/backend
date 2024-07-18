@@ -15,6 +15,8 @@ return [
 
     'default' => env('FILESYSTEM_DISK', 'local'),
 
+    'base_url' => env('QCLOUND_URL'),
+
     /*
     |--------------------------------------------------------------------------
     | Filesystem Disks

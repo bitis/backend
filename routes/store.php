@@ -111,6 +111,13 @@ Route::namespace('Store')->prefix('store')->group(function () {
             Route::get('list', 'MessageController@index');
             Route::post('read', 'MessageController@read');
         });
+
+        Route::prefix('sms')->group(function () {
+            Route::post('send', 'SmsController@form');
+            Route::post('upload', 'SmsController@upload');
+            Route::post('history', 'SmsController@history');
+            Route::post('detail', 'CardController@detail');
+        });
     });
 
 });

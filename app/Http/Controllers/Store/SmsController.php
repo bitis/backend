@@ -4,10 +4,15 @@ namespace App\Http\Controllers\Store;
 
 use App\Http\Controllers\Controller;
 use App\Models\CloudFile;
+use App\Models\SmsDetail;
+use App\Models\SmsRecord;
+use App\Models\SmsSignature;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver;
 
 class SmsController extends Controller
 {
@@ -27,11 +32,43 @@ class SmsController extends Controller
      */
     public function form(Request $request): JsonResponse
     {
+        $content = $request->input('content');
+        $signature = $request->input('signature');
+        $mobiles = $request->input('mobiles');
+        $import_mobiles = [];
+
         if ($file = $request->input('file')) {
             $temp = Storage::disk()->get($file);
-
         }
-        return success();
+
+        try {
+            DB::beginTransaction();
+            $record = SmsRecord::create([
+                'store_id' => $this->store_id,
+                'title' => $request->input('title'),
+                'content' => $request->input('content'),
+                'signature' => $signature,
+                'file' => $file ?? null,
+                'content_length' => mb_strlen($signature) + mb_strlen($content) + 7,
+                'mobile_count' => count($mobiles) + count($import_mobiles),
+            ]);
+
+            foreach ($mobiles as $mobile) {
+                SmsDetail::create([
+                    'store_id' => $this->store_id,
+                    'sms_record_id' => $record->id,
+                    'mobile' => $mobile,
+                    'source' => 1,
+                    'content' => $request->input('content'),
+                ]);
+            }
+            DB::commit();
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            throw $exception;
+        }
+
+        return success($record);
     }
 
     /**
@@ -94,5 +131,25 @@ class SmsController extends Controller
         }
 
         return fail('上传失败');
+    }
+
+    public function createSignature(Request $request): JsonResponse
+    {
+        $name = $request->input('name');
+
+        if (SmsSignature::where('store_id', $this->store_id)->where('name', $name)->exists())
+            return fail('短信签名已存在');
+
+        SmsSignature::create([
+            'store_id' => $this->store_id,
+            'name' => $name
+        ]);
+
+        return success();
+    }
+
+    public function getSignatures(): JsonResponse
+    {
+        return success(SmsSignature::where('store_id', $this->store_id)->get());
     }
 }

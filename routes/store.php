@@ -12,7 +12,7 @@ Route::namespace('Store')->prefix('store')->group(function () {
         Route::middleware('auth:sanctum')->get('info', 'AccountController@info');
     });
 
-    Route::middleware('auth:sanctum')->group(function (){
+    Route::middleware('auth:sanctum')->group(function () {
 
         Route::post('upload', 'UploadController@form');
 
@@ -116,7 +116,9 @@ Route::namespace('Store')->prefix('store')->group(function () {
             Route::post('send', 'SmsController@form');
             Route::post('upload', 'SmsController@upload');
             Route::post('history', 'SmsController@history');
-            Route::post('detail', 'CardController@detail');
+            Route::post('detail', 'SmsController@detail');
+            Route::post('createSignature', 'SmsController@createSignature');
+            Route::post('getSignatures', 'SmsController@getSignatures');
         });
     });
 

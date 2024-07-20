@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('file')->nullable();
             $table->unsignedInteger('content_length')->comment('短信内容长度');
             $table->unsignedInteger('mobile_count')->comment('手机号数量');
-            $table->unsignedInteger('failed_count')->comment('发送失败数量');
+            $table->unsignedInteger('failed_count')->nullable()->comment('发送失败数量');
             $table->unsignedTinyInteger('status')->default(0)->comment('状态 0 待发送 1 发送中 2 ');
             $table->timestamps();
         });

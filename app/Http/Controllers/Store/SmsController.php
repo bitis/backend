@@ -68,7 +68,7 @@ class SmsController extends Controller
                     'sms_record_id' => $record->id,
                     'mobile' => $mobile,
                     'source' => 1,
-                    'content' => $request->input('content'),
+                    'content' => $signature . $request->input('content') . "，拒收请回复R",
                 ]);
             }
             DB::commit();
@@ -112,27 +112,27 @@ class SmsController extends Controller
     }
 
     /**
-     * 发送详情
+     * 发送明细
      *
      * @param Request $request
      * @return JsonResponse
      */
-    public function detail(Request $request): JsonResponse
+    public function detailRecord(Request $request): JsonResponse
     {
-        SmsRecord::where('store_id', $this->store_id)
+        $record = SmsDetail::where('store_id', $this->store_id)
             ->when($request->input('record_id'),
                 fn($query, $record_id) => $query->where('sms_record_id', $record_id)
             )
             ->when($request->input('mobile'),
                 fn($query, $mobile) => $query->where('mobile', 'like', '%' . $mobile . '%')
             )
-            ->when($request->input('send_at'),
-                fn($query, $send_at) => $query->where('mobile', 'like', '%' . $send_at . '%')
+            ->when($request->input('created_at'),
+                fn($query, $title) => $query->where('created_at', '>', strtotime($title[0]))
+                    ->where('created_at', '<', strtotime($title[1] . ' 23:59:59'))
             )
-            ->paginate(getPerPage())
-            ->withQueryString();
+            ->paginate(getPerPage());
 
-            return fail('上传失败');
+        return success($record);
     }
 
     public function createSignature(Request $request): JsonResponse

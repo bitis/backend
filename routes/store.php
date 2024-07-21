@@ -116,7 +116,7 @@ Route::namespace('Store')->prefix('store')->group(function () {
             Route::post('send', 'SmsController@form');
             Route::post('upload', 'SmsController@upload');
             Route::post('history', 'SmsController@history');
-            Route::post('detail', 'SmsController@detail');
+            Route::post('detailRecord', 'SmsController@detailRecord');
             Route::post('createSignature', 'SmsController@createSignature');
             Route::post('getSignatures', 'SmsController@getSignatures');
         });

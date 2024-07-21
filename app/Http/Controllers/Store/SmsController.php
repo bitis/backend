@@ -26,7 +26,11 @@ class SmsController extends Controller
     {
         $records = SmsRecord::where('store_id', $this->store_id)
             ->when($request->input('title'),
-                fn($query) => $query->where('title', 'like', '%' . $request->input('title') . '%')
+                fn($query, $title) => $query->where('title', 'like', '%' . $title . '%')
+            )
+            ->when($request->input('created_at'),
+                fn($query, $title) => $query->where('created_at', '>', strtotime($title[0]))
+                    ->where('created_at', '<', strtotime($title[1] . ' 23:59:59'))
             )
             ->paginate(getPerPage());
         return success($records);
@@ -115,27 +119,20 @@ class SmsController extends Controller
      */
     public function detail(Request $request): JsonResponse
     {
-        $file = $request->file('file');
+        SmsRecord::where('store_id', $this->store_id)
+            ->when($request->input('record_id'),
+                fn($query, $record_id) => $query->where('sms_record_id', $record_id)
+            )
+            ->when($request->input('mobile'),
+                fn($query, $mobile) => $query->where('mobile', 'like', '%' . $mobile . '%')
+            )
+            ->when($request->input('send_at'),
+                fn($query, $send_at) => $query->where('mobile', 'like', '%' . $send_at . '%')
+            )
+            ->paginate(getPerPage())
+            ->withQueryString();
 
-        if (!$file) return fail('必须上传一个文件');
-
-        $ext = $file->getClientOriginalExtension();
-
-        $fileName = '/uploads/' . date('Ym') . '/sms/' . Str::random(40) . ($ext ? '.' . $ext : '');
-
-        if (Storage::disk('qcloud')->put($fileName, $file->getContent())) {
-            CloudFile::create([
-                'name' => $file->getClientOriginalName(),
-                'path' => $fileName,
-                'size' => $file->getSize(),
-                'type' => $file->getMimeType(),
-                'user_id' => $request->user()->id,
-            ]);
-
-            return success($fileName);
-        }
-
-        return fail('上传失败');
+            return fail('上传失败');
     }
 
     public function createSignature(Request $request): JsonResponse

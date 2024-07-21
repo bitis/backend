@@ -22,9 +22,14 @@ class SmsController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function index(Request $request): JsonResponse
+    public function history(Request $request): JsonResponse
     {
-        return success();
+        $records = SmsRecord::where('store_id', $this->store_id)
+            ->when($request->input('title'),
+                fn($query) => $query->where('title', 'like', '%' . $request->input('title') . '%')
+            )
+            ->paginate(getPerPage());
+        return success($records);
     }
 
     /**

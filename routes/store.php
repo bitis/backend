@@ -70,9 +70,9 @@ Route::namespace('Store')->prefix('store')->group(function () {
         });
 
         Route::prefix('card')->group(function () {
-            Route::get('list', 'CardController@index');
+            Route::post('list', 'CardController@index');
             Route::post('form', 'CardController@form');
-            Route::get('detail', 'CardController@detail');
+            Route::post('detail', 'CardController@detail');
             Route::post('destroy', 'CardController@destroy');
         });
 

@@ -23,6 +23,7 @@ return new class extends Migration
             $table->boolean('commission_config')->default(false)->comment('是否开启提成');
             $table->decimal('bonus', 12)->default(0.00)->comment('赠送金额 （储值卡）');
             $table->integer('level_id')->nullable()->comment('会员等级');
+            $table->unsignedInteger('sales_count')->default(0)->comment('销量');
             $table->softDeletes();
             $table->timestamps();
         });

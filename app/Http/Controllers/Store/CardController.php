@@ -17,6 +17,7 @@ class CardController extends Controller
     {
         $cards = Card::with('products', 'products.product')
             ->when($request->input('keywords'), fn($query, $keywords) => $query->where('name', 'like', "%{$keywords}%"))
+            ->when($request->input('type'), fn($query, $type) => $query->where('type', $type))
             ->where('store_id', $this->store_id)
             ->paginate(getPerPage());
 

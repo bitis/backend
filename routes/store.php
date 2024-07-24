@@ -53,7 +53,7 @@ Route::namespace('Store')->prefix('store')->group(function () {
             });
 
             Route::prefix('category')->group(function () {
-                Route::get('list', 'CategoryController@index');
+                Route::post('list', 'CategoryController@index');
                 Route::post('form', 'CategoryController@form');
                 Route::post('destroy', 'CategoryController@destroy');
             });

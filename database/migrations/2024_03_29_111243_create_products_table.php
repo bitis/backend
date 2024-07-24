@@ -22,11 +22,12 @@ return new class extends Migration
             $table->string('first_image')->nullable()->comment('首图');
             $table->string('bar_code')->nullable()->comment('条码');
             $table->decimal('price', 12)->default(0.00)->comment('价格');
-            $table->decimal('original_price', 12)->default(0.00)->comment('原价');
-            $table->decimal('member_price', 12)->default(0.00)->comment('会员价');
+            $table->decimal('original_price', 12)->nullable()->default(0.00)->comment('原价');
+            $table->decimal('member_price', 12)->nullable()->default(0.00)->comment('会员价');
             $table->integer('stock')->nullable()->default(0)->comment('总库存');
             $table->integer('stock_warn')->nullable()->default(0)->comment('库存预警数量');
-            $table->boolean('flag')->default(false)->comment('是否上架');
+            $table->unsignedInteger('sales_count')->default(0)->comment('销量');
+            $table->boolean('online')->default(false)->comment('是否上架');
             $table->boolean('multi_spec')->default(false)->comment('规格类型');
             $table->boolean('commission_config')->default(false)->comment('是否开启提成');
             $table->softDeletes();

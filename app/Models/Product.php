@@ -13,6 +13,14 @@ class Product extends Model
 {
     use HasFactory, SoftDeletes, DefaultDatetimeFormat;
 
+    const TYPE_PRODUCT = 1;
+    const TYPE_SERVICE = 2;
+
+    const MAP_TYPE = [
+        self::TYPE_PRODUCT => '产品',
+        self::TYPE_SERVICE => '服务'
+    ];
+
     protected $fillable = [
         'store_id',
         'category_id',
@@ -27,12 +35,17 @@ class Product extends Model
         'member_price',
         'stock',
         'stock_warn',
-        'flag',
+        'online',
         'spec_type',
         'commission_config'
     ];
 
     protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
+
+    public function getTypeTextAttribute(): string
+    {
+        return self::MAP_TYPE[$this->type];
+    }
 
     public function category(): BelongsTo
     {

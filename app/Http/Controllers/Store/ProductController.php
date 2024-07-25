@@ -10,6 +10,7 @@ use App\Models\ProductSpec;
 use App\Models\Unit;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class ProductController extends Controller
 {
@@ -55,10 +56,11 @@ class ProductController extends Controller
             ProductContent::updateOrCreate(['product_id' => $product->id], ['content' => $request->input('content')]);
         }
 
-        if ($request->input('images')) {
-            $product->images()->delete();
-            $product->images()->createMany($request->input('images'));
-        }
+//        if ($request->input('images')) {
+//            $product->images()->delete();
+//            $images = array_map(fn ($path) => ['path' => $path], $request->input('images'));
+//            $product->images()->createMany($images);
+//        }
 
         if ($request->input('multi_spec')) {
             $newSpecs = [];

@@ -28,7 +28,7 @@ class Product extends Model
         'name',
         'unit',
         'subtitle',
-        'first_image',
+        'images',
         'bar_code',
         'price',
         'original_price',
@@ -41,6 +41,10 @@ class Product extends Model
     ];
 
     protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
+
+    protected $casts = [
+        'images' => 'array',
+    ];
 
     public function getTypeTextAttribute(): string
     {

@@ -15,10 +15,7 @@ class CardProduct extends Model
     const TYPE_SERVICE = 1;
     const TYPE_GIFT = 2;
 
-    const NUMBER_TYPE_LIMIT = 1;
-    const NUMBER_TYPE_UNLIMIT = 2;
-
-    protected $fillable = ['card_id', 'product_id', 'number_type', 'number', 'type'];
+    protected $fillable = ['card_id', 'product_id', 'name', 'number', 'type'];
 
     protected $hidden = ['id', 'created_at', 'updated_at'];
 

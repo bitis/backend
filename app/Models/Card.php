@@ -33,7 +33,7 @@ class Card extends Model
     const TYPE_DURATION = 2;
     const TYPE_RECHARGE = 3;
 
-    public function products(): HasMany
+    public function services(): HasMany
     {
         return $this->hasMany(CardProduct::class);
     }

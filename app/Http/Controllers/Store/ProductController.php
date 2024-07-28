@@ -23,7 +23,8 @@ class ProductController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $products = Product::where('store_id', $this->store_id)
+        $products = Product::with('category:id,name')
+            ->where('store_id', $this->store_id)
             ->when($request->get('type'), fn($query, $type) => $query->where('type', $type))
             ->when($request->get('category'), fn($query, $category) => $query->where('category_id', $category))
             ->when($request->get('keyword'), fn($query, $keyword) => $query->where('name', 'like', "%{$keyword}%"))

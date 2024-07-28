@@ -7,6 +7,7 @@ use App\Models\Card;
 use App\Models\CardProduct;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class CardController extends Controller
 {
@@ -15,7 +16,7 @@ class CardController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $cards = Card::with('products', 'products.product')
+        $cards = Card::with('services', 'services.product')
             ->when($request->input('keywords'), fn($query, $keywords) => $query->where('name', 'like', "%{$keywords}%"))
             ->when($request->input('type'), fn($query, $type) => $query->where('type', $type))
             ->where('store_id', $this->store_id)
@@ -43,13 +44,16 @@ class CardController extends Controller
         $gifts = $request->input('gifts', []);
 
         foreach ($services as $service) {
-            if ($service['number_type'] == CardProduct::NUMBER_TYPE_UNLIMIT) $service['number'] = 999;
-            $card_products[] = array_merge($service, ['card_id' => $card->id, 'type' => CardProduct::TYPE_SERVICE]);
+            $card_products[] = array_merge(
+                Arr::only($service, ['product_id', 'number']),
+                ['card_id' => $card->id, 'type' => CardProduct::TYPE_SERVICE, 'name' => $service['name']]
+            );
         }
 
         foreach ($gifts as $gift) {
-            if ($gift['number_type'] == CardProduct::NUMBER_TYPE_UNLIMIT) $gift['number'] = 999;
-            $card_products[] = array_merge($gift, ['card_id' => $card->id, 'type' => CardProduct::TYPE_GIFT]);
+            $card_products[] = array_merge(
+                Arr::only($gift, ['product_id', 'number']),
+                ['card_id' => $card->id, 'type' => CardProduct::TYPE_GIFT, 'name' => $service['name']]);
         }
 
         CardProduct::insert($card_products);
@@ -65,7 +69,7 @@ class CardController extends Controller
      */
     public function detail(Request $request): JsonResponse
     {
-        $card = Card::with(['products', 'products.product'])->find($request->input('id'))->toArray();
+        $card = Card::with(['services', 'services.product'])->find($request->input('id'))->toArray();
 
         foreach ($card['products'] as $product) {
             $product['type'] == CardProduct::TYPE_SERVICE ? $card['services'][] = $product : $card['gifts'][] = $product;

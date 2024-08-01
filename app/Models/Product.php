@@ -60,4 +60,9 @@ class Product extends Model
     {
         return $this->hasMany(ProductImage::class, 'product_id');
     }
+
+    public function specs()
+    {
+        return $this->hasMany(ProductSpec::class);
+    }
 }

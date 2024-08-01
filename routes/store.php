@@ -35,9 +35,9 @@ Route::namespace('Store')->prefix('store')->group(function () {
             });
 
             Route::prefix('card')->group(function () {
-                Route::get('list', 'MemberCardController@index');
+                Route::post('list', 'MemberCardController@index');
                 Route::post('open', 'MemberCardController@open');
-                Route::get('products', 'MemberCardController@products');
+                Route::post('products', 'MemberCardController@products');
             });
 
             Route::prefix('order')->group(function () {
@@ -50,6 +50,7 @@ Route::namespace('Store')->prefix('store')->group(function () {
             Route::prefix('spec')->group(function () {
                 Route::post('list', 'SpecController@index');
                 Route::post('form', 'SpecController@form');
+                Route::post('destroy', 'SpecController@destroy');
             });
 
             Route::prefix('category')->group(function () {
@@ -65,6 +66,7 @@ Route::namespace('Store')->prefix('store')->group(function () {
             });
 
             Route::post('list', 'ProductController@index');
+            Route::post('detail', 'ProductController@detail');
             Route::post('form', 'ProductController@form');
             Route::post('destroy', 'ProductController@destroy');
         });

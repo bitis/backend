@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Store;
 
 use App\Http\Controllers\Controller;
+use App\Models\SpecValue;
 use App\Models\Spec;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -14,7 +15,7 @@ class SpecController extends Controller
      */
     public function index(): JsonResponse
     {
-        return success(Spec::where('store_id', $this->store_id)->get());
+        return success(Spec::with('values')->where('store_id', $this->store_id)->get());
     }
 
     /**
@@ -24,11 +25,36 @@ class SpecController extends Controller
     {
         $spec = Spec::findOr($request->input('id'), fn() => new Spec(['store_id' => $this->store_id]));
 
-        $spec->fill($request->only(['name', 'values']));
+        $spec->name = $request->input('name');
 
         $spec->save();
 
-        return success($spec);
+        $exists = SpecValue::where('spec_id', $spec->id)->get();
+
+        foreach ($exists as $exist) {
+            if (!in_array($exist->value, $request->input('values'))) {
+                $exist->delete();
+            }
+        }
+
+        $existValues = $exists->pluck('value')->toArray();
+        foreach ($request->input('values') as $value) {
+            if (!in_array($value, $existValues)) {
+                SpecValue::create([
+                    'spec_id' => $spec->id,
+                    'value' => $value
+                ]);
+            }
+        }
+
+        return success();
+    }
+
+    public function destroy(Request $request): JsonResponse
+    {
+        Spec::where('store_id', $this->store_id)->where('id', $request->input('id'))->delete();
+
+        return success();
     }
 
 }

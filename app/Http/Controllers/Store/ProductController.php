@@ -64,10 +64,31 @@ class ProductController extends Controller
 //        }
 
         if ($request->input('multi_spec')) {
-            $newSpecs = [];
+            $specs = $request->input('specs');
+            $existSpecs = ProductSpec::where('product_id', $product->id)->get();
 
-            ProductSpec::where('product_id', $product->id)->delete(); // 删除原有规格
-            ProductItem::where('product_id', $product->id)->delete(); // 删除原有SKU
+            $specNames = array_column($specs, 'name');
+            $existSpecNames = $existSpecs->pluck('name')->toArray();
+
+            foreach ($existSpecs as $existSpec) {
+                if (!in_array($existSpec->name, $specNames)) {
+                    $existSpec->delete();
+                }
+            }
+
+
+            $newSpecs = [];
+            foreach ($specNames as $specName) {
+                if ($specName && !in_array($specName, $existSpecNames)) {
+                    $newSpecs[] = ['name' => $specName];
+                }
+            }
+
+
+            foreach ($specs as $spec) {
+                $newSpecs[] = array_merge($spec, ['product_id' => $product->id]);
+            }
+            if ($newSpecs) $product->specs()->createMany($newSpecs);
 
             foreach ($request->input('items') as $item) {
 
@@ -80,14 +101,20 @@ class ProductController extends Controller
                     ]);
                 }
             }
-
-            ProductSpec::insert($newSpecs);
         } else {
             ProductItem::updateOrCreate([
                 'product_id' => $product->id,
             ], $request->only(['price', 'original_price', 'member_price', 'stock', 'bar_code', 'duration']));
         }
 
+        return success($product);
+    }
+
+    public function detail(Request $request): JsonResponse
+    {
+        $product = Product::with(['category:id,name', 'specs'])
+            ->find($request->input('id'))
+            ->toArray();
         return success($product);
     }
 

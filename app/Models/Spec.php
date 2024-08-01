@@ -11,11 +11,12 @@ class Spec extends Model
 {
     use HasFactory, DefaultDatetimeFormat;
 
-    protected $fillable = ['store_id', 'name', 'values'];
+    protected $fillable = ['store_id', 'name'];
 
     protected $hidden = ['store_id', 'deleted_at', 'created_at', 'updated_at'];
 
-    protected $casts = [
-        'values' => 'array',
-    ];
+    public function values()
+    {
+        return $this->hasMany(SpecValue::class);
+    }
 }

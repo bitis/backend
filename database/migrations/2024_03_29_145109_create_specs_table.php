@@ -15,9 +15,18 @@ return new class extends Migration
             $table->id();
             $table->integer('store_id');
             $table->string('name');
-            $table->json('values');
+            $table->softDeletes();
             $table->timestamps();
         });
+
+        Schema::create('spec_values', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedInteger('spec_id');
+            $table->string('value');
+            $table->softDeletes();
+            $table->timestamps();
+        });
+
     }
 
     /**
@@ -26,5 +35,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('specs');
+        Schema::dropIfExists('spec_values');
     }
 };

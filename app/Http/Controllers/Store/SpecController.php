@@ -23,10 +23,19 @@ class SpecController extends Controller
      */
     public function form(Request $request): JsonResponse
     {
-        $spec = Spec::findOr($request->input('id'), fn() => new Spec(['store_id' => $this->store_id]));
+        if ($id = $request->input('id')) {
+            $spec = Spec::where('store_id', $this->store_id)->where('id', $id)->first();
+            if (!$spec) return fail('当前编辑的规格不存在');
+        } else {
+            $spec = new Spec(['store_id' => $this->store_id]);
+        }
 
-        $spec->name = $request->input('name');
+        $name = $request->input('name');
+        if ($existSpec = Spec::where('store_id', $this->store_id)->where('name', $name)->first()) {
+            if ($existSpec->id != $spec->id) return fail('规格名称已存在');
+        }
 
+        $spec->name = $name;
         $spec->save();
 
         $exists = SpecValue::where('spec_id', $spec->id)->get();

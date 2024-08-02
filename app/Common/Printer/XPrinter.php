@@ -104,8 +104,7 @@ class XPrinter
     }
 
     /**
-     * @throws GuzzleException
-     * @throws \Exception
+     * @throws GuzzleException|PrinterException
      */
     public function postJson($path, $data = []): array
     {

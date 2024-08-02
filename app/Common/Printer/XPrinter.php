@@ -121,6 +121,7 @@ class XPrinter
 
     /**
      * @throws GuzzleException
+     * @throws PrinterException
      */
     public function __call(string $name, array $arguments)
     {

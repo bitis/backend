@@ -56,11 +56,4 @@ class SpecController extends Controller
 
         return success();
     }
-
-    public function destroy(Request $request): JsonResponse
-    {
-        Spec::destroy($request->input('id'));
-
-        return success();
-    }
 }

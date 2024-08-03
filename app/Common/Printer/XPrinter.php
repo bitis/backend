@@ -30,6 +30,8 @@ use GuzzleHttp\Exception\GuzzleException;
  * @method array uploadLogo(...$params)
  * @method array delUploadLogo(...$params)
  * @method array printerInfo(...$params)
+ *
+ * @throws PrinterException
  */
 class XPrinter
 {

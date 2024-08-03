@@ -122,6 +122,14 @@ Route::namespace('Store')->prefix('store')->group(function () {
             Route::post('createSignature', 'SmsController@createSignature');
             Route::post('getSignatures', 'SmsController@getSignatures');
         });
+
+        Route::prefix('setting')->group(function () {
+            Route::prefix('printer')->group(function () {
+                Route::post('list', 'PrinterController@index');
+                Route::post('form', 'PrinterController@form');
+                Route::post('destroy', 'PrinterController@destroy');
+            });
+        });
     });
 
 });

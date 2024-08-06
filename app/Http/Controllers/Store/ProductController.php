@@ -11,6 +11,7 @@ use App\Models\Unit;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -45,6 +46,13 @@ class ProductController extends Controller
             ->findOr($request->input('id'), fn() => new Product(['store_id' => $this->store_id]));
 
         $product->fill($request->all());
+
+        if ($request->input('content')) {
+            $path = '/uploads/' . date('Ymd') . '/' . $product->id . '.html';
+            Storage::put($path, $request->input('content'));
+            $product->content = $path;
+        }
+
         $product->save();
 
         if ($unit = $request->input('unit')) {
@@ -53,9 +61,6 @@ class ProductController extends Controller
             }
         }
 
-        if ($request->input('content')) {
-            ProductContent::updateOrCreate(['product_id' => $product->id], ['content' => $request->input('content')]);
-        }
 
 //        if ($request->input('images')) {
 //            $product->images()->delete();
@@ -63,58 +68,65 @@ class ProductController extends Controller
 //            $product->images()->createMany($images);
 //        }
 
-        if ($request->input('multi_spec')) {
-            $specs = $request->input('specs');
-            $existSpecs = ProductSpec::where('product_id', $product->id)->get();
-
-            $specNames = array_column($specs, 'name');
-            $existSpecNames = $existSpecs->pluck('name')->toArray();
-
-            foreach ($existSpecs as $existSpec) {
-                if (!in_array($existSpec->name, $specNames)) {
-                    $existSpec->delete();
-                }
-            }
-
-
-            $newSpecs = [];
-            foreach ($specNames as $specName) {
-                if ($specName && !in_array($specName, $existSpecNames)) {
-                    $newSpecs[] = ['name' => $specName];
-                }
-            }
-
-
-            foreach ($specs as $spec) {
-                $newSpecs[] = array_merge($spec, ['product_id' => $product->id]);
-            }
-            if ($newSpecs) $product->specs()->createMany($newSpecs);
-
-            foreach ($request->input('items') as $item) {
-
-                $productItem = ProductItem::create(array_merge($item, ['product_id' => $product->id]));
-
-                foreach ($item['specs'] as $spec) {
-                    $newSpecs[] = array_merge($spec, [
-                        'product_id' => $product->id,
-                        'product_item_id' => $productItem->id
-                    ]);
-                }
-            }
-        } else {
-            ProductItem::updateOrCreate([
-                'product_id' => $product->id,
-            ], $request->only(['price', 'original_price', 'member_price', 'stock', 'bar_code', 'duration']));
-        }
+        /**
+         * if ($request->input('multi_spec')) {
+         * $specs = $request->input('specs');
+         * $existSpecs = ProductSpec::where('product_id', $product->id)->get();
+         *
+         * $specNames = array_column($specs, 'name');
+         * $existSpecNames = $existSpecs->pluck('name')->toArray();
+         *
+         * foreach ($existSpecs as $existSpec) {
+         * if (!in_array($existSpec->name, $specNames)) {
+         * $existSpec->delete();
+         * }
+         * }
+         *
+         *
+         * $newSpecs = [];
+         * foreach ($specNames as $specName) {
+         * if ($specName && !in_array($specName, $existSpecNames)) {
+         * $newSpecs[] = ['name' => $specName];
+         * }
+         * }
+         *
+         *
+         * foreach ($specs as $spec) {
+         * $newSpecs[] = array_merge($spec, ['product_id' => $product->id]);
+         * }
+         * if ($newSpecs) $product->specs()->createMany($newSpecs);
+         *
+         * foreach ($request->input('items') as $item) {
+         *
+         * $productItem = ProductItem::create(array_merge($item, ['product_id' => $product->id]));
+         *
+         * foreach ($item['specs'] as $spec) {
+         * $newSpecs[] = array_merge($spec, [
+         * 'product_id' => $product->id,
+         * 'product_item_id' => $productItem->id
+         * ]);
+         * }
+         * }
+         * } else {
+         * ProductItem::updateOrCreate([
+         * 'product_id' => $product->id,
+         * ], $request->only(['price', 'original_price', 'member_price', 'stock', 'bar_code', 'duration']));
+         * }
+         */
 
         return success($product);
     }
 
     public function detail(Request $request): JsonResponse
     {
-        $product = Product::with(['category:id,name', 'specs'])
+        $product = Product::with(['category:id,name'])
             ->find($request->input('id'))
             ->toArray();
+
+//        if ($product['content']) {
+//            $product['content'] = Storage::get($product['content']);
+//        }
+
         return success($product);
     }
 

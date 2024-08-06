@@ -29,6 +29,7 @@ class Product extends Model
         'unit',
         'subtitle',
         'images',
+        'content',
         'bar_code',
         'price',
         'original_price',

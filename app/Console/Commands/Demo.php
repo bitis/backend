@@ -76,20 +76,31 @@ class Demo extends Command
 
         $now = time() . rand(100, 999);
         $marketingId = '1816854086004391938';
-        $round = '14:00';
-        $secretword = '茉莉奶绿销量突破3000万杯';
+        $round = '15:00';
+        $secretword = '秋天的第一杯奶绿';
 
-        $response = $client->post('https://mxsa.mxbc.net/api/v1/h5/marketing/secretword/confirm', [
-            'json' => [
-                "marketingId" => $marketingId,
-                "round" => $round,
-                "secretword" => $secretword,
-                "sign" => md5('marketingId=' . $marketingId . '&round=' . $round . '&s=2&secretword=' . $secretword . '&stamp=' . $now . 'c274bac6493544b89d9c4f9d8d542b84'),
-                "s" => 2,
-                "stamp" => $now
-            ]
-        ]);
+        $headers = [
+            'Host' => 'mxsa.mxbc.net',
+            'Access-Token' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ3eF8xNDQ4OTY4Mzk3MDE0MjQ5NDc1IiwiaWF0IjoxNzIyMjI1NDE2fQ._jkqYXdh16zqslRQHcE0sP_ALkUt9KK-OyW-cB1RzboqATsCQRZTXUvuwdRfdBWm5FnJ2cy5XWPYZ4-qGVFmSg',
+            'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36 MicroMessenger/7.0.20.1781(0x6700143B) NetType/WIFI MiniProgramEnv/Windows WindowsWechat/WMPF WindowsWechat(0x63090b19)XWEB/11097',
+            'Origin' => 'https://mxsa-h5.mxbc.net'
+        ];
 
-        $this->line($response->getBody()->getContents());
+        while (true) {
+            $response = $client->post('https://mxsa.mxbc.net/api/v1/h5/marketing/secretword/confirm?type__1286=eqGxcW0QD%3Dk4BDBwe5GkDRmYpPhmAaoD', [
+                'headers' => $headers,
+                'json' => [
+                    "marketingId" => $marketingId,
+                    "round" => $round,
+                    "secretword" => $secretword,
+                    "sign" => md5('marketingId=' . $marketingId . '&round=' . $round . '&s=2&secretword=' . $secretword . '&stamp=' . $now . 'c274bac6493544b89d9c4f9d8d542b84'),
+                    "s" => 2,
+                    "stamp" => $now
+                ]
+            ]);
+
+            $this->line($response->getBody()->getContents());
+            usleep(800000);
+        }
     }
 }

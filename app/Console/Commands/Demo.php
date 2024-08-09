@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\Common\Printer\Format\Format58;
 use App\Common\Printer\XPrinter;
-use GuzzleHttp\Client;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 
@@ -26,81 +26,23 @@ class Demo extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(XPrinter $xPrinter)
     {
+        $format = new Format58('哈哈哈哈', [
+            [
+                'name' => '一二三四五六七八九十一二三四五六七八九十',
+                'number' => 999,
+                'price' => 1999.99
+            ],
+            [
+                'name' => '测试商品2',
+                'number' => 2,
+                'price' => 2
+            ]
+        ], '', 'http://weixin.qq.com/q/02XcDhZvKZe-210000M07h', '*');
 
-        $clock = strtotime('2024-08-06 14:16:00') . '000';
+        $this->info($format);
 
-        $finished = false;
-
-        while (!$finished) {
-            $now = $this->now();
-
-            $diff = $clock - $now;
-
-            if ($diff > 4000) {
-                $this->info(date('Y-m-d H:i:s', substr($now, 0, -3)) . "\t" . substr($now, -3) . "\t" . ($clock - $now) . "\t Sleep " . ceil($diff / 2000));
-                sleep(ceil($diff / 2000));
-            } elseif ($now + 150 > $clock) {
-                $this->info(date('Y-m-d H:i:s', substr($clock, 0, -3)) . "\t" . substr($clock, -3) . "\t" . ($clock - $now));
-                $this->info(date('Y-m-d H:i:s', substr($now, 0, -3)) . "\t" . substr($now, -3) . "\t" . ($clock - $now));
-                $this->confirmWord();
-                $finished = true;
-            } else {
-                usleep(50);
-            }
-        }
-
-        dd(microtime());
-    }
-
-    public function sign($params): string
-    {
-        $params['stamp'] = microtime();
-        return Str::random(16);
-    }
-
-    public function now()
-    {
-        $client = new Client();
-
-        return json_decode($client->get('http://api.m.taobao.com/rest/api3.do?api=mtop.common.getTimestamp')
-            ->getBody()
-            ->getContents(), true)['data']['t'];
-
-    }
-
-    private function confirmWord(): void
-    {
-        $client = new Client();
-
-        $now = time() . rand(100, 999);
-        $marketingId = '1816854086004391938';
-        $round = '15:00';
-        $secretword = '秋天的第一杯奶绿';
-
-        $headers = [
-            'Host' => 'mxsa.mxbc.net',
-            'Access-Token' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ3eF8xNDQ4OTY4Mzk3MDE0MjQ5NDc1IiwiaWF0IjoxNzIyMjI1NDE2fQ._jkqYXdh16zqslRQHcE0sP_ALkUt9KK-OyW-cB1RzboqATsCQRZTXUvuwdRfdBWm5FnJ2cy5XWPYZ4-qGVFmSg',
-            'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36 MicroMessenger/7.0.20.1781(0x6700143B) NetType/WIFI MiniProgramEnv/Windows WindowsWechat/WMPF WindowsWechat(0x63090b19)XWEB/11097',
-            'Origin' => 'https://mxsa-h5.mxbc.net'
-        ];
-
-        while (true) {
-            $response = $client->post('https://mxsa.mxbc.net/api/v1/h5/marketing/secretword/confirm?type__1286=eqGxcW0QD%3Dk4BDBwe5GkDRmYpPhmAaoD', [
-                'headers' => $headers,
-                'json' => [
-                    "marketingId" => $marketingId,
-                    "round" => $round,
-                    "secretword" => $secretword,
-                    "sign" => md5('marketingId=' . $marketingId . '&round=' . $round . '&s=2&secretword=' . $secretword . '&stamp=' . $now . 'c274bac6493544b89d9c4f9d8d542b84'),
-                    "s" => 2,
-                    "stamp" => $now
-                ]
-            ]);
-
-            $this->line($response->getBody()->getContents());
-            usleep(800000);
-        }
+        $xPrinter->print(sn:'74T9XNS9KEA3F4A', content: $format->toString());
     }
 }

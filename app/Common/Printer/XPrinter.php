@@ -5,6 +5,7 @@ namespace App\Common\Printer;
 use GuzzleHttp\Client;
 use App\Exceptions\PrinterException;
 use GuzzleHttp\Exception\GuzzleException;
+use Illuminate\Support\Facades\Log;
 
 /**
  * 鑫烨云打印机
@@ -108,11 +109,13 @@ class XPrinter
     /**
      * @throws GuzzleException|PrinterException
      */
-    public function postJson($path, $data = []): array
+    public function postJson($path, $data = []): array|string|null
     {
         $response = $this->getHttpClient()->request('POST', $this->parsePath($path), ['json' => array_merge($data, $this->defaultParams())]);
 
         $result = json_decode($response->getBody()->getContents(), true);
+
+        Log::debug('XPRINTER', $result);
 
         if ($result['code'] != 0) {
             throw new PrinterException($this->errorInfo[$result['code']], $result['code']);

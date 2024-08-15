@@ -79,11 +79,11 @@ Route::namespace('Store')->prefix('store')->group(function () {
         });
 
         Route::prefix('staff')->group(function () {
-            Route::get('list', 'StaffController@index');
+            Route::post('list', 'StaffController@index');
             Route::post('form', 'StaffController@form');
-            Route::get('detail', 'StaffController@detail');
+            Route::post('detail', 'StaffController@detail');
             Route::post('permission', 'StaffController@permission');
-            Route::post('destroy', 'StaffController@destroy');
+            Route::post('setStatus', 'StaffController@setStatus');
         });
 
         Route::prefix('job')->group(function () {

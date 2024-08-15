@@ -14,9 +14,14 @@ class StaffController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        return success(User::with('job')->where('store_id', $this->store_id)->paginate(getPerPage()));
+        $staffs = User::with('job')
+            ->where('store_id', $this->store_id)
+            ->where('status', $request->input('status', 1))
+            ->paginate(getPerPage());
+
+        return success($staffs);
     }
 
     /**
@@ -76,9 +81,11 @@ class StaffController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request): JsonResponse
+    public function setStatus(Request $request): JsonResponse
     {
-        User::where('store_id', $this->store_id)->where('id', $request->input('id'))->delete();
+        User::where('store_id', $this->store_id)
+            ->where('id', $request->input('id'))
+            ->update(['status' => $request->input('status', 0)]);
 
         return success();
     }

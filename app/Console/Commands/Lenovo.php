@@ -50,7 +50,7 @@ class Lenovo extends Command
                 $data = json_decode($response->getBody()->getContents(), true);
 
                 if ($data['result']['stockWithCdt']['salesNumber'] > 0) {
-                    $this->info(now()->toDateTimeString() . "\t" . $data['result']['stockWithCdt']['salesNumber']);
+                    $this->info(now()->toDateTimeString() . "\t" . $data['result']['name'] . "，库存：" . $data['result']['stockWithCdt']['salesNumber']);
                     if ($this->send_time + 60 < time()) {
                         DingTalk::send($data['result']['name'] . "，库存：" . $data['result']['stockWithCdt']['salesNumber']);
                         $this->send_time = time();

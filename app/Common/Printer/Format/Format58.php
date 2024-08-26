@@ -59,9 +59,12 @@ class Format58
         return $result . "<BR>";
     }
 
-    public function footer()
+    /**
+     * @return string
+     */
+    public function footer(): string
     {
-
+        return str_repeat('-', self::ROW_MAX_CHAR_LEN) . '<BR>' . implode('<BR>', $this->footer);
     }
 
     public function qrcode(): string

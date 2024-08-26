@@ -23,7 +23,7 @@
     "overtrue/easy-sms": "^2.4",
     "overtrue/flysystem-cos": "^5.1",
     "symfony/dom-crawler": "^7.0",
-    "w7corp/easywechat": "^6.7",
+    "w7corp/easywechat": "5.35.2",
     "wilon/php-number2chinese": "^1.0"
   },
   "require-dev": {
@@ -80,7 +80,8 @@
     "sort-packages": true,
     "allow-plugins": {
       "pestphp/pest-plugin": true,
-      "php-http/discovery": true
+      "php-http/discovery": true,
+      "easywechat-composer/easywechat-composer": true
     }
   },
   "minimum-stability": "stable",

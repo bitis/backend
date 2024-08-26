@@ -39,7 +39,10 @@ class Demo extends Command
                 'number' => 2,
                 'price' => 2
             ]
-        ], '', 'http://weixin.qq.com/q/02XcDhZvKZe-210000M07h', '*');
+        ], [
+            '一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十',
+            '一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十'
+        ], 'http://weixin.qq.com/q/02XcDhZvKZe-210000M07h', '*');
 
         $this->info($format);
 

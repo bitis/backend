@@ -12,9 +12,10 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-Route::get('verify/code', 'VerificationCodeController@get');
 
 include __DIR__ . '/store.php';
+
+Route::get('verify/code', 'VerificationCodeController@get');
 
 Route::prefix('common')->group(function () {
     Route::get('area', 'CommonController@area');
@@ -26,3 +27,4 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('upload', 'UploadController@form');
 });
 
+Route::any('wechat/official/{account}', "WechatController@official");

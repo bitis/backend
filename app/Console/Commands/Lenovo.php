@@ -32,10 +32,16 @@ class Lenovo extends Command
         $client = new Client();
 
         $choose = true;
+        $codes = [
+            1034686,
+//            1037657, // 500
+            1039472,
+            1039473
+        ];
         while (true) {
             try {
                 $choose = !$choose;
-                $code = [1034686, 1037657][(int)$choose];
+                $code = $codes[(int)$choose];
                 $response = $client->request('get', 'https://f.lenovo.com.cn/goods/new/detail/B00001?terminal=2&gcode=' . $code . '&roomId=', [
                     'headers' => [
                         'User-Agent' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1',

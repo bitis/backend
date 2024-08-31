@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\OfficialAccountConfig;
+use App\Models\WechatUser;
 use EasyWeChat\Factory;
 use EasyWeChat\Kernel\Messages\Text;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,8 +37,10 @@ class WechatController extends Controller
                     switch ($message['Event']) {
                         case 'subscribe':
                             $content = "感谢您关注！";
+                            WechatUser::updateOrCreate(['openid' => $FromUserName], ['subscribe' => 1]);
                             break;
                         case 'unsubscribe':
+                            WechatUser::where('openid', $FromUserName)->update(['subscribe' => 1]);
                             break;
                         case 'SCAN':
                             break;

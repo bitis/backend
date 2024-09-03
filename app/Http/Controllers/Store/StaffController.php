@@ -52,7 +52,7 @@ class StaffController extends Controller
      */
     public function detail(Request $request): JsonResponse
     {
-        return success(User::with('job', 'permissions')->find($request->input('id')));
+        return success(User::with('job')->find($request->input('id')));
     }
 
 

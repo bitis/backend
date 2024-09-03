@@ -87,7 +87,7 @@ Route::namespace('Store')->prefix('store')->group(function () {
         });
 
         Route::prefix('job')->group(function () {
-            Route::get('list', 'JobController@index');
+            Route::post('list', 'JobController@index');
             Route::post('form', 'JobController@form');
             Route::post('destroy', 'JobController@destroy');
         });

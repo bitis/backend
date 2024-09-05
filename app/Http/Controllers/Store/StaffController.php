@@ -37,7 +37,7 @@ class StaffController extends Controller
 
         if ($exits && $exits->id != $user->id) return fail('手机号已存在');
 
-        $user->fill($request->only(['name', 'avatar', 'mobile', 'password', 'status', 'job_id', 'remark']));
+        $user->fill($request->only(['name', 'avatar', 'mobile', 'password', 'status', 'job_id', 'status', 'remark']));
         $user->password = bcrypt($request->input('password', config('default.password')));
         $user->save();
 

@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -25,6 +24,8 @@ return new class extends Migration
             $table->string('contact_wechat')->nullable();
             $table->string('official_account_qrcode')->nullable()->comment('微信公众号二维码');
             $table->timestamp('expiration_date')->comment('到期时间');
+            $table->string('images')->nullable()->comment('门店图片');
+            $table->string('introduction')->nullable()->comment('门店简介');
             $table->softDeletes();
             $table->timestamps();
         });

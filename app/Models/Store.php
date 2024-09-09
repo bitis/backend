@@ -24,9 +24,15 @@ class Store extends Model
         'contact_wechat',
         'official_account_qrcode',
         'expiration_date',
+        'images',
+        'introduction'
     ];
 
     protected $hidden = [
         'deleted_at'
+    ];
+    
+    protected $casts = [
+        'images' => 'array'
     ];
 }

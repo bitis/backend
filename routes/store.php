@@ -16,6 +16,9 @@ Route::namespace('Store')->prefix('store')->group(function () {
 
         Route::post('upload', 'UploadController@form');
 
+        Route::get('detail', 'StoreController@detail');
+        Route::post('form', 'StoreController@form');
+
         Route::prefix('dashboard')->group(function () {
             Route::get('consume-data', 'DashboardController@consumeData');
         });

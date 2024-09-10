@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Store;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
 class StoreController extends Controller
 {
@@ -19,9 +17,7 @@ class StoreController extends Controller
      */
     public function detail(Request $request): JsonResponse
     {
-        $store = $request->user()->store;
-
-        return success($store);
+        return success($request->user()->store);
     }
 
 
@@ -33,26 +29,15 @@ class StoreController extends Controller
      */
     public function form(Request $request): JsonResponse
     {
-        $user = $request->user();
+        $store = $request->user()->store;
 
-        $password = $request->input('password');
-        $editPassword = $request->input('editPassword');
+        $store->fill($request->except([
+            'official_account_qrcode',
+            'expiration_date'
+        ]));
 
-        if (!empty($password) && !empty($editPassword)) {
-            if (!Hash::check($password, $user->password)) {
-                return fail('密码校验失败');
-            }
-
-            $user->password = bcrypt($editPassword);
-
-            $user->token = Str::random(32);
-        }
-
-        $user->fill($request->only(['name', 'mobile', 'push_id']));
-
-        $user->save();
+        $store->save();
 
         return success();
     }
-
 }

@@ -33,7 +33,7 @@ class Lenovo extends Command
 
         $choose = true;
         $codes = [
-            1034686,
+//            1034686,
 //            1037657, // 500
             1039472,
             1039473

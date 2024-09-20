@@ -2,7 +2,11 @@
 
 namespace App\Providers;
 
+use Alipay\EasySDK\Kernel\Factory as AlipayFactory;
+use Alipay\EasySDK\Kernel\Payment as AlipayPayment;
 use AlphaSnow\Flysystem\Aliyun\AliyunFactory;
+use EasyWeChat\Factory as WechatFactory;
+use EasyWeChat\Payment\Application as WechatPayment;
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Gate;
@@ -32,6 +36,15 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->singleton(EasySms::class, function ($app) {
             return new EasySms($app->config->get('sms'));
+        });
+
+        $this->app->singleton(AlipayPayment::class, function () {
+            AlipayFactory::setOptions(getAlipayConfig());
+            return AlipayFactory::payment();
+        });
+
+        $this->app->singleton(WechatPayment::class, function () {
+            return WechatFactory::payment(getWechatConfig());
         });
     }
 
@@ -68,6 +81,5 @@ class AppServiceProvider extends ServiceProvider
 
             return new JPushClient(...$options);
         });
-
     }
 }

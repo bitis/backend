@@ -23,6 +23,7 @@ class Store extends Model
         'contact_mobile',
         'contact_wechat',
         'official_account_qrcode',
+        'forever',
         'expiration_date',
         'images',
         'introduction'
@@ -31,7 +32,7 @@ class Store extends Model
     protected $hidden = [
         'deleted_at'
     ];
-    
+
     protected $casts = [
         'images' => 'array'
     ];

@@ -3,6 +3,12 @@
 use Illuminate\Support\Facades\Route;
 
 Route::namespace('Store')->prefix('store')->group(function () {
+
+    Route::prefix('price')->group(function () {
+        Route::any('alipayNotify', 'PriceController@alipayNotify')->name('order.price.alipay_notify');
+        Route::any('wechatNotify', 'PriceController@wechatNotify')->name('order.price.wechat_notify');
+    });
+
     Route::prefix('auth')->group(function () {
         Route::post('login', 'AccountController@login');
         Route::post('register', 'AccountController@register');

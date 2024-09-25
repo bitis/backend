@@ -35,8 +35,8 @@ class Lenovo extends Command
         $codes = [
 //            1034686,
 //            1037657, // 500
-            1039472,
-            1039473
+            1039472, // 100
+//            1039473
         ];
         while (true) {
             try {
@@ -66,7 +66,7 @@ class Lenovo extends Command
                 $this->error(now()->toDateTimeString() . "\t" . $exception->getMessage());
             }
 
-            sleep(20);
+            sleep(5);
         }
     }
 }

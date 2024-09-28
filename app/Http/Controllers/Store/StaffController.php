@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Store;
 
 use App\Http\Controllers\Controller;
+use App\Models\OfficialAccountConfig;
 use App\Models\Product;
 use App\Models\User;
 use App\Models\UserPermission;
+use EasyWeChat\Factory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -79,7 +81,10 @@ class StaffController extends Controller
 
 
     /**
-     * Remove the specified resource from storage.
+     * 设置状态
+     *
+     * @param Request $request
+     * @return JsonResponse
      */
     public function setStatus(Request $request): JsonResponse
     {
@@ -88,6 +93,26 @@ class StaffController extends Controller
             ->update(['status' => $request->input('status', 0)]);
 
         return success();
+    }
+
+    /**
+     * 微信绑定二维码
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function qrcode(Request $request): JsonResponse
+    {
+        $config = OfficialAccountConfig::find($this->store()->official_account_id)->toArray();
+        $app = Factory::officialAccount($config);
+        $result = $app->qrcode->temporary(json_encode([
+            'k' => 'staff-bind',
+            'v' => $request->input('id')
+        ]), 2592000);
+
+        return success([
+            'url' => $app->qrcode->url($result["ticket"])
+        ]);
     }
 
 }

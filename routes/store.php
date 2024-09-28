@@ -94,6 +94,7 @@ Route::namespace('Store')->prefix('store')->group(function () {
             Route::post('detail', 'StaffController@detail');
             Route::post('permission', 'StaffController@permission');
             Route::post('setStatus', 'StaffController@setStatus');
+            Route::get('qrcode', 'StaffController@qrcode');
         });
 
         Route::prefix('job')->group(function () {

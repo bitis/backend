@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Member;
 use App\Models\OfficialAccountConfig;
+use App\Models\User;
 use App\Models\WechatUser;
 use EasyWeChat\Factory;
 use EasyWeChat\Kernel\Messages\Text;
@@ -72,6 +73,12 @@ class WechatController extends Controller
         switch ($message['k']) {
             case 'member-bind':
                 Member::where('id', $message['v'])->update([
+                    'openid' => $user['openid'],
+                    'unionid' => empty($user['unionid']) ? null : $user['unionid'],
+                ]);
+                break;
+            case 'staff-bind':
+                User::where('id', $message['v'])->update([
                     'openid' => $user['openid'],
                     'unionid' => empty($user['unionid']) ? null : $user['unionid'],
                 ]);

@@ -25,8 +25,8 @@ class MemberController extends Controller
 
         $members = Member::with('level')
             ->when($words, function ($query, $words) {
-                $query->where('mobile', 'like', "%{$words}%")
-                    ->orWhere('name', 'like', "%{$words}%");
+                $query->where('mobile', 'like', "%$words%")
+                    ->orWhere('name', 'like', "%$words%");
             })
             ->paginate(getPerPage());
 
@@ -77,6 +77,12 @@ class MemberController extends Controller
         return success($member);
     }
 
+    /**
+     * 上传头像
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function avatar(Request $request): JsonResponse
     {
         $member = Member::where('store_id', $this->store_id)->find($request->input('id'));

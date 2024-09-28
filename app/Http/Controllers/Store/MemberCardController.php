@@ -35,6 +35,13 @@ class MemberCardController extends Controller
         return success($cards);
     }
 
+    /**
+     * 开卡
+     *
+     * @param Request $request
+     * @return JsonResponse
+     * @throws \Exception
+     */
     public function open(Request $request): JsonResponse
     {
         $cardId = $request->input('card_id');

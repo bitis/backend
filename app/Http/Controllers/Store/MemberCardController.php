@@ -29,7 +29,8 @@ class MemberCardController extends Controller
     {
         $cards = MemberCard::with('products', 'products.product')
             ->where('member_id', $request->input('member_id'))
-            ->where('status', $request->input('status', 1))
+            ->where('status', $request->input('status', MemberCard::STATUS_ENABLE))
+            ->where('valid', 1)
             ->paginate(getPerPage());
 
         return success($cards);

@@ -23,6 +23,7 @@ class MemberCard extends Model
         'price',
         'valid_type',
         'valid_time',
+        'valid',
         'remark',
         'commission_config',
         'status'

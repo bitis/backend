@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('card_id')->comment('会员卡ID');
             $table->string('card_name')->nullable()->comment('会员卡名称');
             $table->decimal('price', 12)->comment('售价');
+            $table->boolean('valid')->default(1)->comment('1 有效 0 过期');
             $table->integer('valid_type')->comment('1 永久 2 限时');
             $table->timestamp('valid_time')->nullable()->comment('截止日期');
             $table->string('remark')->nullable();

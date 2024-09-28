@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\BalanceTransaction;
 use App\Models\CloudFile;
 use App\Models\Member;
+use App\Models\OfficialAccountConfig;
+use EasyWeChat\Factory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -111,6 +113,26 @@ class MemberController extends Controller
         }
 
         return fail();
+    }
+
+    /**
+     * 微信绑定二维码
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function qrcode(Request $request): JsonResponse
+    {
+        $config = OfficialAccountConfig::find($this->store()->official_account_id);
+        $app = Factory::officialAccount($config);
+        $result = $app->qrcode->temporary(json_encode([
+            'k' => 'bind_user',
+            'v' => $request->input('id')
+        ]), 2592000);
+
+        return success([
+            'url' => $app->qrcode->url($result["ticket"])
+        ]);
     }
 
     /**

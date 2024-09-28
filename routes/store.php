@@ -36,6 +36,7 @@ Route::namespace('Store')->prefix('store')->group(function () {
             Route::post('avatar', 'MemberController@avatar');
             Route::post('destroy', 'MemberController@destroy');
             Route::get('transaction', 'MemberController@transaction');
+            Route::get('qrcode', 'MemberController@qrcode');
 
             Route::prefix('level')->group(function () {
                 Route::post('list', 'LevelController@index');

@@ -44,7 +44,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton(WechatPayment::class, function () {
-            return WechatFactory::payment(getWechatConfig());
+            return WechatFactory::payment(getWechatPayConfig());
         });
     }
 

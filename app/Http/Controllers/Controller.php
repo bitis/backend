@@ -23,6 +23,10 @@ class Controller extends BaseController
         $this->user = request()->user();
         $this->store_id = $this->user?->store_id;
         $this->operator_id = $this->user?->id;
+    }
 
+    protected function store()
+    {
+        return $this->user?->store;
     }
 }

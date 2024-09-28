@@ -61,6 +61,6 @@ function getAlipayConfig(): AlipayConfig
     return $options;
 }
 
-function getWechatConfig() {
+function getWechatPayConfig() {
     return config('payment.wechat');
 }

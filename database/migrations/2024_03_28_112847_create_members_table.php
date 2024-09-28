@@ -27,7 +27,8 @@ return new class extends Migration {
             $table->integer('total_consumption_times')->default(0)->unsigned()->comment('总消费次数');
             $table->timestamp('first_consumption_at')->nullable()->comment('首次消费时间');
             $table->timestamp('last_consumption_at')->nullable()->comment('最后消费时间');
-            $table->string('openid')->nullable();
+            $table->string('openid', 28)->nullable();
+            $table->string('unionid', 28)->nullable();
             $table->string('remark')->nullable();
             $table->softDeletes();
             $table->timestamps();

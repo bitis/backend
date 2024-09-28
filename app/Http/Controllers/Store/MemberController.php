@@ -126,7 +126,7 @@ class MemberController extends Controller
         $config = OfficialAccountConfig::find($this->store()->official_account_id)->toArray();
         $app = Factory::officialAccount($config);
         $result = $app->qrcode->temporary(json_encode([
-            'k' => 'bind_user',
+            'k' => 'member-bind',
             'v' => $request->input('id')
         ]), 2592000);
 

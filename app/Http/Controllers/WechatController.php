@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Member;
 use App\Models\OfficialAccountConfig;
 use App\Models\WechatUser;
 use EasyWeChat\Factory;
@@ -29,27 +30,31 @@ class WechatController extends Controller
         $app->server->push(function ($message) use ($app, $account) {
             $FromUserName = $message["FromUserName"];
 
-            $FromUser = $app->user->get($FromUserName);
             $content = "";
             switch ($message['MsgType']) {
                 case 'event':
-                    $eventKey = $message['EventKey'];
+                    $payload = '';
+                    $user = $app->user->get($FromUserName);
                     switch ($message['Event']) {
                         case 'subscribe':
                             $content = "感谢您关注！";
-                            WechatUser::updateOrCreate(['openid' => $FromUserName], ['subscribe' => 1]);
+                            WechatUser::updateOrCreate(['openid' => $FromUserName], ['subscribe' => 1, 'unionid' => $user['unionid']]);
+                            $payload = $message['EventKey'] ? substr($message['EventKey'], '8') : ''; // 移除前缀
                             break;
                         case 'unsubscribe':
                             WechatUser::where('openid', $FromUserName)->update(['subscribe' => 1]);
                             break;
                         case 'SCAN':
+                            $payload = $message['EventKey'];
                             break;
-                        default:
-                            break;
+                    }
+
+                    if ($payload) {
+                        $this->handle($user, json_decode($payload, true));
                     }
                     break;
                 case 'text':
-                    if ($message['Content'] == 'openid') $content = "openid:" . $message['FromUserName'] . "\n unionid:" . isset($FromUser['unionid']) ? $FromUser['unionid'] : '';
+                    if ($message['Content'] == 'openid') $content = "openid:" . $FromUserName;
                     break;
                 default:
                     break;
@@ -60,5 +65,17 @@ class WechatController extends Controller
         });
 
         return $app->server->serve();
+    }
+
+    private function handle($user, $message): void
+    {
+        switch ($message['k']) {
+            case 'member-bind':
+                Member::where('id', $message['v'])->update([
+                    'openid' => $user['openid'],
+                    'unionid' => empty($user['unionid']) ? null : $user['unionid'],
+                ]);
+                break;
+        }
     }
 }

@@ -25,6 +25,8 @@ return new class extends Migration {
             $table->string('official_account_qrcode')->nullable()->comment('微信公众号二维码');
             $table->boolean('forever')->default(0)->comment('是否为永久');
             $table->timestamp('expiration_date')->comment('到期时间');
+            $table->boolean('blocked')->default(0)->comment('是否被禁用');
+            $table->string('block_reason')->nullable()->comment('禁用原因');
             $table->string('images')->nullable()->comment('门店图片');
             $table->string('introduction')->nullable()->comment('门店简介');
             $table->softDeletes();

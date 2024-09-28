@@ -25,6 +25,8 @@ class Store extends Model
         'official_account_qrcode',
         'forever',
         'expiration_date',
+        'blocked',
+        'block_reason',
         'images',
         'introduction'
     ];

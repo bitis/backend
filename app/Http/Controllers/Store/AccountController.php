@@ -79,6 +79,16 @@ class AccountController extends Controller
             return fail('账号不存在');
         }
 
+        $store = $user->store;
+
+        if ($store->expiration_date < now()) {
+            return fail('账号已过期');
+        }
+
+        if ($store->blocked) {
+            return fail('账号被禁用：' . $store->block_reason);
+        }
+
         $token = $user->createToken($request->header('User-Agent', 'Unknown'));
 
         $user->token = $token->plainTextToken;

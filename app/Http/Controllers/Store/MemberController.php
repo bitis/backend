@@ -123,7 +123,7 @@ class MemberController extends Controller
      */
     public function qrcode(Request $request): JsonResponse
     {
-        $config = OfficialAccountConfig::find($this->store()->official_account_id);
+        $config = OfficialAccountConfig::find($this->store()->official_account_id)->toArray();
         $app = Factory::officialAccount($config);
         $result = $app->qrcode->temporary(json_encode([
             'k' => 'bind_user',

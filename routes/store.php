@@ -134,6 +134,17 @@ Route::namespace('Store')->prefix('store')->group(function () {
             Route::post('getSignatures', 'SmsController@getSignatures');
         });
 
+        /**
+         * 洗衣行业
+         */
+        Route::prefix('clothes')->group(function () {
+            Route::prefix('param')->group(function () {
+                Route::post('list', 'ClothesParamController@index');
+                Route::post('form', 'ClothesParamController@form');
+                Route::post('destroy', 'ClothesParamController@destroy');
+            });
+        });
+
         Route::prefix('setting')->group(function () {
             Route::prefix('printer')->group(function () {
                 Route::post('list', 'PrinterController@index');

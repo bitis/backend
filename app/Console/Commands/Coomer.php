@@ -30,8 +30,8 @@ class Coomer extends Command
     private Client $client;
 
     private array $proxy = [
-        'http' => 'http://192.168.110.217:6666',
-        'https' => 'http://192.168.110.217:6666',
+        'http' => 'http://192.168.110.217:7777',
+        'https' => 'http://192.168.110.217:7777',
     ];
 
     /**
@@ -47,7 +47,7 @@ class Coomer extends Command
                 'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.101.76 Safari/537.36']
         ]);
 
-        $author = 'lanzii';
+        $author = 'hongkongdoll';
 
 //        $this->list($author);
 

@@ -144,10 +144,6 @@ class XiaomiSports extends Command
 
     private function getLastSyncDataTime()
     {
-        $response = $this->client->get('http://api.m.taobao.com/rest/api3.do?api=mtop.common.getTimestamp', [
-            'headers' => $this->headers
-        ]);
-
-        return json_decode($response->getBody()->getContents(), true)['data']['t'];
+        return time() * 1000 + rand(0, 1000);
     }
 }

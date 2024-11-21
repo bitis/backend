@@ -1,8 +1,9 @@
 <?php
 
+use Alipay\EasySDK\Kernel\Config as AlipayConfig;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Alipay\EasySDK\Kernel\Config as AlipayConfig;
+
 function fail($msg = 'FAIL', $code = -1): JsonResponse
 {
     return response()->json([
@@ -21,6 +22,8 @@ function success($data = null): JsonResponse
             'data' => [
                 'list' => $data->items(),
                 'total' => $data->total(),
+                'page' => $data->currentPage(),
+                'perPage' => $data->perPage(),
             ]
         ]);
     }
@@ -61,6 +64,7 @@ function getAlipayConfig(): AlipayConfig
     return $options;
 }
 
-function getWechatPayConfig() {
+function getWechatPayConfig()
+{
     return config('payment.wechat');
 }

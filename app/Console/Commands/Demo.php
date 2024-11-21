@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Common\Printer\Format\Format58;
 use App\Common\Printer\XPrinter;
+use GuzzleHttp\Client;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 
@@ -23,29 +24,26 @@ class Demo extends Command
      */
     protected $description = 'Command description';
 
+    protected Client $client;
+
     /**
      * Execute the console command.
      */
     public function handle(XPrinter $xPrinter)
     {
-        $format = new Format58('哈哈哈哈', [
-            [
-                'name' => '一二三四五六七八九十一二三四五六七八九十',
-                'number' => 999,
-                'price' => 1999.99
-            ],
-            [
-                'name' => '测试商品2',
-                'number' => 2,
-                'price' => 2
-            ]
-        ], [
-            '一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十',
-            '一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十'
-        ], 'http://weixin.qq.com/q/02XcDhZvKZe-210000M07h', '*');
+        $this->client = new Client();
 
-        $this->info($format);
+        $this->time();
+    }
 
-        $xPrinter->print(sn:'74T9XNS9KEA3F4A', content: $format->toString());
+    private function time()
+    {
+        $response = $this->client->get('https://ldp.creditcard.ecitic.com/citiccard/lottery-gateway-pay/get-server-time.do');
+
+        $t = json_decode($response->getBody()->getContents(), true)['resultData']['timeMillis'];
+
+        $this->info(date('Y-m-d H:i:s', $t / 1000) . ' ' . $t % 1000);
+
+        return $t;
     }
 }

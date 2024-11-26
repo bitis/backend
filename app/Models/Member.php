@@ -28,7 +28,9 @@ class Member extends Model
         'total_consume_times',
         'first_consume_at',
         'last_consume_at',
-        'openid'
+        'openid',
+        'unionid',
+        'remark'
     ];
 
     protected $hidden = [

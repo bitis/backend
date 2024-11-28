@@ -18,9 +18,10 @@ class StaffController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
+        $status = $request->input('status');
         $staffs = User::with('job')
             ->where('store_id', $this->store_id)
-            ->where('status', $request->input('status', 1))
+            ->when(strlen($status), fn($query) => $query->where('status', $status))
             ->paginate(getPerPage());
 
         return success($staffs);

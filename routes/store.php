@@ -100,6 +100,7 @@ Route::namespace('Store')->prefix('store')->group(function () {
         Route::prefix('job')->group(function () {
             Route::post('list', 'JobController@index');
             Route::post('form', 'JobController@form');
+            Route::post('detail', 'JobController@detail');
             Route::post('destroy', 'JobController@destroy');
         });
 

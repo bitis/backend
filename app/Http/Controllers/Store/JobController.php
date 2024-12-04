@@ -32,6 +32,15 @@ class JobController extends Controller
         return success();
     }
 
+    public function detail(Request $request): JsonResponse
+    {
+        $job = Job::where('store_id', $this->store_id)->find($request->input('id'));
+
+        if (empty($job)) return fail();
+
+        return success($job);
+    }
+
 
     /**
      * Remove the specified resource from storage.

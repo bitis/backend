@@ -31,7 +31,7 @@ class Hebao extends Command
     {
         $this->client = new Client();
 
-        $timer = strtotime('2024-12-04 10:42:00');
+        $timer = strtotime('2024-12-04 15:00:00');
 
         $this->getSessionStatus();
 

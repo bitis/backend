@@ -7,6 +7,7 @@ use App\Common\Printer\XPrinter;
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
+use Topsdk\Topapi\TopApiClient;
 
 class Demo extends Command
 {
@@ -31,9 +32,23 @@ class Demo extends Command
      */
     public function handle(XPrinter $xPrinter)
     {
-        $this->client = new Client();
+        $client = new TopApiClient("<your-appkey>","<your-appsecret>","<top-gateway-url>");
+        $ability = new Ability407($client);
 
-        $this->time();
+// create domain
+
+// create request
+        $request = new TaobaoTbkScTpwdConvertRequest();
+        $request->setPasswordContent("￥2k12308DjviP￥");
+        $request->setAdzoneId(12312312);
+        $request->setDx("1");
+        $request->setSiteId(1);
+        $request->setUcrowdId(1);
+        $request->setRelationId("123");
+
+        $response = $ability->taobaoTbkScTpwdConvert($request,"<user session>");
+        var_dump($response);
+
     }
 
     private function time()

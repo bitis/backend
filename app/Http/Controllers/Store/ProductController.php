@@ -91,7 +91,7 @@ class ProductController extends Controller
 
     public function detail(Request $request): JsonResponse
     {
-        $product = Product::with(['category: id,name'])
+        $product = Product::with(['category:id,name'])
             ->find($request->input('id'))
             ->toArray();
 

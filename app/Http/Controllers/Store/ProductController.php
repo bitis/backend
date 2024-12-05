@@ -95,9 +95,7 @@ class ProductController extends Controller
             ->find($request->input('id'))
             ->toArray();
 
-//        if ($product['content']) {
-//            $product['content'] = Storage::get($product['content']);
-//        }
+        $product['content'] = ProductContent::where('product_id', $product['id'])->first()?->content;
 
         return success($product);
     }

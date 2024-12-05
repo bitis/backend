@@ -4,13 +4,11 @@ namespace App\Http\Controllers\Store;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
-use App\Models\ProductContent;
 use App\Models\ProductItem;
 use App\Models\ProductSpec;
 use App\Models\Unit;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
@@ -61,65 +59,42 @@ class ProductController extends Controller
             }
         }
 
+        if ($request->input('multi_spec')) {
+            $newSpecs = [];
+            $_items = $request->input('items');
+            ProductSpec::where('product_id', $product->id)->delete();
+            $itemIds = ProductItem::where('product_id', $product->id)->pluck('id')->toArray();
+            $deleteItemIds = array_diff($itemIds, array_column($_items, 'id'));
 
-//        if ($request->input('images')) {
-//            $product->images()->delete();
-//            $images = array_map(fn ($path) => ['path' => $path], $request->input('images'));
-//            $product->images()->createMany($images);
-//        }
+            if ($deleteItemIds) ProductItem::destroy($deleteItemIds);
 
-        /**
-         * if ($request->input('multi_spec')) {
-         * $specs = $request->input('specs');
-         * $existSpecs = ProductSpec::where('product_id', $product->id)->get();
-         *
-         * $specNames = array_column($specs, 'name');
-         * $existSpecNames = $existSpecs->pluck('name')->toArray();
-         *
-         * foreach ($existSpecs as $existSpec) {
-         * if (!in_array($existSpec->name, $specNames)) {
-         * $existSpec->delete();
-         * }
-         * }
-         *
-         *
-         * $newSpecs = [];
-         * foreach ($specNames as $specName) {
-         * if ($specName && !in_array($specName, $existSpecNames)) {
-         * $newSpecs[] = ['name' => $specName];
-         * }
-         * }
-         *
-         *
-         * foreach ($specs as $spec) {
-         * $newSpecs[] = array_merge($spec, ['product_id' => $product->id]);
-         * }
-         * if ($newSpecs) $product->specs()->createMany($newSpecs);
-         *
-         * foreach ($request->input('items') as $item) {
-         *
-         * $productItem = ProductItem::create(array_merge($item, ['product_id' => $product->id]));
-         *
-         * foreach ($item['specs'] as $spec) {
-         * $newSpecs[] = array_merge($spec, [
-         * 'product_id' => $product->id,
-         * 'product_item_id' => $productItem->id
-         * ]);
-         * }
-         * }
-         * } else {
-         * ProductItem::updateOrCreate([
-         * 'product_id' => $product->id,
-         * ], $request->only(['price', 'original_price', 'member_price', 'stock', 'bar_code', 'duration']));
-         * }
-         */
+            foreach ($_items as $item) {
+                $specs = $item['specs']; // 规格KV
+                if ($item['id']) {
+                    $productItem = ProductItem::find($item['id']);
+                    $productItem->update(array_merge($item, ['product_id' => $product->id]));
+                } else {
+                    $productItem = ProductItem::create(array_merge($item, ['product_id' => $product->id]));
+                }
+
+                foreach ($specs as $spec) {
+                    $newSpecs[] = array_merge($spec, ['product_id' => $product->id, 'product_item_id' => $productItem->id]);
+                }
+            }
+
+            if ($newSpecs) $product->specs()->createMany($newSpecs);
+        } else {
+            ProductItem::updateOrCreate([
+                'product_id' => $product->id,
+            ], $request->only(['price', 'original_price', 'member_price', 'stock', 'bar_code', 'duration']));
+        }
 
         return success($product);
     }
 
     public function detail(Request $request): JsonResponse
     {
-        $product = Product::with(['category:id,name'])
+        $product = Product::with(['category: id,name'])
             ->find($request->input('id'))
             ->toArray();
 

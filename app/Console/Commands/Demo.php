@@ -2,11 +2,9 @@
 
 namespace App\Console\Commands;
 
-use App\Common\Printer\Format\Format58;
 use App\Common\Printer\XPrinter;
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
-use Illuminate\Support\Str;
 use Topsdk\Topapi\TopApiClient;
 
 class Demo extends Command

@@ -4,12 +4,12 @@ namespace App\Http\Controllers\Store;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\ProductContent;
 use App\Models\ProductItem;
 use App\Models\ProductSpec;
 use App\Models\Unit;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -44,14 +44,11 @@ class ProductController extends Controller
             ->findOr($request->input('id'), fn() => new Product(['store_id' => $this->store_id]));
 
         $product->fill($request->all());
+        $product->save();
 
         if ($request->input('content')) {
-            $path = '/uploads/' . date('Ymd') . '/' . $product->id . '.html';
-            Storage::put($path, $request->input('content'));
-            $product->content = $path;
+            ProductContent::updateOrCreate(['product_id' => $product->id], ['content' => $request->input('content')]);
         }
-
-        $product->save();
 
         if ($unit = $request->input('unit')) {
             if (Unit::whereIn('store_id', [0, $this->store_id])->where('name', $unit)->doesntExist()) {

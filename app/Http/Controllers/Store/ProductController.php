@@ -91,11 +91,28 @@ class ProductController extends Controller
 
     public function detail(Request $request): JsonResponse
     {
-        $product = Product::with(['category: id,name'])
+        $product = Product::with(['category:id,name', 'items'])
             ->find($request->input('id'))
             ->toArray();
 
         $product['content'] = ProductContent::where('product_id', $product['id'])->first()?->content;
+
+        $productSpecs = ProductSpec::where('product_id', $product['id'])->get()->toArray();
+
+        $_specs = [];
+        $specs = [];
+        foreach ($productSpecs as $spec) {
+            $_specs[$spec['name']][] = $spec['value'];
+        }
+
+        foreach ($_specs as $_name => $_spec) {
+            $specs[] = [
+                'name' => $_name,
+                'values' => $_spec
+            ];
+        }
+
+        $product['specs'] = $specs;
 
         return success($product);
     }

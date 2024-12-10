@@ -24,6 +24,7 @@ return new class extends Migration
             $table->decimal('bonus', 12)->default(0.00)->comment('赠送金额 （储值卡）');
             $table->integer('level_id')->nullable()->comment('会员等级');
             $table->unsignedInteger('sales_count')->default(0)->comment('销量');
+            $table->unsignedInteger('product_count')->default(0)->comment('商品总次数');
             $table->softDeletes();
             $table->timestamps();
         });

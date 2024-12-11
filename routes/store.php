@@ -22,11 +22,11 @@ Route::namespace('Store')->prefix('store')->group(function () {
 
         Route::post('upload', 'UploadController@form');
 
-        Route::get('detail', 'StoreController@detail');
+        Route::post('detail', 'StoreController@detail');
         Route::post('form', 'StoreController@form');
 
         Route::prefix('dashboard')->group(function () {
-            Route::get('consume-data', 'DashboardController@consumeData');
+            Route::post('consume-data', 'DashboardController@consumeData');
         });
 
         Route::prefix('member')->group(function () {
@@ -35,8 +35,8 @@ Route::namespace('Store')->prefix('store')->group(function () {
             Route::post('detail', 'MemberController@detail');
             Route::post('avatar', 'MemberController@avatar');
             Route::post('destroy', 'MemberController@destroy');
-            Route::get('transaction', 'MemberController@transaction');
-            Route::get('qrcode', 'MemberController@qrcode');
+            Route::post('transaction', 'MemberController@transaction');
+            Route::post('qrcode', 'MemberController@qrcode');
 
             Route::prefix('level')->group(function () {
                 Route::post('list', 'LevelController@index');
@@ -70,7 +70,7 @@ Route::namespace('Store')->prefix('store')->group(function () {
             });
 
             Route::prefix('unit')->group(function () {
-                Route::get('list', 'UnitController@index');
+                Route::post('list', 'UnitController@index');
                 Route::post('form', 'UnitController@form');
                 Route::post('destroy', 'UnitController@destroy');
             });

@@ -32,7 +32,7 @@ class CardController extends Controller
     {
         $card = Card::findOr($request->input('id'), fn() => new Card(['store_id' => $this->store_id]));
 
-        $card->fill($request->only(['store_id', 'name', 'type', 'price', 'valid_type', 'valid_time', 'remark', 'bonus']));
+        $card->fill($request->only(['store_id', 'name', 'type', 'price', 'valid_type', 'valid_time', 'remark']));
 
         $card->save();
 
@@ -45,8 +45,8 @@ class CardController extends Controller
 
         foreach ($services as $service) {
             $card_products[] = array_merge(
-                Arr::only($service, ['product_id', 'number']),
-                ['card_id' => $card->id, 'type' => CardProduct::TYPE_SERVICE, 'name' => $service['name']]
+                Arr::only($service, ['product_id', 'number', 'name']),
+                ['card_id' => $card->id, 'type' => CardProduct::TYPE_SERVICE]
             );
         }
 
@@ -71,8 +71,10 @@ class CardController extends Controller
     {
         $card = Card::with(['services', 'services.product'])->find($request->input('id'))->toArray();
 
-        foreach ($card['products'] as $product) {
-            $product['type'] == CardProduct::TYPE_SERVICE ? $card['services'][] = $product : $card['gifts'][] = $product;
+        foreach ($card['services'] as $product) {
+            if ($product['type'] == CardProduct::TYPE_GIFT) {
+                $card['gifts'][] = $product;
+            }
         }
 
         return success($card);

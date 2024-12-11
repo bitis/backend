@@ -15,7 +15,7 @@ class UnitController extends Controller
      */
     public function index(): JsonResponse
     {
-        return success(Unit::whereIn('store_id', [0, $this->store_id])->get());
+        return success(Unit::whereIn('store_id', [0, $this->store_id])->orderBy('id', 'desc')->get());
     }
 
     public function form(Request $request): JsonResponse

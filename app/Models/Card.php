@@ -23,7 +23,8 @@ class Card extends Model
         'commission_config',
         'gift_money',
         'level_id',
-        'sales_count'
+        'sales_count',
+        'product_count'
     ];
 
     const VALID_FOREVER = 1;
@@ -35,6 +36,6 @@ class Card extends Model
 
     public function services(): HasMany
     {
-        return $this->hasMany(CardProduct::class);
+        return $this->hasMany(CardProduct::class, 'card_id', 'id');
     }
 }

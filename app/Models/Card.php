@@ -36,6 +36,6 @@ class Card extends Model
 
     public function services(): HasMany
     {
-        return $this->hasMany(CardProduct::class);
+        return $this->hasMany(CardProduct::class, 'card_id', 'id');
     }
 }

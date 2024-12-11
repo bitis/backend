@@ -72,7 +72,9 @@ class CardController extends Controller
         $card = Card::with(['services', 'services.product'])->find($request->input('id'))->toArray();
 
         foreach ($card['services'] as $product) {
-            $product['type'] == CardProduct::TYPE_SERVICE ? $card['services'][] = $product : $card['gifts'][] = $product;
+            if ($product['type'] == CardProduct::TYPE_GIFT) {
+                $card['gifts'][] = $product;
+            }
         }
 
         return success($card);

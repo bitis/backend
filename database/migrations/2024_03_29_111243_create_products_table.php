@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('name')->comment('商品名称');
             $table->string('unit', 20)->comment('商品单位');
             $table->string('subtitle')->nullable()->comment('副标题');
-            $table->string('images')->nullable()->comment('图片');
+            $table->string('images', 500)->nullable()->comment('图片');
             $table->string('content')->nullable()->comment('详情文件地址');
             $table->string('bar_code')->nullable()->comment('条码');
             $table->decimal('price', 12)->default(0.00)->comment('价格');

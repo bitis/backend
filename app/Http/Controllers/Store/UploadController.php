@@ -30,7 +30,7 @@ class UploadController extends Controller
                 'user_id' => $request->user()->id,
             ]);
 
-            return success($fileName);
+            return success(Storage::disk('qcloud')->url($fileName));
         }
 
         return fail('上传失败');

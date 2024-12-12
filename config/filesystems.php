@@ -83,7 +83,7 @@ return [
             'use_https' => true,
 
             // 可选，自定义域名
-//            'domain' => 'emample-12340000.cos.test.com',
+            'domain' => 'xinglan-1319638065.cos.ap-shanghai.myqcloud.com',
 
             // 可选，使用 CDN 域名时指定生成的 URL host
 //            'cdn' => 'https://youcdn.domain.com/',

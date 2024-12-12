@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', fn() => view('welcome'));
+Route::get('/', fn() => view('index'));
 
 Route::prefix('agreement')->group(function () {
     Route::get('privacy', fn() => view('agreement.privacy'));

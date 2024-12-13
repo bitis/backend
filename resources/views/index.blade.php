@@ -58,7 +58,7 @@
                 <div class="row add-bg align-items-center">
                     <div class="col-lg-6 col-md-6">
                         <div class="footer-bottom-content">
-                            <p>© 2024 思睿网. <a style="color: #ffffff" href="https://beian.miit.gov.cn">浙ICP备2024139982号</a></p>
+                            <p>© {{ date('Y') }} 思睿网. <a style="color: #ffffff" href="https://beian.miit.gov.cn">浙ICP备2024139982号</a></p>
                         </div>
                     </div>
 {{--                    <div class="col-lg-6 col-md-6">--}}

@@ -29,7 +29,7 @@
                         <p>提升管理效率、 提高客户粘性、 降低获客成本、 提升复购和营收</p>
                     </div>
                     <div class="hero-button style-one">
-                        <a href="">
+                        <a href="/web">
                             立即使用<i class="bi bi-arrow-right"></i>
                         </a>
                         <a class="button-two" href="">

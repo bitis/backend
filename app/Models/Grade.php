@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Level extends Model
+class Grade extends Model
 {
     use HasFactory, SoftDeletes, DefaultDatetimeFormat;
 
@@ -19,12 +19,12 @@ class Level extends Model
 
     public function linkProductIds(): HasMany
     {
-        return $this->hasMany(LevelProduct::class)->where('type', ProductType::Product->value);
+        return $this->hasMany(GradeProduct::class)->where('type', ProductType::Product->value);
     }
 
     public function linkServiceIds(): HasMany
     {
-        return $this->hasMany(LevelProduct::class)->where('type', ProductType::Product->value);
+        return $this->hasMany(GradeProduct::class)->where('type', ProductType::Product->value);
     }
 
     public function members(): HasMany

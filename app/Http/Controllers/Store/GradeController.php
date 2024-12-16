@@ -4,12 +4,12 @@ namespace App\Http\Controllers\Store;
 
 use App\Http\Controllers\Controller;
 use App\Models\Enumerations\ProductType;
-use App\Models\Level;
-use App\Models\LevelProduct;
+use App\Models\Grade;
+use App\Models\GradeProduct;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class LevelController extends Controller
+class GradeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,16 +20,16 @@ class LevelController extends Controller
             return success(
                 array_merge(
                     [['id' => 0, 'name' => '暂无等级']],
-                    Level::where('store_id', $this->store_id)->select(['id', 'name'])->get()->toArray()
+                    Grade::where('store_id', $this->store_id)->select(['id', 'name'])->get()->toArray()
                 )
             );
         }
-        return success(Level::withCount('members')->where('store_id', $this->store_id)->get());
+        return success(Grade::withCount('members')->where('store_id', $this->store_id)->get());
     }
 
     public function form(Request $request): JsonResponse
     {
-        $level = Level::findOr($request->input('id'), fn() => new Level(['store_id' => $this->store_id]));
+        $level = Grade::findOr($request->input('id'), fn() => new Grade(['store_id' => $this->store_id]));
 
         $level->fill($request->only(['name', 'discount', 'item_limit', 'item_count', 'remark']));
 
@@ -38,7 +38,7 @@ class LevelController extends Controller
         if ($level->item_limit) {
             $links = [];
 
-            LevelProduct::where('level_id', $level->id)->delete();
+            GradeProduct::where('level_id', $level->id)->delete();
 
             $linkProductIds = $request->input('product_ids', []);
             $linkServiceIds = $request->input('service_ids', []);
@@ -59,7 +59,7 @@ class LevelController extends Controller
                 ];
             }
 
-            LevelProduct::insert($links);
+            GradeProduct::insert($links);
 
             $level->item_count = count($links);
             $level->save();
@@ -76,7 +76,7 @@ class LevelController extends Controller
      */
     public function detail(Request $request): JsonResponse
     {
-        $level = Level::with(['linkProductIds', 'linkServiceIds'])->find($request->input('id'));
+        $level = Grade::with(['linkProductIds', 'linkServiceIds'])->find($request->input('id'));
 
         return success($level);
     }
@@ -87,7 +87,7 @@ class LevelController extends Controller
      */
     public function destroy(Request $request): JsonResponse
     {
-        Level::where('store_id', $this->store_id)->where('id', $request->input('id'))->delete();
+        Grade::where('store_id', $this->store_id)->where('id', $request->input('id'))->delete();
 
         return success();
     }

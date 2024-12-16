@@ -39,6 +39,6 @@ class Member extends Model
 
     public function level(): BelongsTo
     {
-        return $this->belongsTo(Level::class)->select(['id', 'name']);
+        return $this->belongsTo(Grade::class)->select(['id', 'name']);
     }
 }

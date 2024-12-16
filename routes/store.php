@@ -38,10 +38,10 @@ Route::namespace('Store')->prefix('store')->group(function () {
             Route::post('transaction', 'MemberController@transaction');
             Route::post('qrcode', 'MemberController@qrcode');
 
-            Route::prefix('level')->group(function () {
-                Route::post('list', 'LevelController@index');
-                Route::post('form', 'LevelController@form');
-                Route::post('destroy', 'LevelController@destroy');
+            Route::prefix('grade')->group(function () {
+                Route::post('list', 'GradeController@index');
+                Route::post('form', 'GradeController@form');
+                Route::post('destroy', 'GradeController@destroy');
             });
 
             Route::prefix('card')->group(function () {

@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('level_products', function (Blueprint $table) {
+        Schema::create('grade_products', function (Blueprint $table) {
             $table->id();
-            $table->integer('level_id');
+            $table->integer('grade_id');
             $table->integer('product_id');
             $table->integer('type')->comment('商品类型');
             $table->timestamps();
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('level_products');
+        Schema::dropIfExists('grade_products');
     }
 };

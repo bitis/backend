@@ -76,9 +76,9 @@ class GradeController extends Controller
      */
     public function detail(Request $request): JsonResponse
     {
-        $level = Grade::with(['linkProductIds', 'linkServiceIds'])->find($request->input('id'));
+        $grade = Grade::with(['linkProductIds', 'linkServiceIds'])->find($request->input('id'));
 
-        return success($level);
+        return success($grade);
     }
 
 

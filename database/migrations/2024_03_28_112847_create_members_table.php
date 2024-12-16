@@ -20,7 +20,7 @@ return new class extends Migration {
             $table->string('number')->nullable()->comment('会员卡号');
             $table->string('mobile')->nullable()->comment('手机号');
             $table->date('birthday')->nullable()->comment('生日');
-            $table->integer('level_id')->default(0)->comment('会员等级ID');
+            $table->integer('grade_id')->default(0)->comment('会员等级ID');
             $table->decimal('balance', 12)->default(0.00)->comment('余额');
             $table->decimal('integral', 12)->default(0.00)->comment('积分');
             $table->decimal('total_consumption_amount', 12)->default(0.00)->comment('总消费金额');

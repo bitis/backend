@@ -25,7 +25,7 @@ class MemberController extends Controller
     {
         $words = $request->input('words');
 
-        $members = Member::with('level')
+        $members = Member::with('grade')
             ->when($words, function ($query, $words) {
                 $query->where('mobile', 'like', "%$words%")
                     ->orWhere('name', 'like', "%$words%");
@@ -74,7 +74,7 @@ class MemberController extends Controller
      */
     public function detail(Request $request): JsonResponse
     {
-        $member = Member::with('level')->find($request->input('id'));
+        $member = Member::with('grade')->find($request->input('id'));
 
         return success($member);
     }

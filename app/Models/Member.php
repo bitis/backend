@@ -21,7 +21,7 @@ class Member extends Model
         'number',
         'mobile',
         'birthday',
-        'level_id',
+        'grade_id',
         'balance',
         'integral',
         'total_consume_amount',
@@ -37,7 +37,7 @@ class Member extends Model
         'deleted_at'
     ];
 
-    public function level(): BelongsTo
+    public function grade(): BelongsTo
     {
         return $this->belongsTo(Grade::class)->select(['id', 'name']);
     }

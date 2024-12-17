@@ -41,6 +41,7 @@ Route::namespace('Store')->prefix('store')->group(function () {
             Route::prefix('grade')->group(function () {
                 Route::post('list', 'GradeController@index');
                 Route::post('form', 'GradeController@form');
+                Route::post('detail', 'GradeController@detail');
                 Route::post('destroy', 'GradeController@destroy');
             });
 

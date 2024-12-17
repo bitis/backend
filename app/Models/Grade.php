@@ -13,7 +13,7 @@ class Grade extends Model
 {
     use HasFactory, SoftDeletes, DefaultDatetimeFormat;
 
-    protected $fillable = ['store_id', 'name', 'discount', 'item_limit', 'item_count', 'remark'];
+    protected $fillable = ['store_id', 'name', 'has_discount', 'discount', 'item_limit', 'item_count', 'remark'];
 
     protected $hidden = ['deleted_at'];
 

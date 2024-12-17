@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->integer('store_id')->comment('门店ID');
             $table->string('name')->comment('等级名称');
-            $table->decimal('discount', 2,1)->comment('折扣 ');
+            $table->boolean('has_discount', 2,1)->comment('是否有折扣');
+            $table->decimal('discount', 2,1)->comment('折扣');
             $table->boolean('item_limit')->default(false)->comment('折扣限制 0 不限制 1 限制');
             $table->integer('item_count')->default(0)->comment('折扣项目数量');
             $table->string('remark')->comment('备注');

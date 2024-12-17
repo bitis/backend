@@ -31,7 +31,7 @@ class GradeController extends Controller
     {
         $level = Grade::findOr($request->input('id'), fn() => new Grade(['store_id' => $this->store_id]));
 
-        $level->fill($request->only(['name', 'discount', 'item_limit', 'item_count', 'remark']));
+        $level->fill($request->only(['name', 'has_discount', 'discount', 'item_limit', 'item_count', 'remark']));
 
         $level->save();
 

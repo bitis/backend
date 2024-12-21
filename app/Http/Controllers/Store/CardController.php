@@ -16,7 +16,7 @@ class CardController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $cards = Card::with('services', 'services.product')
+        $cards = Card::with('products', 'products.product')
             ->when($request->input('keywords'), fn($query, $keywords) => $query->where('name', 'like', "%{$keywords}%"))
             ->when($request->input('type'), fn($query, $type) => $query->where('type', $type))
             ->where('store_id', $this->store_id)
@@ -69,9 +69,9 @@ class CardController extends Controller
      */
     public function detail(Request $request): JsonResponse
     {
-        $card = Card::with(['services', 'services.product'])->find($request->input('id'))->toArray();
+        $card = Card::with(['products', 'products.product'])->find($request->input('id'))->toArray();
 
-        foreach ($card['services'] as $product) {
+        foreach ($card['products'] as $product) {
             if ($product['type'] == CardProduct::TYPE_GIFT) {
                 $card['gifts'][] = $product;
             }

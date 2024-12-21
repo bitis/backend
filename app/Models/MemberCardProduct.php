@@ -14,6 +14,9 @@ class MemberCardProduct extends Model
     const STATUS_ENABLE = 1;
     const STATUS_DISABLE = 2;
 
+    const NUMBER_TYPE_LIMIT = 1;
+    const NUMBER_TYPE_UNLIMITED = 2;
+
     protected $fillable = [
         'member_id',
         'member_card_id',

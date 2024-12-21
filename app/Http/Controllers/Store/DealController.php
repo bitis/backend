@@ -142,7 +142,7 @@ class DealController extends Controller
                         'product_id' => $product->product_id,
                         'type' => $product->type,
                         'store_id' => $this->store_id,
-                        'number_type' => $product->number_type,
+                        'number_type' => $card->type == Card::TYPE_TIMES ? MemberCardProduct::NUMBER_TYPE_UNLIMITED : MemberCardProduct::NUMBER_TYPE_LIMIT,
                         'origin_number' => $product->number,
                         'used_number' => 0,
                         'current_number' => $product->number,
@@ -168,6 +168,7 @@ class DealController extends Controller
             DB::commit();
         } catch (\Exception|\Throwable $exception) {
             DB::rollBack();
+            if (app()->environment() !== 'production') throw $exception;
             return fail($exception->getMessage());
         }
 

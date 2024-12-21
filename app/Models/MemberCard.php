@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Exceptions\InsufficientException;
 use App\Models\Traits\DefaultDatetimeFormat;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -29,14 +30,36 @@ class MemberCard extends Model
         'status'
     ];
 
+    protected $appends = [
+        'status_name', 'valid_type_name',
+    ];
+
     const STATUS_ENABLE = 1;
     const STATUS_DISABLE = 2;
+
+    const STATUS_MAP = [
+        self::STATUS_ENABLE => '启用',
+        self::STATUS_DISABLE => '禁用'
+    ];
 
     public function products(): HasMany
     {
         return $this->hasMany(MemberCardProduct::class);
     }
 
+    protected function validTypeName(): Attribute
+    {
+        return Attribute::make(
+            get: fn(mixed $value, array $attributes) => Card::VALID_TYPE_MAP[$attributes['valid_type']],
+        );
+    }
+
+    protected function statusName(): Attribute
+    {
+        return Attribute::make(
+            get: fn(mixed $value, array $attributes) => MemberCard::STATUS_MAP[$attributes['status']],
+        );
+    }
 
     /**
      * 扣卡消费
@@ -46,6 +69,7 @@ class MemberCard extends Model
      * @param int $productId 商品ID
      * @param int $number 数量
      * @param int $orderId 订单ID
+     * @param $operatorId
      * @return void
      * @throws InsufficientException
      */

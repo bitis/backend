@@ -47,7 +47,6 @@ Route::namespace('Store')->prefix('store')->group(function () {
 
             Route::prefix('card')->group(function () {
                 Route::post('list', 'MemberCardController@index');
-                Route::post('open', 'MemberCardController@open');
                 Route::post('products', 'MemberCardController@products');
             });
 
@@ -55,6 +54,13 @@ Route::namespace('Store')->prefix('store')->group(function () {
                 Route::get('list', 'MemberOrderController@index');
                 Route::get('detail', 'MemberOrderController@detail');
             });
+        });
+
+        /**
+         * 交易
+         */
+        Route::prefix('deal')->group(function () {
+            Route::post('applyCard', 'DealController@applyCard'); // 开卡
         });
 
         Route::prefix('product')->group(function () {

@@ -31,7 +31,7 @@ class Hebao extends Command
     {
         $this->client = new Client();
 
-        $timer = strtotime('2024-12-04 15:00:00');
+        $timer = strtotime('2024-12-18 10:00:00');
 
         $this->getSessionStatus();
 
@@ -100,7 +100,7 @@ class Hebao extends Command
 
     private function cookie(): CookieJar
     {
-        $content = 'sid=MCALOGIN-2bd7c7bf-9a55-401e-bea2-f34a2bc091bf; act_sid=act-5dab053d-a4cf-453d-8431-0d9395f3679b';
+        $content = 'sid=MCALOGIN-ec7d5bd5-3ffd-479a-aab9-e0c9ead83a12; act_sid=act-d864d2f5-6be0-409e-a024-a8fb953888dc';
 
         $cookies = [];
 

@@ -72,7 +72,7 @@ class DealController extends Controller
                 'product_id' => $card->id,
                 'product_name' => $card->name,
                 'product_sku_id' => 0,
-                'product_image' => '',
+                'product_image' => '/static/member/card.png',
                 'number' => 1,
                 'price' => $card->price,
                 'total_amount' => $total_amount,

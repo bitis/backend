@@ -18,6 +18,7 @@ class OrderController extends Controller
                     ->orWhere('name', 'like', "%{$keywords}%")
                     ->orWhere('mobile', 'like', "%{$keywords}%");
             })
+            ->orderBy('id', 'desc')
             ->paginate(getPerPage());
 
         return success($orders);

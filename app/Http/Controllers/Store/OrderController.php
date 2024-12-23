@@ -11,7 +11,7 @@ class OrderController extends Controller
 {
     public function index(Request $request): JsonResponse
     {
-        $orders = Order::with(['products', 'member:id,avatar,name'])
+        $orders = Order::with(['products', 'member:id,avatar,name,mobile'])
             ->where('store_id', $this->store_id)
             ->when($request->input('keywords'), function ($query, $keywords) {
                 $query->where('order_no', 'like', "%{$keywords}%")

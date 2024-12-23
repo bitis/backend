@@ -40,20 +40,20 @@ class CardController extends Controller
 
         $card_products = [];
 
-        $services = $request->input('services', []);
+        $products = $request->input('products', []);
         $gifts = $request->input('gifts', []);
 
-        foreach ($services as $service) {
+        foreach ($products as $product) {
             $card_products[] = array_merge(
-                Arr::only($service, ['product_id', 'number', 'name']),
+                Arr::only($product, ['product_id', 'number', 'name']),
                 ['card_id' => $card->id, 'type' => CardProduct::TYPE_SERVICE]
             );
         }
 
         foreach ($gifts as $gift) {
             $card_products[] = array_merge(
-                Arr::only($gift, ['product_id', 'number']),
-                ['card_id' => $card->id, 'type' => CardProduct::TYPE_GIFT, 'name' => $service['name']]);
+                Arr::only($gift, ['product_id', 'number', 'name']),
+                ['card_id' => $card->id, 'type' => CardProduct::TYPE_GIFT, 'name' => $gift['name']]);
         }
 
         CardProduct::insert($card_products);

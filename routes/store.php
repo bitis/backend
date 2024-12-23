@@ -128,6 +128,10 @@ Route::namespace('Store')->prefix('store')->group(function () {
             Route::post('normal', 'ConsumeController@normal');
         });
 
+        Route::prefix('order')->group(function () {
+           Route::post('list', 'OrderController@index');
+        });
+
         Route::prefix('message')->group(function () {
             Route::get('list', 'MessageController@index');
             Route::post('read', 'MessageController@read');

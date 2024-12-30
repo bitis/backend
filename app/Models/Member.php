@@ -33,6 +33,8 @@ class Member extends Model
         'remark'
     ];
 
+    const simpleFields = ['id', 'name', 'avatar', 'mobile', 'grade_id', 'balance', 'integral'];
+
     protected $hidden = [
         'deleted_at'
     ];

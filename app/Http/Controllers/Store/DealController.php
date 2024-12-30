@@ -174,4 +174,87 @@ class DealController extends Controller
 
         return success();
     }
+
+    /**
+     * 预览消费订单
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function preview(Request $request): JsonResponse
+    {
+        $member = $request->input('member');
+        $products = $request->input('products');
+
+        if (empty($member->id)) {
+            $member = Member::where('store_id', $this->store_id)
+                ->where('id', $member->id)
+                ->select(Member::simpleFields)
+                ->first();
+        } elseif ($member->mobile) {
+            $member = Member::where('store_id', $this->store_id)
+                ->where('mobile', $member->mobile)
+                ->select(Member::simpleFields)
+                ->first();
+        }
+
+        if (empty($products)) return fail('请选择要消费的商品');
+
+        $real_amount = 0;
+        $total_amount = 0;
+        $deduct_amount = 0;
+
+        foreach ($products as &$product) {
+            $product->total_amount = $product->original_price * $product->number;
+            $product->real_amount = $product->price * $product->number;
+            $product->deduct_amount = $product->total_amount - $product->real_amount;
+
+            $real_amount += $product->real_amount;
+            $total_amount += $product->total_amount;
+            $deduct_amount += $product->deduct_amount;
+        }
+
+        return success([
+            'member' => $member,
+            'products' => $products,
+            'total_amount' => $total_amount,
+            'real_amount' => $real_amount,
+            'deduct_amount' => $deduct_amount
+        ]);
+    }
+
+    public function consume(Request $request)
+    {
+        $member = $request->input('member');
+        $products = $request->input('products');
+        $payment = $request->input('payment');
+        if (empty($member->id)) {
+            $member = Member::where('store_id', $this->store_id)->where('id', $member->id)->first();
+        } elseif ($member->mobile) {
+            $_member = Member::where('store_id', $this->store_id)->where('mobile', $member->mobile)->first();
+
+            if ($_member) {
+                $member = $_member;
+            } else {
+                $member = Member::create([
+                    'store_id' => $this->store_id,
+                    'name' => $member->name,
+                    'mobile' => $member->mobile
+                ]);
+            }
+        }
+
+        if (empty($products)) return fail('请选择要消费的商品');
+
+        $total_amount = 0;
+        $deduct_amount = 0;
+        $real_amount = 0;
+        $pay_amount = 0;
+
+        foreach ($products as $product) {
+            $total_amount += $product->original_price * $product->number;
+            $real_amount += $product->price * $product->number;
+        }
+
+    }
 }

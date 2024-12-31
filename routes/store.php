@@ -61,6 +61,7 @@ Route::namespace('Store')->prefix('store')->group(function () {
          */
         Route::prefix('deal')->group(function () {
             Route::post('applyCard', 'DealController@applyCard'); // 开卡
+            Route::post('preview', 'DealController@preview'); // 预览订单
         });
 
         Route::prefix('product')->group(function () {

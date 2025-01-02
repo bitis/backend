@@ -234,7 +234,7 @@ class DealController extends Controller
                 'total_amount' => $total_original_price,
                 'deduct_amount' => $total_deduct_price,
                 'pay_amount' => $total_price,
-                'payment_type' => $payment ? $payment['id'] : null,
+                'payment_id' => $payment ? $payment['id'] : null,
                 'operator_id' => $this->operator_id,
                 'remark' => $request->input('remark'),
             ]);

@@ -200,7 +200,7 @@ class DealController extends Controller
 
         if (empty($products)) return fail('请选择要消费的商品');
 
-        $real_amount = 0;
+        $pay_amount = 0;
         $total_amount = 0;
         $deduct_amount = 0;
 
@@ -209,7 +209,7 @@ class DealController extends Controller
             $product->real_amount = $product->price * $product->number;
             $product->deduct_amount = $product->total_amount - $product->real_amount;
 
-            $real_amount += $product->real_amount;
+            $pay_amount += $product->real_amount;
             $total_amount += $product->total_amount;
             $deduct_amount += $product->deduct_amount;
         }
@@ -218,7 +218,7 @@ class DealController extends Controller
             'member' => $member,
             'products' => $products,
             'total_amount' => $total_amount,
-            'real_amount' => $real_amount,
+            'real_amount' => $pay_amount,
             'deduct_amount' => $deduct_amount
         ]);
     }

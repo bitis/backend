@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('intro')->comment('描述');
             $table->decimal('total_amount', 12)->comment('金额');
             $table->decimal('deduct_amount', 12)->comment('抵扣金额');
-            $table->decimal('real_amount', 12)->comment('实际金额');
             $table->decimal('pay_amount', 12)->comment('实际支付金额');
             $table->tinyInteger('payment_id' )->comment('支付方式');
             $table->integer('operator_id')->nullable()->comment('操作人ID');

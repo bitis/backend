@@ -218,7 +218,7 @@ class DealController extends Controller
             'member' => $member,
             'products' => $products,
             'total_amount' => $total_amount,
-            'real_amount' => $pay_amount,
+            'pay_amount' => $pay_amount,
             'deduct_amount' => $deduct_amount
         ]);
     }

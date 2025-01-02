@@ -24,7 +24,7 @@ class Order extends Model
         'deduct_amount',
         'real_amount',
         'pay_amount',
-        'payment_type',
+        'payment_id',
         'operator_id',
         'refund',
         'refund_at',

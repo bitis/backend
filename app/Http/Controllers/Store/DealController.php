@@ -240,7 +240,7 @@ class DealController extends Controller
             ]);
 
             foreach ($products as $mProduct) {
-                $_product = Product::where('store_id', $this->store_id)->find($mProduct['id']);
+                $_product = Product::where('store_id', $this->store_id)->find($mProduct['product_id']);
 
                 $_order_product = OrderProduct::create([
                     'product_image',

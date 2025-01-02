@@ -207,7 +207,7 @@ class DealController extends Controller
         foreach ($products as &$product) {
             $product['total_amount'] = $product['original_price'] * $product['number'];
             $product['real_amount'] = $product['price'] * $product['number'];
-            $product['deduct_amount'] = $product->total_amount - $product['real_amount'];
+            $product['deduct_amount'] = $product['total_amount'] - $product['real_amount'];
 
             $pay_amount += $product['real_amount'];
             $total_amount += $product['total_amount'];
@@ -255,6 +255,11 @@ class DealController extends Controller
             $total_amount += $product->original_price * $product->number;
             $real_amount += $product->price * $product->number;
         }
-
+        return success([
+            'member' => $member,
+            'products' => $products,
+            'total_amount' => $total_amount,
+            'real_amount' => $real_amount
+        ]);
     }
 }

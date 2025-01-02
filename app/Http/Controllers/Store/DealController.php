@@ -186,14 +186,14 @@ class DealController extends Controller
         $member = $request->input('member');
         $products = $request->input('products');
 
-        if (empty($member->id)) {
+        if (empty($member['id'])) {
             $member = Member::where('store_id', $this->store_id)
-                ->where('id', $member->id)
+                ->where('id', $member['id'])
                 ->select(Member::simpleFields)
                 ->first();
-        } elseif ($member->mobile) {
+        } elseif ($member['mobile']) {
             $member = Member::where('store_id', $this->store_id)
-                ->where('mobile', $member->mobile)
+                ->where('mobile', $member['mobile'])
                 ->select(Member::simpleFields)
                 ->first();
         }
@@ -205,13 +205,13 @@ class DealController extends Controller
         $deduct_amount = 0;
 
         foreach ($products as &$product) {
-            $product->total_amount = $product->original_price * $product->number;
-            $product->real_amount = $product->price * $product->number;
-            $product->deduct_amount = $product->total_amount - $product->real_amount;
+            $product['total_amount'] = $product['original_price'] * $product['number'];
+            $product['real_amount'] = $product['price'] * $product['number'];
+            $product['deduct_amount'] = $product->total_amount - $product['real_amount'];
 
-            $pay_amount += $product->real_amount;
-            $total_amount += $product->total_amount;
-            $deduct_amount += $product->deduct_amount;
+            $pay_amount += $product['real_amount'];
+            $total_amount += $product['total_amount'];
+            $deduct_amount += $product['deduct_amount'];
         }
 
         return success([

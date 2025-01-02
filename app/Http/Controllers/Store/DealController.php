@@ -213,7 +213,7 @@ class DealController extends Controller
             $product['total_deduct_price'] = $product['deduct_price'] * $product['number'];
 
             $total_price += $product['total_price'];
-            $total_original_price += $product['total_amount'];
+            $total_original_price += $product['total_original_price'];
             $total_deduct_price += $product['total_deduct_price'];
 
             foreach ($product['staffs'] as &$staff) {

@@ -188,7 +188,7 @@ class DealController extends Controller
         $products = $request->input('products');
         $payment = $request->input('payment');
 
-        if (empty($member['id'])) {
+        if (!empty($member['id'])) {
             $member = Member::where('store_id', $this->store_id)
                 ->where('id', $member['id'])
                 ->select(Member::simpleFields)

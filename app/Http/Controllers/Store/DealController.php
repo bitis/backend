@@ -12,6 +12,7 @@ use App\Models\MemberCardProduct;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\OrderStaff;
+use App\Models\Product;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -176,15 +177,16 @@ class DealController extends Controller
     }
 
     /**
-     * 预览消费订单
+     * 普通消费
      *
      * @param Request $request
      * @return JsonResponse
      */
-    public function preview(Request $request): JsonResponse
+    public function normal(Request $request): JsonResponse
     {
         $member = $request->input('member');
         $products = $request->input('products');
+        $payment = $request->input('payment');
 
         if (empty($member['id'])) {
             $member = Member::where('store_id', $this->store_id)
@@ -200,66 +202,71 @@ class DealController extends Controller
 
         if (empty($products)) return fail('请选择要消费的商品');
 
-        $pay_amount = 0;
-        $total_amount = 0;
-        $deduct_amount = 0;
+        $total_price = 0;
+        $total_original_price = 0;
+        $total_deduct_price = 0;
 
         foreach ($products as &$product) {
-            $product['total_amount'] = $product['original_price'] * $product['number'];
-            $product['real_amount'] = $product['price'] * $product['number'];
-            $product['deduct_amount'] = $product['total_amount'] - $product['real_amount'];
+            $product['total_price'] = $product['price'] * $product['number'];
+            $product['total_original_price'] = $product['original_price'] * $product['number'];
+            $product['deduct_price'] = $product['original_price'] - $product['price'];
+            $product['total_deduct_price'] = $product['deduct_price'] * $product['number'];
 
-            $pay_amount += $product['real_amount'];
-            $total_amount += $product['total_amount'];
-            $deduct_amount += $product['deduct_amount'];
-        }
+            $total_price += $product['total_price'];
+            $total_original_price += $product['total_amount'];
+            $total_deduct_price += $product['total_deduct_price'];
 
-        return success([
-            'member' => $member,
-            'products' => $products,
-            'total_amount' => $total_amount,
-            'pay_amount' => $pay_amount,
-            'deduct_amount' => $deduct_amount
-        ]);
-    }
-
-    public function consume(Request $request)
-    {
-        $member = $request->input('member');
-        $products = $request->input('products');
-        $payment = $request->input('payment');
-        if (empty($member->id)) {
-            $member = Member::where('store_id', $this->store_id)->where('id', $member->id)->first();
-        } elseif ($member->mobile) {
-            $_member = Member::where('store_id', $this->store_id)->where('mobile', $member->mobile)->first();
-
-            if ($_member) {
-                $member = $_member;
-            } else {
-                $member = Member::create([
-                    'store_id' => $this->store_id,
-                    'name' => $member->name,
-                    'mobile' => $member->mobile
-                ]);
+            foreach ($product['staffs'] as &$staff) {
+                $staff['performance'] = $product['total_original_price'];
+                $staff['commission'] = 0;
             }
         }
 
-        if (empty($products)) return fail('请选择要消费的商品');
+        if ($request->input('submit')) {
+            $order = Order::create([
+                'member_id' => $member['id'],
+                'store_id' => $this->store_id,
+                'order_number' => Order::generateNumber($this->store_id),
+                'type' => Order::TYPE_NORMAL,
+                'intro' => '普通消费',
+                'total_amount' => $total_original_price,
+                'deduct_amount' => $total_deduct_price,
+                'pay_amount' => $total_price,
+                'payment_type' => $payment ? $payment['type'] : null,
+                'operator_id' => $this->operator_id,
+                'remark' => $request->input('remark'),
+            ]);
 
-        $total_amount = 0;
-        $deduct_amount = 0;
-        $real_amount = 0;
-        $pay_amount = 0;
+            foreach ($products as $mProduct) {
+                $_product = Product::where('store_id', $this->store_id)->find($mProduct['id']);
 
-        foreach ($products as $product) {
-            $total_amount += $product->original_price * $product->number;
-            $real_amount += $product->price * $product->number;
+                $_order_product = OrderProduct::create([
+                    'product_image',
+                    'deduct_desc',
+                    'type' => $_product->type,
+                    'order_id' => $order->id,
+                    'product_id' => $_product->id,
+                    'product_name' => $_product->name,
+                    'number' => $mProduct['number'],
+                    'price' => $mProduct['price'],
+                    'total_price' => $mProduct['total_price'],
+                    'original_price' => $_product->price,
+                    'total_original_price' => $mProduct['total_original_price'],
+                    'deduct_price' => $mProduct['deduct_price'],
+                    'total_deduct_price' => $mProduct['total_deduct_price'],
+                    'level_deduct' => isset($mProduct['level_deduct']) ? $mProduct['level_deduct'] * $mProduct['number'] : 0,
+                ]);
+
+                if ($mProduct['staffs']) OrderStaff::write($mProduct['staffs'], $_order_product);
+            }
         }
+
         return success([
             'member' => $member,
             'products' => $products,
-            'total_amount' => $total_amount,
-            'real_amount' => $real_amount
+            'total_price' => $total_price,
+            'total_original_price' => $total_original_price,
+            'total_deduct_price' => $total_deduct_price
         ]);
     }
 }

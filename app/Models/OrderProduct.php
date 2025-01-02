@@ -40,14 +40,16 @@ class OrderProduct extends Model
         'product_image',
         'number',
         'price',
-        'total_amount',
-        'deduct_amount',
+        'original_price',
+        'total_price',
+        'total_original_price',
+        'deduct_price',
+        'total_deduct_price',
         'level_deduct',
         'times_card_deduct',
         'duration_card_deduct',
         'deduct_desc',
         'use_card_id',
-        'real_amount',
     ];
 
     protected $appends = ['type_name'];

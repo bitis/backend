@@ -5,12 +5,8 @@ namespace App\Http\Controllers\Store;
 use App\Exceptions\InsufficientException;
 use App\Exceptions\MemberNotFoundException;
 use App\Http\Controllers\Controller;
-use App\Models\BalanceTransaction;
 use App\Models\Card;
-use App\Models\CardTransaction;
-use App\Models\Member;
 use App\Models\MemberCard;
-use App\Models\MemberCardProduct;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\OrderStaff;
@@ -45,11 +41,10 @@ class ConsumeController extends Controller
                 'member_id' => $memberId,
                 'store_id' => $this->store_id,
                 'order_number' => Order::generateNumber($this->store_id),
-                'type' => Order::TYPE_CONSUME_FAST,
+                'type' => Order::TYPE_FAST,
                 'intro' => '快速消费',
                 'total_amount' => $total_amount,
                 'deduct_amount' => $deduct_amount,
-                'real_amount' => $real_amount,
                 'pay_amount' => $pay_amount,
                 'payment_type' => $payment_type,
                 'operator_id' => $this->operator_id,
@@ -63,7 +58,7 @@ class ConsumeController extends Controller
                 'product_name' => '快捷收款',
                 'number' => 1,
                 'price' => $total_amount,
-                'total_amount' => $total_amount,
+                'total_price' => $total_amount,
                 'deduct_amount' => $deduct_amount,
                 'deduct_desc' => '手动改价 ' . $deduct_amount,
                 'real_amount' => $pay_amount,
@@ -113,7 +108,7 @@ class ConsumeController extends Controller
                 'member_id' => $memberId,
                 'store_id' => $this->store_id,
                 'order_number' => Order::generateNumber($this->store_id),
-                'type' => Order::TYPE_CONSUME_NORMAL,
+                'type' => Order::TYPE_NORMAL,
                 'intro' => '普通消费',
                 'total_amount' => $request->input('total_amount'),
                 'deduct_amount' => $request->input('deduct_amount'),
@@ -137,7 +132,7 @@ class ConsumeController extends Controller
                     'price' => $product['price'],
                     'original_price' => $_product->price,
                     'real_amount' => $product['real_amount'], // 售价总计
-                    'total_amount' => $_product->price * $product['number'], // 原价总计
+                    'total_price' => $_product->price * $product['number'], // 原价总计
                     'deduct_amount' => isset($product['deduct_amount']) ? $product['deduct_amount'] * $product['number'] : 0,
                     'level_deduct' => isset($product['level_deduct']) ? $product['level_deduct'] * $product['number'] : 0,
                     'times_card_deduct' => ($_card && $_card['type'] == Card::TYPE_TIMES) ? $product['real_amount'] : 0,

@@ -49,11 +49,6 @@ Route::namespace('Store')->prefix('store')->group(function () {
                 Route::post('list', 'MemberCardController@index');
                 Route::post('products', 'MemberCardController@products');
             });
-
-            Route::prefix('order')->group(function () {
-                Route::get('list', 'MemberOrderController@index');
-                Route::get('detail', 'MemberOrderController@detail');
-            });
         });
 
         /**
@@ -131,6 +126,7 @@ Route::namespace('Store')->prefix('store')->group(function () {
 
         Route::prefix('order')->group(function () {
            Route::post('list', 'OrderController@index');
+            Route::post('detail', 'OrderController@detail');
         });
 
         Route::prefix('message')->group(function () {

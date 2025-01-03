@@ -23,4 +23,19 @@ class OrderController extends Controller
 
         return success($orders);
     }
+
+    /**
+     * 会员订单详情
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function detail(Request $request): JsonResponse
+    {
+        $order = Order::where('store_id', $this->store_id)
+            ->with('products', 'staffs')
+            ->find($request->input('id'));
+
+        return success($order);
+    }
 }

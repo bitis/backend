@@ -9,6 +9,12 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
+    /**
+     * 订单列表
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function index(Request $request): JsonResponse
     {
         $orders = Order::with(['products', 'member:id,avatar,name,mobile'])
@@ -25,7 +31,7 @@ class OrderController extends Controller
     }
 
     /**
-     * 会员订单详情
+     * 订单详情
      *
      * @param Request $request
      * @return JsonResponse
@@ -33,7 +39,7 @@ class OrderController extends Controller
     public function detail(Request $request): JsonResponse
     {
         $order = Order::where('store_id', $this->store_id)
-            ->with('products', 'staffs')
+            ->with('products', 'staffs', 'member:id,avatar,name,mobile')
             ->find($request->input('id'));
 
         return success($order);

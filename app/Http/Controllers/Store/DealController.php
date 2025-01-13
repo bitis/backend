@@ -128,7 +128,7 @@ class DealController extends Controller
                     'type' => $card->type,
                     'status' => MemberCard::STATUS_ENABLE,
                     'card_id' => $card->id,
-                    'card_name' => $card->name,
+                    'name' => $card->name,
                     'price' => $pay_amount,
                     'valid_type' => $card->valid_type,
                     'valid_time' => $valid_time,

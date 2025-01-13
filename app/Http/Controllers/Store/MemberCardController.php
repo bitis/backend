@@ -52,7 +52,7 @@ class MemberCardController extends Controller
                 'store_id',
                 'type',
                 'card_id',
-                'card_name',
+                'name',
                 'price',
                 'valid_type',
                 'valid_time'

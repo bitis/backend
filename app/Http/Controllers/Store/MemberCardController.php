@@ -3,19 +3,11 @@
 namespace App\Http\Controllers\Store;
 
 use App\Http\Controllers\Controller;
-use App\Models\BalanceTransaction;
-use App\Models\Card;
-use App\Models\CardTransaction;
-use App\Models\Member;
 use App\Models\MemberCard;
 use App\Models\MemberCardProduct;
-use App\Models\Order;
-use App\Models\OrderProduct;
-use App\Models\OrderStaff;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\DB;
 
 class MemberCardController extends Controller
 {
@@ -31,7 +23,7 @@ class MemberCardController extends Controller
             ->where('member_id', $request->input('member_id'))
             ->where('status', $request->input('status', MemberCard::STATUS_ENABLE))
             ->where('valid', 1)
-            ->paginate(getPerPage());
+            ->get();
 
         return success($cards);
     }

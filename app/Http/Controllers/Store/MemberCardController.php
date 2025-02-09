@@ -37,6 +37,20 @@ class MemberCardController extends Controller
     }
 
     /**
+     * 会员卡详情
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function detail(Request $request): JsonResponse
+    {
+        $card = MemberCard::with('products', 'products.product')
+            ->where('member_id', $request->input('id'))
+            ->first();
+        return success($card);
+    }
+
+    /**
      * 扣卡消费时展示会员有的产品
      *
      * @param Request $request

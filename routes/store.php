@@ -47,6 +47,7 @@ Route::namespace('Store')->prefix('store')->group(function () {
 
             Route::prefix('card')->group(function () {
                 Route::post('list', 'MemberCardController@index');
+                Route::post('detail', 'MemberCardController@detail');
                 Route::post('products', 'MemberCardController@products');
             });
 

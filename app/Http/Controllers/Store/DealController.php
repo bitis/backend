@@ -128,7 +128,7 @@ class DealController extends Controller
                     'type' => $card->type,
                     'status' => MemberCard::STATUS_ENABLE,
                     'card_id' => $card->id,
-                    'card_name' => $card->name,
+                    'name' => $card->name,
                     'price' => $pay_amount,
                     'valid_type' => $card->valid_type,
                     'valid_time' => $valid_time,
@@ -194,10 +194,13 @@ class DealController extends Controller
                 ->select(Member::simpleFields)
                 ->first();
         } elseif ($member['mobile']) {
-            $member = Member::where('store_id', $this->store_id)
-                ->where('mobile', $member['mobile'])
-                ->select(Member::simpleFields)
-                ->first();
+            $member = Member::select(Member::simpleFields)
+                ->firstOrCreate([
+                    'mobile' => $member['mobile'],
+                    'store_id' => $this->store_id
+                ], [
+                    'name' => $member['name']
+                ]);
         }
 
         if (empty($products)) return fail('请选择要消费的商品');

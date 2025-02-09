@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\BalanceTransaction;
 use App\Models\CloudFile;
 use App\Models\Member;
+use App\Models\MemberCard;
 use App\Models\OfficialAccountConfig;
 use EasyWeChat\Factory;
 use Illuminate\Http\JsonResponse;
@@ -75,6 +76,8 @@ class MemberController extends Controller
     public function detail(Request $request): JsonResponse
     {
         $member = Member::with('grade')->find($request->input('id'));
+
+        $member->card_count = MemberCard::where('member_id', $member->id)->count();
 
         return success($member);
     }

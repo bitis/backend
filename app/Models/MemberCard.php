@@ -20,7 +20,7 @@ class MemberCard extends Model
         'type',
         'status',
         'card_id',
-        'card_name',
+        'name',
         'price',
         'valid_type',
         'valid_time',

@@ -31,7 +31,7 @@ class DealController extends Controller
         $cardId = $request->input('card_id');
         $memberId = $request->input('member_id');
         $pay_amount = $request->input('pay_amount');
-        $payment_type = $request->input('payment_type');
+        $payment_id = $request->input('payment_id');
         $order_number = Order::generateNumber($this->store_id);
         $remark = $request->input('remark');
 
@@ -62,7 +62,7 @@ class DealController extends Controller
                 'total_amount' => $total_amount,
                 'deduct_amount' => $deduct_amount,
                 'pay_amount' => $pay_amount,
-                'payment_type' => $payment_type,
+                'payment_id' => $payment_id,
                 'operator_id' => $this->operator_id,
             ]);
 

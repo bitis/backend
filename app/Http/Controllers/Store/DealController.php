@@ -62,7 +62,6 @@ class DealController extends Controller
                 'total_amount' => $total_amount,
                 'deduct_amount' => $deduct_amount,
                 'pay_amount' => $pay_amount,
-                'real_amount' => $pay_amount,
                 'payment_type' => $payment_type,
                 'operator_id' => $this->operator_id,
             ]);
@@ -75,12 +74,14 @@ class DealController extends Controller
                 'product_sku_id' => 0,
                 'product_image' => '/static/member/card.png',
                 'number' => 1,
-                'price' => $card->price,
-                'total_amount' => $total_amount,
-                'deduct_amount' => $deduct_amount,
+                'price' => $pay_amount,
+                'total_price' => $total_amount,
+                'original_price' => $card->price,
+                'total_original_price' => $total_amount,
+                'deduct_price' => $deduct_amount,
+                'total_deduct_price' => $deduct_amount,
                 'deduct_desc' => '开卡',
                 'use_card_id' => 0,
-                'real_amount' => $pay_amount,
             ]);
 
             foreach ($staffs as $staff) {

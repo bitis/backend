@@ -37,13 +37,15 @@ class Handler extends ExceptionHandler
     /**
      * Convert an authentication exception into a response.
      *
-     * @param Request $request
-     * @param AuthenticationException $exception
-     * @return JsonResponse
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Auth\AuthenticationException  $exception
+     * @return \Illuminate\Http\Response|\Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
      */
-    protected function unauthenticated($request, AuthenticationException $exception): JsonResponse
+    protected function unauthenticated($request, AuthenticationException $exception)
     {
-        return fail('登录身份过期', 401);
+        return $this->shouldReturnJson($request, $exception)
+                    ? response()->json(['message' => '登录身份过期'], 401)
+                    : redirect()->guest($exception->redirectTo() ?? route('login'));
     }
 
     /**

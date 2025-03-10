@@ -29,7 +29,8 @@ class RouteServiceProvider extends ServiceProvider
         });
 
         $this->routes(function () {
-            Route::middleware('api')
+            Route::domain('api.siruiw.cn')
+                ->middleware('api')
                 ->prefix('api')
                 ->namespace("App\Http\Controllers")
                 ->group(base_path('routes/api.php'));

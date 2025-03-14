@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 
 class Member extends Model
 {
@@ -42,5 +43,21 @@ class Member extends Model
     public function grade(): BelongsTo
     {
         return $this->belongsTo(Grade::class)->select(['id', 'name']);
+    }
+
+    protected static function booted()
+    {
+        parent::booted();
+
+        static::created(function (Member $member) {
+            StoreStat::updateOrCreate([
+                'store_id' => $member->store_id,
+                'date' => date('Y-m-d')
+            ])->update([
+                'new_users' => DB::raw("new_member + 1"),
+                'month' => date('Ym'),
+                'year' => date('Y')
+            ]);
+        });
     }
 }

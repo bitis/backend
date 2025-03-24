@@ -11,6 +11,7 @@ use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\OrderStaff;
 use App\Models\Product;
+use App\Models\StoreStat;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -81,6 +82,17 @@ class ConsumeController extends Controller
             if ($memberId && $deductions)
                 Order::deduction($deductions, $memberId, $this->store_id, $order->id, $this->operator_id);
 
+            StoreStat::updateOrCreate([
+                'store_id' => $this->store_id,
+                'date' => date('Y-m-d')
+            ])->update([
+                'consumer_member' => DB::raw("consumer_member + 1"),
+                'new_users' => DB::raw("new_order + 1"),
+                'use_money_amount' => DB::raw("use_money_amount + " . $pay_amount),
+                'month' => date('Ym'),
+                'year' => date('Y')
+            ]);
+
             DB::commit();
         } catch (\Exception $exception) {
             DB::rollBack();
@@ -148,6 +160,16 @@ class ConsumeController extends Controller
 
                 if ($memberId && $deductions) Order::deduction($deductions, $memberId, $this->store_id, $order->id, $this->operator_id);
             }
+
+            StoreStat::updateOrCreate([
+                'store_id' => $this->store_id,
+                'date' => date('Y-m-d')
+            ])->update([
+                'consumer_member' => DB::raw("consumer_member + 1"),
+                'new_users' => DB::raw("new_order + 1"),
+                'month' => date('Ym'),
+                'year' => date('Y')
+            ]);
             DB::commit();
         } catch (MemberNotFoundException|InsufficientException $exception) {
             DB::rollBack();

@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->unsignedInteger('store_id');
             $table->integer('new_member')->default(0)->comment('新增会员');
             $table->integer('new_order')->default(0)->comment('新增订单');
+            $table->integer('consumer_member')->default(0)->comment('消费会员数');
             $table->integer('sale_card_amount')->default(0)->comment('售卡金额');
             $table->integer('use_card_amount')->default(0)->comment('使用储值卡销售金额');
             $table->integer('use_card_times')->default(0)->comment('使用次卡次数');

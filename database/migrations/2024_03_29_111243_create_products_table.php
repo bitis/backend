@@ -31,6 +31,7 @@ return new class extends Migration
             $table->boolean('online')->default(false)->comment('是否上架');
             $table->boolean('multi_spec')->default(false)->comment('规格类型');
             $table->boolean('commission_config')->default(false)->comment('是否开启提成');
+            $table->boolean('appointment')->default(1)->comment('可以预约');
             $table->softDeletes();
             $table->timestamps();
         });

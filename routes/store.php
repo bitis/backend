@@ -126,8 +126,18 @@ Route::namespace('Store')->prefix('store')->group(function () {
         });
 
         Route::prefix('order')->group(function () {
-           Route::post('list', 'OrderController@index');
+            Route::post('list', 'OrderController@index');
             Route::post('detail', 'OrderController@detail');
+        });
+
+        Route::prefix('appointment')->group(function () {
+            Route::post('list', 'AppointmentController@index');
+            Route::post('form', 'AppointmentController@form');
+            Route::post('setStatus', 'AppointmentController@setStatus');
+            Route::prefix('config')->group(function () { // 预约设置
+                Route::post('detail', 'AppointmentController@config');
+                Route::post('form', 'AppointmentController@configForm');
+            });
         });
 
         Route::prefix('message')->group(function () {

@@ -26,6 +26,7 @@ class CreateUsersTable extends Migration
             $table->boolean('is_admin')->default(false);
             $table->boolean('system_operator')->default(false);
             $table->boolean('status')->default(0);
+            $table->boolean('appointment')->default(1)->comment('可以预约');
             $table->softDeletes();
             $table->timestamps();
         });

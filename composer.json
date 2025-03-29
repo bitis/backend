@@ -14,7 +14,7 @@
         "alipaysdk/easysdk": "^2.0",
         "alphasnow/aliyun-oss-flysystem": "^3.3",
         "barryvdh/laravel-snappy": "^1.0",
-        "chillerlan/php-qrcode": "dev-main",
+        "chillerlan/php-qrcode": "^5.0",
         "filament/filament": "3.2",
         "guzzlehttp/guzzle": "^7.2",
         "jpush/jpush": "^3.6",

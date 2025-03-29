@@ -50,6 +50,11 @@ Route::namespace('Store')->prefix('store')->group(function () {
                 Route::post('detail', 'MemberCardController@detail');
                 Route::post('products', 'MemberCardController@products');
             });
+            Route::prefix('note')->group(function () {
+                Route::post('list', 'MemberNoteController@index');
+                Route::post('detail', 'MemberNoteController@detail');
+                Route::post('destroy', 'MemberNoteController@destroy');
+            });
         });
 
         /**

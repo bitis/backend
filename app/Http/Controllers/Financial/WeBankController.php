@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Financial;
 
 use App\Http\Controllers\Controller;
+use App\Models\WeBankStock;
 use App\Models\WeBankStockRate;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -17,8 +18,7 @@ class WeBankController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-
-        return success();
+        return success(WeBankStock::all());
     }
 
     /**

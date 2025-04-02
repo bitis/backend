@@ -10,7 +10,7 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('stocks', function (Blueprint $table) {
+        Schema::create('we_bank_stocks', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('code');
@@ -29,18 +29,19 @@ return new class extends Migration {
             $table->double('halfyearyield', 3, 2)->comment('近六个月年化收益率 ladder_rate.seasonyield');
             $table->double('sixmonth', 3, 2)->comment('近六个月收益率 ladder_rate.sixmonth');
             $table->double('twelvemonthyield', 3, 2)->comment('近一年年化收益率 ladder_rate.seasonyield');
+            $table->softDeletes();
             $table->timestamps();
         });
-        Schema::create('stock_rates', function (Blueprint $table) {
+        Schema::create('we_bank_stock_rates', function (Blueprint $table) {
             $table->id();
             $table->string('prod_code');
             $table->date('earnings_rate_date');
-            $table->decimal('accu_net_value');
-            $table->decimal('unit_net_value');
-            $table->decimal('daily_increase_change');
+            $table->decimal('accu_net_value', 8, 6);
+            $table->decimal('unit_net_value', 8, 6);
+            $table->decimal('daily_increase_change', 8, 6);
             $table->double('fund_begin_yield', 3, 2);
-            $table->double('month_yield', 3, 2);
-            $table->double('season_yield', 3, 2);
+            $table->double('month_yield', 3, 2)->nullable();
+            $table->double('season_yield', 3, 2)->nullable();
             $table->timestamps();
         });
     }
@@ -50,7 +51,7 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('stocks');
-        Schema::dropIfExists('stock_rates');
+        Schema::dropIfExists('we_bank_stocks');
+        Schema::dropIfExists('we_bank_stock_rates');
     }
 };

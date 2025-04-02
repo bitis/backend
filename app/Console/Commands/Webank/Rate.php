@@ -4,6 +4,7 @@ namespace App\Console\Commands\Webank;
 
 use App\Models\WeBankStock;
 use App\Models\WeBankStockRate;
+use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
 
@@ -33,15 +34,17 @@ class Rate extends Command
 
         $stocks = WeBankStock::all();
 
-//        foreach ($stocks as $stock) {
+        $end_date = today()->format('Ymd');
+
+
+        foreach ($stocks as $stock) {
             $param = [
-                'prod_code' => 'EW2629D', // EW2629D
-                'start_date' => $start_date,
+                'prod_code' => $stock->code, // EW2629D
+                'start_date' => Carbon::parse($stock->start_buy_time)->format('Ymd'),
                 'end_date' => $end_date,
             ];
-
             $this->sync($param);
-//        }
+        }
     }
 
     public function sync($param): void

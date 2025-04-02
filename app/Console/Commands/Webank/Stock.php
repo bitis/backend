@@ -28,28 +28,48 @@ class Stock extends Command
     {
         $json = file_get_contents('stock.json');
         $data = json_decode($json, true);
-        $stocks = $data['ret_data']['product_list'];
+        $stocks = $data['ret_data']['list'];
 
         foreach ($stocks as $stock) {
             WeBankStock::create([
-                'name' => $stock[''],
-                'code' => $stock[''],
-                'days_of_product_period' => $stock[''],
-                'product_period' => $stock[''],
+                'name' => $stock['product_name'],
+                'code' => $stock['product_code'],
+                'days_of_product_period' => $stock['days_of_product_period'],
+                'product_period' => $stock['product_period'],
                 'bank_short_name' => $stock['extra_info']['bank_short_name'],
                 'bank_name' => $stock['extra_info']['bank_short_name'],
-                'rate_value' => $stock['rate_value'],
-                'unit_net_value' => $stock['unit_net_value'],
-                'adjust_unit_net_value' => $stock['adjust_unit_net_value'],
-                'fundbeginyield' => $stock['ladder_rate']['fundbeginyield'],
-                'monthyield' => $stock['ladder_rate']['monthyield'],
-                'month' => $stock['ladder_rate']['month'],
-                'seasonyield' => $stock['ladder_rate']['seasonyield'],
-                'threemonth' => $stock['ladder_rate']['threemonth'],
-                'halfyearyield' => $stock['ladder_rate']['seasonyield'],
-                'sixmonth' => $stock['ladder_rate']['sixmonth'],
-                'twelvemonthyield' => $stock['ladder_rate']['seasonyield'],
+                'rate_value' => $this->numberOrNull($stock['rate_value']),
+                'unit_net_value' => $this->numberOrNull($stock['unit_net_value']),
+                'adjust_unit_net_value' => $this->numberOrNull($stock['adjust_unit_net_value']),
+                'fundbeginyield' => $this->numberOrNull($stock['ladder_rate']['fundbeginyield']),
+                'monthyield' => $this->numberOrNull($stock['ladder_rate']['monthyield']),
+                'month' => $this->numberOrNull($stock['ladder_rate']['month']),
+                'seasonyield' => $this->numberOrNull($stock['ladder_rate']['seasonyield']),
+                'threemonth' => $this->numberOrNull($stock['ladder_rate']['threemonth']),
+                'halfyearyield' => $this->numberOrNull($stock['ladder_rate']['seasonyield']),
+                'sixmonth' => $this->numberOrNull($stock['ladder_rate']['sixmonth']),
+                'twelvemonthyield' => $this->numberOrNull($stock['ladder_rate']['seasonyield']),
+                'start_buy_time' => $this->formatDate($stock['start_buy_time']),
             ]);
         }
+    }
+
+    public function numberOrNull($value)
+    {
+        return is_numeric($value) ? $value : null;
+    }
+
+    /**
+     * @param string $start_buy_time 20240906150000
+     * @return string
+     */
+    private function formatDate(string $start_buy_time): string
+    {
+        return substr($start_buy_time, 0, 4) . '-'
+            . substr($start_buy_time, 4, 2) . '-'
+            . substr($start_buy_time, 6, 2) . ' '
+            . substr($start_buy_time, 8, 2) . ':'
+            . substr($start_buy_time, 10, 2) . ':'
+            . substr($start_buy_time, 12, 2);
     }
 }

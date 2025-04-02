@@ -30,8 +30,8 @@ class WeBankController extends Controller
     public function calendar(Request $request): JsonResponse
     {
         $code = $request->input('code');
-        $start_date = $request->input('start_date', date('Y-m-01'));
-        $end_date = $request->input('end_date', date('Y-m-d'));
+        $start_date = $request->input('start_date') ?: date('Y-m-01');
+        $end_date = $request->input('end_date') ?: date('Y-m-d');
 
         $rates = WeBankStockRate::where('prod_code', $code)
             ->whereBetween('earnings_rate_date', [$start_date, $end_date])

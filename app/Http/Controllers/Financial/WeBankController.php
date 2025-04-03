@@ -32,7 +32,6 @@ class WeBankController extends Controller
             $stock->halfyearyield = number_format($stock->halfyearyield ?: 0, 2);
             $stock->sixmonth = number_format($stock->sixmonth ?: 0, 2);
             $stock->twelvemonthyield = number_format($stock->twelvemonthyield ?: 0, 2);
-            $stock->start_buy_time = number_format($stock->start_buy_time ?: 0, 2);
             $stock->daily_increase_money = number_format($stock->daily_increase_money ?: 0, 2);
             $stock->month_increase_money = number_format($stock->month_increase_money ?: 0, 2);
             $stock->pre_month_increase_money = number_format($stock->pre_month_increase_money ?: 0, 2);

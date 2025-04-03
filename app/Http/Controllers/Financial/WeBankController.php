@@ -13,7 +13,7 @@ class WeBankController extends Controller
     private function rate($val): int|string
     {
         if ($val == 0) return 0;
-        return number_format($val * 365 / ($val * 10000), 3);
+        return number_format($val * 365 / ($val * 10000), 4);
     }
 
     /**

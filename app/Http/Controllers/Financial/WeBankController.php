@@ -18,7 +18,27 @@ class WeBankController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        return success(WeBankStock::all());
+        $stocks = WeBankStock::all();
+
+        foreach ($stocks as $stock) {
+            $stock->rate_value = number_format($stock->rate_value, 2);
+            $stock->unit_net_value = number_format($stock->unit_net_value, 6);
+            $stock->adjust_unit_net_value = number_format($stock->adjust_unit_net_value, 6);
+            $stock->fund_begin_yield = number_format($stock->fund_begin_yield, 2);
+            $stock->month_yield = number_format($stock->month_yield, 2);
+            $stock->season_yield = number_format($stock->season_yield, 2);
+            $stock->month = number_format($stock->month, 2);
+            $stock->threemonth = number_format($stock->threemonth, 2);
+            $stock->halfyearyield = number_format($stock->halfyearyield, 2);
+            $stock->sixmonth = number_format($stock->sixmonth, 2);
+            $stock->twelvemonthyield = number_format($stock->twelvemonthyield, 2);
+            $stock->start_buy_time = number_format($stock->start_buy_time, 2);
+            $stock->daily_increase_money = number_format($stock->daily_increase_money, 2);
+            $stock->month_increase_money = number_format($stock->month_increase_money, 2);
+            $stock->pre_month_increase_money = number_format($stock->pre_month_increase_money, 2);
+        }
+
+        return success($stocks);
     }
 
     /**

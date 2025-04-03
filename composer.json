@@ -26,7 +26,8 @@
         "overtrue/flysystem-cos": "^5.1",
         "symfony/dom-crawler": "^7.0",
         "w7corp/easywechat": "5.35.2",
-        "wilon/php-number2chinese": "^1.0"
+        "wilon/php-number2chinese": "^1.0",
+        "ext-bcmath": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

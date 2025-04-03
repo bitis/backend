@@ -10,6 +10,12 @@ use Illuminate\Http\Request;
 
 class WeBankController extends Controller
 {
+    private function rate($val): int|string
+    {
+        if ($val == 0) return 0;
+        return number_format($val * 365 / ($val * 10000), 3);
+    }
+
     /**
      * 产品列表
      *
@@ -33,7 +39,9 @@ class WeBankController extends Controller
             $stock->sixmonth = number_format($stock->sixmonth ?: 0, 2);
             $stock->twelvemonthyield = number_format($stock->twelvemonthyield ?: 0, 2);
             $stock->daily_increase_money = number_format($stock->daily_increase_money ?: 0, 2);
+            $stock->daily_increase_rate = $this->rate($stock->daily_increase_money);
             $stock->month_increase_money = number_format($stock->month_increase_money ?: 0, 2);
+            $stock->month_increase_rate = $this->rate($stock->month_increase_rate);
             $stock->pre_month_increase_money = number_format($stock->pre_month_increase_money ?: 0, 2);
         }
 

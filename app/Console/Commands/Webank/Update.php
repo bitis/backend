@@ -76,10 +76,29 @@ class Update extends Command
         $response = $client->get('https://personalv6.webankwealth.com/wm-hjhtr/wm-pqs/query/ta/stock_rates', ['query' => $query]);
         $data = json_decode($response->getBody()->getContents(), true);
         foreach ($data['ret_data'] as $rate) {
-            WeBankStockRate::firstOrCreate([
+
+            if (WeBankStockRate::where([
+                'prod_code' => $rate['prod_code'],
+                'earnings_rate_date' => $rate['earnings_rate_date']
+            ])->exists()) return;
+
+            $today = WeBankStockRate::firstOrCreate([
                 'prod_code' => $rate['prod_code'],
                 'earnings_rate_date' => $rate['earnings_rate_date']
             ], $rate);
+
+            $yesterday_value = WeBankStockRate::where('prod_code', $rate['prod_code'])
+                ->where('earnings_rate_date', '<', now()->addDays(-1)->format('Y-m-d'))
+                ->orderBy('earnings_rate_date', 'desc')
+                ->first()?->unit_net_value;
+
+            if ($today && $yesterday_value) {
+                $stock = WeBankStock::where('code', $rate['prod_code'])->first();
+                $stock->daily_increase_money = ($today->unit_net_value  * 10000 - $yesterday_value * 10000);
+                $stock->month_increase_money += $stock->month_increase_money;
+                $today->daily_increase_money = $stock->daily_increase_money;
+                $today->save();
+            }
 
             WeBankStock::where('code', $rate['prod_code'])->update([
                 'unit_net_value' => $rate['unit_net_value'],

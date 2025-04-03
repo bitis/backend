@@ -41,8 +41,6 @@ class Increase extends Command
             if ($today_value && $yesterday_value) {
                 $stock->daily_increase_money = ($today_value  * 10000 - $yesterday_value * 10000);
                 $stock->save();
-                $this->info($today_value . "\t" . $yesterday_value . "\t" . bcmul($today_value,'10000', 2) . "\t" . bcmul($yesterday_value, '10000', 2) . "\t"
-                    . bcsub(bcmul($today_value,'10000', 2), bcmul($yesterday_value, '10000', 2), 2));
             }
         }
     }

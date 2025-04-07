@@ -49,22 +49,24 @@ class WeBankController extends Controller
     }
 
     /**
-     * 产品万份收益月度视图
+     * 产品万份收益测算
      *
      * @param Request $request
      * @return JsonResponse
      */
-    public function calendar(Request $request): JsonResponse
+    public function datail(Request $request): JsonResponse
     {
         $code = $request->input('code');
-        $start_date = $request->input('start_date') ?: date('Y-m-01');
+        $start_date = $request->input('start_date') ?: now()->addDays(-31)->toDateString();
         $end_date = $request->input('end_date') ?: date('Y-m-d');
 
-        $rates = WeBankStockRate::where('prod_code', $code)
+        $stock = WeBankStock::where('code', $code)->first();
+
+        $stock->rates = WeBankStockRate::where('prod_code', $code)
             ->whereBetween('earnings_rate_date', [$start_date, $end_date])
-            ->orderBy('earnings_rate_date')
+            ->orderBy('earnings_rate_date', 'desc')
             ->get();
 
-        return success($rates);
+        return success($stock);
     }
 }

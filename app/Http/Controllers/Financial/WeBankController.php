@@ -54,7 +54,7 @@ class WeBankController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function datail(Request $request): JsonResponse
+    public function detail(Request $request): JsonResponse
     {
         $code = $request->input('code');
         $start_date = $request->input('start_date') ?: now()->addDays(-31)->toDateString();

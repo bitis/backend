@@ -5,6 +5,6 @@ use Illuminate\Support\Facades\Route;
 Route::namespace('Financial')->prefix('financial')->group(function () {
     Route::prefix('we-bank')->group(function () {
         Route::post('products', 'WeBankController@index');
-        Route::post('detail', 'WeBankController@datail');
+        Route::post('detail', 'WeBankController@detail');
     });
 });

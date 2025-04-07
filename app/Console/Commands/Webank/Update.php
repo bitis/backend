@@ -29,7 +29,7 @@ class Update extends Command
      */
     public function handle()
     {
-        $start_date = today()->addDays(-1)->format('Ymd');
+        $start_date = today()->addDays(-7)->format('Ymd');
         $end_date = today()->format('Ymd');
 
         $stocks = WeBankStock::all();
@@ -75,6 +75,7 @@ class Update extends Command
         $client = new Client();
         $response = $client->get('https://personalv6.webankwealth.com/wm-hjhtr/wm-pqs/query/ta/stock_rates', ['query' => $query]);
         $data = json_decode($response->getBody()->getContents(), true);
+
         foreach ($data['ret_data'] as $rate) {
 
             if (WeBankStockRate::where([
@@ -88,7 +89,7 @@ class Update extends Command
             ], $rate);
 
             $yesterday_value = WeBankStockRate::where('prod_code', $rate['prod_code'])
-                ->where('earnings_rate_date', '<', now()->addDays(-1)->format('Y-m-d'))
+                ->where('earnings_rate_date', '<', $rate['earnings_rate_date'])
                 ->orderBy('earnings_rate_date', 'desc')
                 ->first()?->unit_net_value;
 
@@ -105,6 +106,7 @@ class Update extends Command
                 'fund_begin_yield' => $rate['fund_begin_yield'],
                 'month_yield' => $rate['month_yield'],
                 'season_yield' => $rate['season_yield'],
+                'value_date' => $rate['earnings_rate_date'],
             ]);
         }
     }

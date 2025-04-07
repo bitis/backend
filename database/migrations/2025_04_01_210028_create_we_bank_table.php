@@ -33,6 +33,7 @@ return new class extends Migration {
             $table->double('daily_increase_money')->nullable()->comment('万份收益 当日');
             $table->double('month_increase_money')->nullable()->comment('万份收益 当月');
             $table->double('pre_month_increase_money')->nullable()->comment('万份收益 上月');
+            $table->date('value_date')->nullable()->comment('净值日期 ');
             $table->softDeletes();
             $table->timestamps();
         });

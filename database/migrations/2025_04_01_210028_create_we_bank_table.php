@@ -31,6 +31,7 @@ return new class extends Migration {
             $table->double('twelvemonthyield', 5, 2)->nullable()->comment('近一年年化收益率 ladder_rate.seasonyield');
             $table->timestamp('start_buy_time')->nullable()->comment('');
             $table->double('daily_increase_money')->nullable()->comment('万份收益 当日');
+            $table->double('daily_increase_change')->nullable()->comment('日净值变动');
             $table->double('month_increase_money')->nullable()->comment('万份收益 当月');
             $table->double('pre_month_increase_money')->nullable()->comment('万份收益 上月');
             $table->date('value_date')->nullable()->comment('净值日期 ');

@@ -28,6 +28,10 @@ class WeBankStock extends Model
         'sixmonth',
         'twelvemonthyield',
         'start_buy_time',
-        'earnings_rate_date',
+        'daily_increase_money',
+        'daily_increase_change',
+        'month_increase_money',
+        'pre_month_increase_money',
+        'value_date'
     ];
 }

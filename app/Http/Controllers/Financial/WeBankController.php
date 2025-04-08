@@ -67,6 +67,8 @@ class WeBankController extends Controller
             ->orderBy('earnings_rate_date', 'desc')
             ->get();
 
+        $stock->start_unit_value = last($stock->rates)->unit_net_value;
+
         return success($stock);
     }
 }

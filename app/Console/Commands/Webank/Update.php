@@ -95,6 +95,7 @@ class Update extends Command
 
             if ($today && $yesterday_value) {
                 $stock = WeBankStock::where('code', $rate['prod_code'])->first();
+                $stock->daily_increase_change = $today->unit_net_value - $yesterday_value;
                 $stock->daily_increase_money = ($today->unit_net_value  * 10000 - $yesterday_value * 10000);
                 $stock->month_increase_money += $stock->month_increase_money;
                 $today->daily_increase_money = $stock->daily_increase_money;

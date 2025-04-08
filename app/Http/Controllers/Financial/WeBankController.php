@@ -90,6 +90,7 @@ class WeBankController extends Controller
                 'amount' => number_format($after_amount, 2),
                 'change' => number_format($after_amount - $before_amount, 2)
             ];
+            $before_amount = $after_amount;
         }
 
         $stock->results = array_reverse($results);

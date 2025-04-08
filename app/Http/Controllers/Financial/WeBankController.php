@@ -59,13 +59,40 @@ class WeBankController extends Controller
         $code = $request->input('code');
         $start_date = $request->input('start_date') ?: now()->addDays(-31)->toDateString();
         $end_date = $request->input('end_date') ?: date('Y-m-d');
+        $amount = $request->input('amount') ?: 10000;
 
         $stock = WeBankStock::where('code', $code)->first();
 
-        $stock->rates = WeBankStockRate::where('prod_code', $code)
+        $rates = WeBankStockRate::where('prod_code', $code)
             ->whereBetween('earnings_rate_date', [$start_date, $end_date])
-            ->orderBy('earnings_rate_date', 'desc')
+            ->orderBy('earnings_rate_date')
             ->get();
+
+        $stock->confirm_date = ''; // 确认日期
+        $stock->confirm_value = 0; // 确认净值
+        $stock->confirm_number = 0; // 确认份额
+
+        $results = [];
+        $before_amount = $amount;
+
+        foreach ($rates as $index => $rate) {
+            if ($index == 0) {
+                $stock->confirm_date = $rate->earnings_rate_date;
+                $stock->confirm_value = $rate->unit_net_value;
+                $stock->confirm_number = round($amount / $stock->confirm_value, 2);
+                continue;
+            }
+            $after_amount = $stock->confirm_number * $rate->unit_net_value;
+            $results[] = [
+                'date' => $rate->earnings_rate_date,
+                'unit_value' => number_format($rate->unit_net_value, '6'),
+                'number' => number_format($stock->confirm_number, 2),
+                'amount' => number_format($after_amount, 2),
+                'change' => number_format($after_amount - $before_amount, 2)
+            ];
+        }
+
+        $stock->results = array_reverse($results);
 
         return success($stock);
     }

@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Common\Printer\XPrinter;
+use App\Models\WeBankStockRate;
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
 use Topsdk\Topapi\TopApiClient;
@@ -28,24 +29,14 @@ class Demo extends Command
     /**
      * Execute the console command.
      */
-    public function handle(XPrinter $xPrinter)
+    public function handle()
     {
-        $client = new TopApiClient("<your-appkey>","<your-appsecret>","<top-gateway-url>");
-        $ability = new Ability407($client);
+        $rates = WeBankStockRate::where('prod_code', '2501240018')
+            ->whereBetween('earnings_rate_date', [now()->addDays(-31)->toDateString(), today()->toDateString()])
+            ->orderBy('earnings_rate_date', 'desc')
+            ->get();
 
-// create domain
-
-// create request
-        $request = new TaobaoTbkScTpwdConvertRequest();
-        $request->setPasswordContent("￥2k12308DjviP￥");
-        $request->setAdzoneId(12312312);
-        $request->setDx("1");
-        $request->setSiteId(1);
-        $request->setUcrowdId(1);
-        $request->setRelationId("123");
-
-        $response = $ability->taobaoTbkScTpwdConvert($request,"<user session>");
-        var_dump($response);
+        dd($start = $rates->pop());
 
     }
 

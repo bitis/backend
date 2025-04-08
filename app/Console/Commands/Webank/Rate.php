@@ -78,6 +78,8 @@ class Rate extends Command
         $client = new Client();
         $response = $client->get('https://personalv6.webankwealth.com/wm-hjhtr/wm-pqs/query/ta/stock_rates', ['query' => $query]);
         $data = json_decode($response->getBody()->getContents(), true);
+
+        dd($data);
         foreach ($data['ret_data'] as $rate) {
             WeBankStockRate::firstOrCreate([
                 'prod_code' => $rate['prod_code'],

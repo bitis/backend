@@ -81,7 +81,7 @@ class Update extends Command
             if (WeBankStockRate::where([
                 'prod_code' => $rate['prod_code'],
                 'earnings_rate_date' => $rate['earnings_rate_date']
-            ])->exists()) return;
+            ])->exists()) continue;
 
             $today = WeBankStockRate::firstOrCreate([
                 'prod_code' => $rate['prod_code'],
@@ -98,6 +98,7 @@ class Update extends Command
                 $stock->daily_increase_money = ($today->unit_net_value  * 10000 - $yesterday_value * 10000);
                 $stock->month_increase_money += $stock->month_increase_money;
                 $today->daily_increase_money = $stock->daily_increase_money;
+                $stock->save();
                 $today->save();
             }
 

@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('XiaomiSports 15138674502 liuyuan321')->dailyAt('8:00');
         $schedule->command('we-bank:start-month')->monthlyOn();
+        $schedule->command('we-bank:update')->dailyAt("8:30");
     }
 
     /**
@@ -21,7 +22,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands(): void
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }

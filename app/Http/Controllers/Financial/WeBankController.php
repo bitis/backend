@@ -68,6 +68,7 @@ class WeBankController extends Controller
             ->orderBy('earnings_rate_date')
             ->get();
 
+        $stock->amount = $amount;
         $stock->confirm_date = ''; // 确认日期
         $stock->confirm_value = 0; // 确认净值
         $stock->confirm_number = 0; // 确认份额

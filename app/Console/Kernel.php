@@ -13,7 +13,6 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         $schedule->command('XiaomiSports 15138674502 liuyuan321')->dailyAt('8:00');
-        $schedule->command('we-bank:start-month')->monthlyOn();
         $schedule->command('we-bank:update')->weekdays()->between('8:00', '10:00')->everyFiveMinutes();
     }
 

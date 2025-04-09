@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\Traits\DefaultDatetimeFormat;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class WeBankStock extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, DefaultDatetimeFormat;
 
     protected $fillable = [
         'name',

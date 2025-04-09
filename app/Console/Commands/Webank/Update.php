@@ -22,7 +22,7 @@ class Update extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = '更新每日净值';
 
     /**
      * Execute the console command.
@@ -96,9 +96,16 @@ class Update extends Command
             if ($today && $yesterday_value) {
                 $stock = WeBankStock::where('code', $rate['prod_code'])->first();
                 $stock->daily_increase_change = $today->unit_net_value - $yesterday_value;
-                $stock->daily_increase_money = ($today->unit_net_value  * 10000 - $yesterday_value * 10000);
-                $stock->month_increase_money += $stock->daily_increase_money;
+                $stock->daily_increase_money = ($today->unit_net_value * 10000 - $yesterday_value * 10000);
                 $today->daily_increase_money = $stock->daily_increase_money;
+
+                if (Carbon::parse($today->earnings_rate_date)->month < date('j')) {
+                    $stock->pre_month_increase_money = $stock->month_increase_money + $stock->daily_increase_money;
+                    $stock->month_increase_money = 0;
+                } else {
+                    $stock->month_increase_money += $stock->daily_increase_money;
+                }
+
                 $stock->save();
                 $today->save();
             }

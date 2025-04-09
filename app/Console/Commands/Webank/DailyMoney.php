@@ -4,6 +4,7 @@ namespace App\Console\Commands\Webank;
 
 use App\Models\WeBankStock;
 use App\Models\WeBankStockRate;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 
 class DailyMoney extends Command
@@ -30,15 +31,26 @@ class DailyMoney extends Command
         $stocks = WeBankStock::all();
 
         foreach ($stocks as $stock) {
-            $rates = WeBankStockRate::where('prod_code', $stock->code)->orderBy('earnings_rate_date')->get();
+            $pre_month_last_day = WeBankStockRate::where('prod_code', $stock->code)
+                ->where('earnings_rate_date', '<', date('Y-m-01'))
+                ->orderBy('earnings_rate_date', 'desc')
+                ->first();
+            $today = WeBankStockRate::where('prod_code', $stock->code)
+                ->orderBy('earnings_rate_date', 'desc')
+                ->first();
+            $stock->month_increase_money = 10000 * ($today->unit_net_value - $pre_month_last_day->unit_net_value);
 
-            $yesterday = 1;
+            $_left = WeBankStockRate::where('prod_code', $stock->code)
+                ->where('earnings_rate_date', '<', '2025-03-01')
+                ->orderBy('earnings_rate_date', 'desc')
+                ->first();
+            $_right = WeBankStockRate::where('prod_code', $stock->code)
+                ->where('earnings_rate_date', '<', '2025-04-01')
+                ->orderBy('earnings_rate_date', 'desc')
+                ->first();
+            $stock->pre_month_increase_money = 10000 * ($_right->unit_net_value - $_left->unit_net_value);
 
-            foreach ($rates as $rate) {
-                $rate->daily_increase_money = $rate->unit_net_value * 10000 - $yesterday * 10000;
-                $rate->save();
-                $yesterday = $rate->unit_net_value;
-            }
+            $stock->save();
         }
     }
 }

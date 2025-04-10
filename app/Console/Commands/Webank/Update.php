@@ -99,7 +99,7 @@ class Update extends Command
                 $stock->daily_increase_money = ($today->unit_net_value * 10000 - $yesterday_value * 10000);
                 $today->daily_increase_money = $stock->daily_increase_money;
 
-                if (Carbon::parse($today->earnings_rate_date)->month < date('j')) {
+                if (Carbon::parse($today->earnings_rate_date)->month < date('n')) {
                     $stock->pre_month_increase_money = $stock->month_increase_money + $stock->daily_increase_money;
                     $stock->month_increase_money = 0;
                 } else {

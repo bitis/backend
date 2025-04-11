@@ -294,7 +294,7 @@
     <p><span style="font-size:14px">我们核查后会在十五个工作日内反馈您的投诉与举报。</span></p>
     <p><strong><span style="font-size:14px">8.2 其他问题</span></strong></p>
     <p><span style="font-size:14px">如果您对个人信息保护问题有疑问或建议，可选择通过以下方式联系我们：</span></p>
-    <p><span style="font-size:14px">发送邮件至Dataprivacy@bytedance.com</span></p>
+    <p><span style="font-size:14px">发送邮件至service@siruiw.cn</span></p>
     <p><span style="font-size:14px">我们将尽快审核您提出的问题或建议，并在验证您的用户身份后的十五个工作日内回复。</span>
     </p></div>
 </body>

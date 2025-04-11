@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 include __DIR__ . '/store.php';
+include __DIR__ . '/visa.php';
 include __DIR__ . '/financial.php';
 
 Route::get('verify/code', 'VerificationCodeController@get');

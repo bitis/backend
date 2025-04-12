@@ -2,10 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Common\Printer\Format\Format58;
-use App\Common\Printer\XPrinter;
+use EasyWeChat\MiniApp\Application;
 use Illuminate\Console\Command;
-use Illuminate\Support\Str;
 
 class Tool extends Command
 {
@@ -26,7 +24,29 @@ class Tool extends Command
     /**
      * Execute the console command.
      */
-    public function handle(XPrinter $xPrinter)
+    public function handle()
     {
+        $app = new Application(config('wechat.finance'));
+        $response = $app->getClient()->postJson('/cgi-bin/message/subscribe/send', [
+            'template_id' => 'oV29BXiP_LQKUdbZtSd93ce7Gl1YiYPa7y9Y_qp0n5k',
+            'page' => 'pages/index/index',
+            'touser' => 'oVKEG7M1GZ3Le_9yLatRzdXRi5vk',
+            'data' => [
+                'thing1' => [
+                    'value' => 'test'
+                ],
+                'time2' => [
+                    'value' => now()->toDateTimeString()
+                ],
+                'number5' => [
+                    'value' => 99
+                ],
+                'thing3' => [
+                    'value' => 'VISA一元购'
+                ]
+            ],
+            'miniprogram_state' => 'developer'
+        ]);
+        dd($response->getContent());
     }
 }

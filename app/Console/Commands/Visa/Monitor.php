@@ -3,6 +3,7 @@
 namespace App\Console\Commands\Visa;
 
 use App\Models\VisaProduct;
+use EasyWeChat\MiniApp\Application;
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
 
@@ -28,6 +29,7 @@ class Monitor extends Command
     public function handle()
     {
         $products = VisaProduct::all();
+        $app = new Application(config('wechat.finance'));
 
         foreach ($products as $product) {
             $json = (new Client)->post('https://vtravel.link2shops.com/vfuliApi/api/client/ypJyActivity/goodsDetail', [
@@ -59,6 +61,29 @@ class Monitor extends Command
                 'goodsTagOne' => $p['goodsTagOne'],
                 'goodsTagTwo' => $p['goodsTagTwo'],
             ]);
+
+            if ($p['stock'] > 0) {
+                $app->getClient()->postJson('/cgi-bin/message/subscribe/send', [
+                    'template_id' => 'oV29BXiP_LQKUdbZtSd93ce7Gl1YiYPa7y9Y_qp0n5k',
+                    'page' => 'pages/index/index',
+                    'touser' => 'oVKEG7M1GZ3Le_9yLatRzdXRi5vk',
+                    'data' => [
+                        'thing1' => [
+                            'value' => $product->name
+                        ],
+                        'time2' => [
+                            'value' => now()->toDateTimeString()
+                        ],
+                        'number5' => [
+                            'value' => $p['stock']
+                        ],
+                        'thing3' => [
+                            'value' => 'VISA一元购'
+                        ]
+                    ],
+                    'miniprogram_state' => 'developer'
+                ]);
+            }
 
             sleep(2);
         }

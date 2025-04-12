@@ -2,12 +2,8 @@
 
 namespace App\Http\Controllers\Financial;
 
-use App\Models\MiniUser;
 use EasyWeChat\MiniApp\Application;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 use Psr\Http\Message\ResponseInterface;
 
 class ServeController extends Controller

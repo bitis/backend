@@ -11,10 +11,11 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
 
-    protected mixed $user;
+    protected mixed $user = null;
 
     public function __construct()
     {
-        $this->user = MiniUser::where('token', request()->header('token'))->first();
+        $token = request()->header('token');
+        if ($token) $this->user = MiniUser::where('token', $token)->first();
     }
 }

@@ -7,7 +7,7 @@ Route::namespace('Financial')->prefix('financial')->group(function () {
         Route::post('login', 'AuthController@login');
     });
     Route::prefix('account')->group(function () {
-        Route::post('info', 'AccountController@info');
+        Route::post('info', 'AccountController@index');
     });
     Route::prefix('we-bank')->group(function () {
         Route::post('products', 'WeBankController@index');

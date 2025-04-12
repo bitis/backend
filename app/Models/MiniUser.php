@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class MiniUser extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'openid',
+        'unionid',
+        'token',
+        'coin'
+    ];
 }

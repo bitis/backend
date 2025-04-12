@@ -16,6 +16,7 @@ Route::namespace('Financial')->prefix('financial')->group(function () {
     });
     Route::prefix('visa')->group(function () {
         Route::post('products', 'VisaController@index');
+        Route::post('detail', 'VisaController@detail');
         Route::post('subscribe', 'VisaController@subscribe');
     });
 });

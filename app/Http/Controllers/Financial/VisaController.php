@@ -19,6 +19,11 @@ class VisaController extends Controller
         return success(VisaProduct::all());
     }
 
+    public function detail(Request $request): JsonResponse
+    {
+        return success(VisaProduct::find($request->input('id')));
+    }
+
     /**
      * 订阅消息
      *

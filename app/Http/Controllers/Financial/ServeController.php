@@ -18,6 +18,8 @@ class ServeController extends Controller
 
         $server = $app->getServer();
 
+        $message = $server->getRequestMessage(); // 原始消息
+        Log::log('info', 'subscribe', (array)$message);
         $server->addEventListener('subscribe', function($message, \Closure $next) {
             Log::log('info', 'subscribe', $message);
         });

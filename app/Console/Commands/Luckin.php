@@ -30,7 +30,7 @@ class Luckin extends Command
     {
         $this->client = new Client();
 
-        $timer = strtotime('2025-03-14 12:00:00');
+        $timer = strtotime('2025-04-12 12:00:00');
 
         $validCode = '';
 
@@ -101,7 +101,7 @@ class Luckin extends Command
     public function headers(): array
     {
         return [
-            'Authorization' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJhdWQiOiJtYWxsLWNsaWVudCIsInVtc1VzZXJJZCI6MzM4ODk5MywiQWRtaW5Ub2tlbiI6Imh0dHA6Ly9tYWxsLWF1dGgvaW5uZXIvdG9rZW4vZ2V0QWRtaW5Ub2tlbj90b2tlbj0iLCJyZW1vdGVJcCI6IjExNS42MC4xOTMuMTQzIiwibG9hZEJhbGFuY2VyIjoibWFsbC1hdXRoIiwibW9iaWxlIjoiMTUxMzg2NzQ1MDIiLCJhcHBrZXkiOiJOSUJqRmV3WGRkMlNCM0RNeHY1WVJQN0ZVd1B3bHAiLCJleHAiOjE3NDE5MjQ5NjMsIkNsaWVudFRva2VuIjoiaHR0cDovL21hbGwtYXV0aC9pbm5lci90b2tlbi9nZXRDbGllbnRUb2tlbj90b2tlbj0iLCJjaGFubmVsSWQiOjQzfQ.ri9sAkxJlsmOK6mynFzW2a8EZF9pvMLPTVFj0wa-jdBT7JQ7nj1ph4OShY_AeseAz76ymjRP5MZcV_v1NK-TOw',
+            'Authorization' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJhdWQiOiJtYWxsLWNsaWVudCIsInVtc1VzZXJJZCI6MzM4ODk5MywiQWRtaW5Ub2tlbiI6Imh0dHA6Ly9tYWxsLWF1dGgvaW5uZXIvdG9rZW4vZ2V0QWRtaW5Ub2tlbj90b2tlbj0iLCJyZW1vdGVJcCI6IjExNS42MC4xOTQuMjM1IiwibG9hZEJhbGFuY2VyIjoibWFsbC1hdXRoIiwibW9iaWxlIjoiMTUxMzg2NzQ1MDIiLCJhcHBrZXkiOiJOSUJqRmV3WGRkMlNCM0RNeHY1WVJQN0ZVd1B3bHAiLCJleHAiOjE3NDQ0MzA4MjMsIkNsaWVudFRva2VuIjoiaHR0cDovL21hbGwtYXV0aC9pbm5lci90b2tlbi9nZXRDbGllbnRUb2tlbj90b2tlbj0iLCJjaGFubmVsSWQiOjQzfQ.qeLRbBEJp7-w6kGKAIqceBEOeeeJ2Hd15rfUfpBIOm-ihabKYuc4Z_p7FaEpq9D3WKoglMbTChmUe4t9z69rjw',
             'User-Agent' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1 Edg/134.0.0.0',
             'appkey' => 'NIBjFewXdd2SB3DMxv5YRP7FUwPwlp',
             'Content-Type' => 'application/json'

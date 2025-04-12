@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Financial;
 
-use App\Http\Controllers\Controller;
+use Illuminate\Http\JsonResponse;
 
 class AccountController extends Controller
 {
-    public function index()
+    public function index(): JsonResponse
     {
-        return success();
+        return success($this->user);
     }
 }

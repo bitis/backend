@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Financial;
 
-use App\Http\Controllers\Controller;
 use App\Models\MiniUser;
 use EasyWeChat\MiniApp\Application;
 use Illuminate\Http\JsonResponse;

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Financial;
 
-use App\Http\Controllers\Controller;
 use App\Models\WeBankStock;
 use App\Models\WeBankStockRate;
 use Illuminate\Http\JsonResponse;

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Financial;
 
 use App\Http\Controllers\Controller;
 use App\Models\MiniUser;
-use EasyWeChat\Work\MiniProgram\Application;
+use EasyWeChat\MiniApp\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;

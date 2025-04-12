@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 Route::namespace('Financial')->prefix('financial')->group(function () {
+    Route::post('serve', 'ServeController@serve');
     Route::prefix('auth')->group(function () {
         Route::post('login', 'AuthController@login');
     });

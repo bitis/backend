@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Financial;
 
+use App\Models\MiniCoinLog;
 use App\Models\VisaProduct;
+use App\Models\MiniSubscribe;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -33,6 +35,45 @@ class VisaController extends Controller
     public function subscribe(Request $request): JsonResponse
     {
         $id = $request->input('id');
+        $type = $request->input('type');
+
+        if (empty($id)) {
+            return fail('订阅失败');
+        }
+
+        if (!$this->user) return fail('请重新打开小程序');
+
+        if (MiniSubscribe::where([
+            'product_id' => $id,
+            'user_id' => $this->user->id,
+            'type' => $type
+        ])->exists()
+        ) return fail('您已经订阅过了');
+
+        $product = VisaProduct::find($id);
+
+        if (empty($product)) return fail('订阅失败');
+
+        if ($this->user->coin < $product->price) return fail('余额不足');
+
+        MiniSubscribe::create([
+            'product_id' => $id,
+            'user_id' => $this->user->id,
+            'type' => $type,
+            'price' => $product->price
+        ]);
+
+        MiniCoinLog::create([
+            'user_id' => $this->user->id,
+            'type' => MiniCoinLog::DECREASE,
+            'before' => $this->user->coin,
+            'value' => $product->price,
+            'after' => $this->user->coin - $product->price,
+            'remark' => '订阅' . $product->name
+        ]);
+
+        $this->user->coin = $this->user->coin - $product->price;
+        $this->user->save();
 
         return success();
     }

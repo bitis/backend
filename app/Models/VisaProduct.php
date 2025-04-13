@@ -27,5 +27,6 @@ class VisaProduct extends Model
         'purchaseNotes',
         'goodsTagOne',
         'goodsTagTwo',
+        'price'
     ];
 }

@@ -9,6 +9,7 @@ Route::namespace('Financial')->prefix('financial')->group(function () {
     });
     Route::prefix('account')->group(function () {
         Route::post('info', 'AccountController@index');
+        Route::post('coin', 'AccountController@coin');
     });
     Route::prefix('we-bank')->group(function () {
         Route::post('products', 'WeBankController@index');

@@ -14,6 +14,7 @@ class MiniSubscribe extends Model
     protected $fillable = [
         'user_id',
         'product_id',
-        'price'
+        'price',
+        'type'
     ];
 }

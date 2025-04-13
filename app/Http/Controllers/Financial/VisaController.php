@@ -23,7 +23,9 @@ class VisaController extends Controller
 
     public function detail(Request $request): JsonResponse
     {
-        return success(VisaProduct::find($request->input('id')));
+        $product = VisaProduct::find($request->input('id'));
+        $product->is_subscribe = MiniSubscribe::where('product_id', $product->id)->where('user_id', $this->user->id)->exists();
+        return success($product);
     }
 
     /**

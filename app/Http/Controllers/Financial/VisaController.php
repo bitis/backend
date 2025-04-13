@@ -69,13 +69,42 @@ class VisaController extends Controller
             'user_id' => $this->user->id,
             'type' => MiniCoinLog::DECREASE,
             'before' => $this->user->coin,
-            'value' => $product->price,
+            'value' => $product->price * -1,
             'after' => $this->user->coin - $product->price,
             'remark' => '订阅' . $product->name
         ]);
 
         $this->user->coin = $this->user->coin - $product->price;
         $this->user->save();
+
+        return success();
+    }
+
+    /**
+     * 取消订阅
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function unsubscribe(Request $request): JsonResponse
+    {
+        $id = $request->input('id');
+        $type = $request->input('type');
+
+        if (!$this->user) return fail('请重新打开小程序');
+
+        if (!MiniSubscribe::where([
+            'product_id' => $id,
+            'user_id' => $this->user->id,
+            'type' => $type
+        ])->exists()
+        ) return fail('您没并有订阅该提醒');
+
+        MiniSubscribe::where([
+            'product_id' => $id,
+            'user_id' => $this->user->id,
+            'type' => $type
+        ])->delete();
 
         return success();
     }

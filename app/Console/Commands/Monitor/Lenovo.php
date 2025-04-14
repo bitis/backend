@@ -68,7 +68,7 @@ class Lenovo extends Command
                             'value' => $product->stock
                         ],
                         'thing3' => [
-                            'value' => 'VISA一元购'
+                            'value' => '联想立减金'
                         ]
                     ],
                     'miniprogram_state' => 'developer'

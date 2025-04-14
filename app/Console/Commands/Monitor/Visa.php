@@ -83,7 +83,7 @@ class Visa extends Command
                             'value' => $p['stock']
                         ],
                         'thing3' => [
-                            'value' => 'VISA一元购'
+                            'value' => '数字潮人一元购'
                         ]
                     ],
                     'miniprogram_state' => 'developer'

@@ -16,9 +16,9 @@ class VisaController extends Controller
      *
      * @return JsonResponse
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        return success(VisaProduct::all());
+        return success(VisaProduct::where('type', $request->input('type'))->get());
     }
 
     public function detail(Request $request): JsonResponse

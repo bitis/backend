@@ -36,7 +36,7 @@ class Lenovo extends Command
 //            1034686,
 //            1037657, // 500
             1039472, // 100
-//            1039473
+            1039473, // 500
         ];
         while (true) {
             try {

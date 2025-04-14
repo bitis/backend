@@ -29,4 +29,7 @@ class VisaProduct extends Model
         'goodsTagTwo',
         'price'
     ];
+
+    const TYPE_VISA = 1;
+    const TYPE_LENOVO = 2;
 }

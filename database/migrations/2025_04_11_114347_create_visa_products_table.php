@@ -29,6 +29,7 @@ return new class extends Migration
             $table->string('goodsTagOne')->nullable();
             $table->string('goodsTagTwo')->nullable();
             $table->integer('price')->default(5)->comment('价格');
+            $table->string('url')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

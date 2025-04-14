@@ -14,7 +14,8 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('XiaomiSports 15138674502 liuyuan321')->dailyAt('8:00');
         $schedule->command('we-bank:update')->weekdays()->between('0:00', '10:00')->everyFiveMinutes();
-        $schedule->command('visa:monitor')->everyMinute();
+        $schedule->command('monitor:visa')->everyMinute();
+        $schedule->command('monitor:visa')->everyMinute();
     }
 
     /**

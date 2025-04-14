@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Console\Commands\Visa;
+namespace App\Console\Commands\Monitor;
 
 use App\Models\VisaProduct;
 use EasyWeChat\MiniApp\Application;
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
 
-class Monitor extends Command
+class Visa extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'visa:monitor';
+    protected $signature = 'monitor:visa';
 
     /**
      * The console command description.
@@ -28,8 +28,12 @@ class Monitor extends Command
      */
     public function handle()
     {
-        $products = VisaProduct::all();
+        $products = VisaProduct::where('type', VisaProduct::TYPE_VISA)->get();
         $app = new Application(config('wechat.finance'));
+
+//        foreach ($products as $product) {
+//            $product->url = 'https://vtravel.link2shops.com/yiyuan/#/detail?activityId=' . $product->activityId . '&goodsId=' . $product->v_id . '&channelId=' . $product->channelId . '&platformTp=T0060';
+//        }
 
         foreach ($products as $product) {
             $json = (new Client)->post('https://vtravel.link2shops.com/vfuliApi/api/client/ypJyActivity/goodsDetail', [
@@ -64,9 +68,9 @@ class Monitor extends Command
             ]);
 
             if ($p['stock'] > 0) {
-                $app->getClient()->postJson('/cgi-bin/message/subscribe/send', [
+                $content = $app->getClient()->postJson('/cgi-bin/message/subscribe/send', [
                     'template_id' => 'oV29BXiP_LQKUdbZtSd93ce7Gl1YiYPa7y9Y_qp0n5k',
-                    'page' => 'pages/visa/detail?id=`+product.id',
+                    'page' => 'pages/visa/detail?id=' . $product->id,
                     'touser' => 'oVKEG7M1GZ3Le_9yLatRzdXRi5vk',
                     'data' => [
                         'thing1' => [
@@ -83,7 +87,9 @@ class Monitor extends Command
                         ]
                     ],
                     'miniprogram_state' => 'developer'
-                ]);
+                ])->getContent();
+
+                $this->info($content);
             }
 
             sleep(2);

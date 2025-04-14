@@ -16,4 +16,18 @@ class MiniUser extends Model
         'token',
         'coin'
     ];
+
+    protected static function booted(): void
+    {
+        static::created(function (MiniUser $user) {
+            MiniCoinLog::create([
+                'user_id' => $user->id,
+                'type' => MiniCoinLog::INCREASE,
+                'remark' => '注册赠送',
+                'before' => 0,
+                'value' => 50,
+                'after' => 50
+            ]);
+        });
+    }
 }

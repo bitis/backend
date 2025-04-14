@@ -23,6 +23,7 @@ class AuthController extends Controller
         $user = MiniUser::firstOrCreate([
             'openid' => $session['openid'],
         ], [
+            'coin' => 50,
             'token' => Str::random('16'),
         ]);
 

@@ -65,7 +65,7 @@ class Monitor extends Command
             if ($p['stock'] > 0) {
                 $app->getClient()->postJson('/cgi-bin/message/subscribe/send', [
                     'template_id' => 'oV29BXiP_LQKUdbZtSd93ce7Gl1YiYPa7y9Y_qp0n5k',
-                    'page' => 'pages/index/index',
+                    'page' => 'pages/visa/detail?id=`+product.id',
                     'touser' => 'oVKEG7M1GZ3Le_9yLatRzdXRi5vk',
                     'data' => [
                         'thing1' => [

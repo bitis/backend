@@ -28,6 +28,7 @@ return new class extends Migration
             $table->text('purchaseNotes')->nullable();
             $table->string('goodsTagOne')->nullable();
             $table->string('goodsTagTwo')->nullable();
+            $table->integer('price')->default(5)->comment('价格');
             $table->softDeletes();
             $table->timestamps();
         });

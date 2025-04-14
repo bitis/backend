@@ -9,6 +9,7 @@ Route::namespace('Financial')->prefix('financial')->group(function () {
     });
     Route::prefix('account')->group(function () {
         Route::post('info', 'AccountController@index');
+        Route::post('coin', 'AccountController@coin');
     });
     Route::prefix('we-bank')->group(function () {
         Route::post('products', 'WeBankController@index');
@@ -16,6 +17,8 @@ Route::namespace('Financial')->prefix('financial')->group(function () {
     });
     Route::prefix('visa')->group(function () {
         Route::post('products', 'VisaController@index');
+        Route::post('detail', 'VisaController@detail');
         Route::post('subscribe', 'VisaController@subscribe');
+        Route::post('unsubscribe', 'VisaController@unsubscribe');
     });
 });

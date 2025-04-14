@@ -60,6 +60,7 @@ class Monitor extends Command
                 'purchaseNotes' => $p['purchaseNotes'],
                 'goodsTagOne' => $p['goodsTagOne'],
                 'goodsTagTwo' => $p['goodsTagTwo'],
+                'updated_at' => now()
             ]);
 
             if ($p['stock'] > 0) {

@@ -54,8 +54,6 @@ class Visa extends Command
             $product->update([
                 'name' => $p['name'],
                 'subtitle' => $p['subtitle'],
-                'entranceImg' => $p['entranceImg'],
-                'seckillImg' => $p['seckillImg'],
                 'sellPrice' => $p['sellPrice'],
                 'purchasePrice' => $p['purchasePrice'],
                 'stockStatus' => $p['stockStatus'],

@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->string('openid')->nullable();
             $table->string('unionid')->nullable();
+            $table->string('official_openid')->nullable();
             $table->string('token')->nullable();
             $table->integer('coin')->default(0);
             $table->timestamps();

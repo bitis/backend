@@ -12,6 +12,7 @@ class MiniUser extends Model
     protected $fillable = [
         'openid',
         'unionid',
+        'official_openid',
         'token',
         'coin'
     ];

@@ -16,8 +16,6 @@ class Lenovo extends Command
      */
     protected $signature = 'monitor:lenovo';
 
-    protected int $send_time = 0;
-
     /**
      * The console command description.
      *

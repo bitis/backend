@@ -48,6 +48,7 @@ class Lenovo extends Command
             $data = json_decode($response->getBody()->getContents(), true);
 
             $product->stock = $data['result']['stockWithCdt']['salesNumber'];
+            $product->updated_at = now()->toDateTimeString();
             $product->save();
 
             if ($product->stock > 0) {

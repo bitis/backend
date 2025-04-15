@@ -77,7 +77,8 @@ class Luckin extends Command
                 "activityId" => "QYD1885513038220345344",
                 "skuCode" => "SKU0027051",
                 "validCode" => $validCode,
-                "eCode" => ""
+                "eCode" => "",
+                "zxId" => "54d1848da6b48116dd478f669c330da88f552433ae22926cad2184b63d3ea6224da76b1fb7f738021f137e53f45515179a565513dd635b6c139c42578399ce43"
             ]
         ]);
 

@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use Exception;
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
 use Illuminate\Support\Arr;
@@ -74,7 +75,7 @@ class Coomer extends Command
                 $response = $client->get($url);
                 $html = $response->getBody()->getContents();
 //                file_put_contents('post.html', $html);
-            } catch (\Exception $exception) {
+            } catch (Exception $exception) {
                 $this->info($exception->getMessage());
                 sleep(10);
                 goto retry;
@@ -139,7 +140,7 @@ class Coomer extends Command
         try {
             RETRY_GET_FILE_SIZE:
             return $this->client->head($url)->getHeaderLine('Content-Length');
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             if ($attempts++ < 3) goto RETRY_GET_FILE_SIZE;
         }
     }

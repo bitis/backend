@@ -6,8 +6,11 @@ use Alipay\EasySDK\Kernel\Payment as AlipayPayment;
 use Alipay\EasySDK\Kernel\Util\ResponseChecker;
 use App\Http\Controllers\Controller;
 use App\Models\ExportOrder;
+use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
+use EasyWeChat\Kernel\Exceptions\InvalidConfigException;
 use EasyWeChat\Payment\Application as WechatPayment;
 use Exception;
+use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,9 +29,9 @@ class ExportController extends Controller
      * @param AlipayPayment $alipay
      * @param WechatPayment $wechat
      * @return JsonResponse
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws InvalidArgumentException
+     * @throws InvalidConfigException
+     * @throws GuzzleException
      */
     public function order(Request $request, AlipayPayment $alipay, WechatPayment $wechat): JsonResponse
     {

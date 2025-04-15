@@ -3,7 +3,9 @@
 namespace App\Exceptions;
 
 
-class InsufficientException extends \Exception
+use Exception;
+
+class InsufficientException extends Exception
 {
 
 }

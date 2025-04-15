@@ -7,7 +7,11 @@ use App\Models\OfficialAccountConfig;
 use App\Models\User;
 use App\Models\WechatUser;
 use EasyWeChat\Factory;
+use EasyWeChat\Kernel\Exceptions\BadRequestException;
+use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
+use EasyWeChat\Kernel\Exceptions\InvalidConfigException;
 use EasyWeChat\Kernel\Messages\Text;
+use ReflectionException;
 use Symfony\Component\HttpFoundation\Response;
 
 class WechatController extends Controller
@@ -17,10 +21,10 @@ class WechatController extends Controller
      *
      * @param $account
      * @return Response
-     * @throws \EasyWeChat\Kernel\Exceptions\BadRequestException
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
-     * @throws \ReflectionException
+     * @throws BadRequestException
+     * @throws InvalidArgumentException
+     * @throws InvalidConfigException
+     * @throws ReflectionException
      */
     public function official($account): Response
     {

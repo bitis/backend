@@ -2,7 +2,9 @@
 
 namespace App\Exceptions;
 
-class MemberNotFoundException extends \Exception
+use Exception;
+
+class MemberNotFoundException extends Exception
 {
 
 }

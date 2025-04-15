@@ -7,6 +7,7 @@ use App\Models\CloudFile;
 use App\Models\SmsDetail;
 use App\Models\SmsRecord;
 use App\Models\SmsSignature;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -72,7 +73,7 @@ class SmsController extends Controller
                 ]);
             }
             DB::commit();
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             DB::rollBack();
             throw $exception;
         }

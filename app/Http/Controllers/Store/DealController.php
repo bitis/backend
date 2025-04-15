@@ -13,9 +13,11 @@ use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\OrderStaff;
 use App\Models\Product;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 class DealController extends Controller
 {
@@ -24,7 +26,7 @@ class DealController extends Controller
      *
      * @param Request $request
      * @return JsonResponse
-     * @throws \Exception
+     * @throws Exception
      */
     public function applyCard(Request $request): JsonResponse
     {
@@ -41,11 +43,11 @@ class DealController extends Controller
             DB::beginTransaction();
             $card = Card::where('store_id', $this->store_id)->find($cardId);
 
-            throw_if(empty($card), new \Exception('会员卡不存在'));
+            throw_if(empty($card), new Exception('会员卡不存在'));
 
             $member = Member::where('store_id', $this->store_id)->find($memberId);
 
-            throw_if(empty($member), new \Exception('会员不存在'));
+            throw_if(empty($member), new Exception('会员不存在'));
 
             $total_amount = $card->price;
             $deduct_amount = $total_amount - $pay_amount;
@@ -168,7 +170,7 @@ class DealController extends Controller
                 }
             }
             DB::commit();
-        } catch (\Exception|\Throwable $exception) {
+        } catch (Exception|Throwable $exception) {
             DB::rollBack();
             if (app()->environment() !== 'production') throw $exception;
             return fail($exception->getMessage());

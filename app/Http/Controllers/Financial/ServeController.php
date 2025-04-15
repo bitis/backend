@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Financial;
 
+use Closure;
 use EasyWeChat\MiniApp\Application as MiniApp;
 use EasyWeChat\OfficialAccount\Application as OfficialAccount;
 use Illuminate\Support\Facades\Log;
@@ -17,7 +18,7 @@ class ServeController extends Controller
 
         $message = $server->getRequestMessage(); // 原始消息
         Log::log('info', 'subscribe', (array)$message);
-        $server->addEventListener('subscribe', function($message, \Closure $next) {
+        $server->addEventListener('subscribe', function ($message, Closure $next) {
             Log::log('info', 'subscribe', $message);
         });
 
@@ -32,7 +33,7 @@ class ServeController extends Controller
 
         $message = $server->getRequestMessage(); // 原始消息
         Log::log('info', 'subscribe', (array)$message);
-        $server->addEventListener('subscribe', function($message, \Closure $next) {
+        $server->addEventListener('subscribe', function ($message, Closure $next) {
             Log::log('info', 'subscribe', $message);
         });
 

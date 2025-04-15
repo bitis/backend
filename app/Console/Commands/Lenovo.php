@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Common\DingTalk;
+use Exception;
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
 
@@ -62,7 +63,7 @@ class Lenovo extends Command
                         $this->send_time = time();
                     }
                 }
-            } catch (\Exception $exception) {
+            } catch (Exception $exception) {
                 $this->error(now()->toDateTimeString() . "\t" . $exception->getMessage());
             }
 

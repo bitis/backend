@@ -8,6 +8,7 @@ use App\Models\CommissionConfig;
 use App\Models\Enumerations\CommissionConfigurableType;
 use App\Models\Product;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -52,7 +53,7 @@ class CommissionController extends Controller
                 }
             }
             DB::commit();
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             DB::rollBack();
             return fail($exception->getMessage());
         }

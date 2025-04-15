@@ -2,7 +2,9 @@
 
 namespace App\Exceptions;
 
-class PrinterException extends \Exception
+use Exception;
+
+class PrinterException extends Exception
 {
 
 }

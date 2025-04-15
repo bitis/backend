@@ -2,7 +2,9 @@
 
 namespace App\Console\Commands;
 
+use Exception;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 
@@ -77,7 +79,7 @@ class XiaomiSports extends Command
                 $result = json_decode($response->getBody()->getContents(), true)['message'];
                 Log::info($result);
                 $needRetry = false;
-            } catch (\Exception $exception) {
+            } catch (Exception $exception) {
                 $needRetry = true;
                 sleep(5);
             }
@@ -131,7 +133,7 @@ class XiaomiSports extends Command
      *  获取 AppToken
      * @param $loginToken
      * @return string $appToken
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     private function getAppToken($loginToken): string
     {

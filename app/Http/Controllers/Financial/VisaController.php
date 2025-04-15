@@ -50,7 +50,7 @@ class VisaController extends Controller
             'user_id' => $this->user->id,
             'type' => $type
         ])->exists()
-        ) return fail('您已经订阅过了');
+        ) return success();
 
         $product = VisaProduct::find($id);
 

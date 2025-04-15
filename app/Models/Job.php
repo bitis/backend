@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Job extends Model
 {
+    protected $table = 'store_jobs';
+
     use HasFactory;
 
     protected $fillable = ['name', 'store_id'];

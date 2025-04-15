@@ -29,7 +29,7 @@ class CommissionConfig extends Model
 
     public function job(): BelongsTo
     {
-        return $this->belongsTo(Job::class);
+        return $this->belongsTo(StoreJob::class);
     }
 
     public function product(): HasOne

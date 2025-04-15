@@ -68,6 +68,6 @@ class User extends Authenticatable
 
     public function job(): BelongsTo
     {
-        return $this->belongsTo(Job::class);
+        return $this->belongsTo(StoreJob::class);
     }
 }

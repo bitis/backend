@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Store;
 
 use App\Http\Controllers\Controller;
-use App\Models\Job;
+use App\Models\StoreJob;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -14,7 +14,7 @@ class JobController extends Controller
      */
     public function index(): JsonResponse
     {
-        return success(Job::where('store_id', $this->store_id)->get());
+        return success(StoreJob::where('store_id', $this->store_id)->get());
     }
 
     /**
@@ -22,9 +22,9 @@ class JobController extends Controller
      */
     public function form(Request $request): JsonResponse
     {
-        $job = $request->input('id') ? Job::where('store_id', $this->store_id)
-            ->findOr($request->input('id'), fn() => new Job(['store_id' => $this->store_id]))
-            : new Job(['store_id' => $this->store_id]);
+        $job = $request->input('id') ? StoreJob::where('store_id', $this->store_id)
+            ->findOr($request->input('id'), fn() => new StoreJob(['store_id' => $this->store_id]))
+            : new StoreJob(['store_id' => $this->store_id]);
 
         $job->fill($request->only(['name']));
         $job->save();
@@ -34,7 +34,7 @@ class JobController extends Controller
 
     public function detail(Request $request): JsonResponse
     {
-        $job = Job::where('store_id', $this->store_id)->find($request->input('id'));
+        $job = StoreJob::where('store_id', $this->store_id)->find($request->input('id'));
 
         if (empty($job)) return fail();
 
@@ -47,14 +47,14 @@ class JobController extends Controller
      */
     public function destroy(Request $request): JsonResponse
     {
-        Job::where('store_id', $this->store_id)->where('id', $request->input('id'))->delete();
+        StoreJob::where('store_id', $this->store_id)->where('id', $request->input('id'))->delete();
 
         return success();
     }
 
     public function jobs(): JsonResponse
     {
-        return success(Job::where('store_id', $this->store_id)->get());
+        return success(StoreJob::where('store_id', $this->store_id)->get());
     }
 
 }

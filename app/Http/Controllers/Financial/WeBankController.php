@@ -40,6 +40,7 @@ class WeBankController extends Controller
             $stock->month = number_format($stock->month ?: 0, 2);
             $stock->three_month = number_format($stock->three_month ?: 0, 2);
             $stock->halfyearyield = number_format($stock->half_year_yield ?: 0, 2);
+            $stock->half_year_yield = number_format($stock->half_year_yield ?: 0, 2);
             $stock->six_month = number_format($stock->six_month ?: 0, 2);
             $stock->twelve_month_yield = number_format($stock->twelve_month_yield ?: 0, 2);
             $stock->daily_increase_rate = $this->rate($stock->daily_increase_money, $stock->unit_net_value, 365);

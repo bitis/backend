@@ -28,7 +28,7 @@ class WeBankController extends Controller
 
         $stocks = WeBankStock::when($column, function ($query, $column) use ($direction) {
             $query->orderBy($column, $direction);
-        })->get();
+        })->orderBy('')->get();
 
         foreach ($stocks as $stock) {
             $stock->rate_value = number_format($stock->rate_value ?: 0, 2);
@@ -38,10 +38,10 @@ class WeBankController extends Controller
             $stock->month_yield = number_format($stock->month_yield ?: 0, 2);
             $stock->season_yield = number_format($stock->season_yield ?: 0, 2);
             $stock->month = number_format($stock->month ?: 0, 2);
-            $stock->threemonth = number_format($stock->threemonth ?: 0, 2);
-            $stock->halfyearyield = number_format($stock->halfyearyield ?: 0, 2);
-            $stock->sixmonth = number_format($stock->sixmonth ?: 0, 2);
-            $stock->twelvemonthyield = number_format($stock->twelvemonthyield ?: 0, 2);
+            $stock->three_month = number_format($stock->three_month ?: 0, 2);
+            $stock->halfyearyield = number_format($stock->half_year_yield ?: 0, 2);
+            $stock->six_month = number_format($stock->six_month ?: 0, 2);
+            $stock->twelve_month_yield = number_format($stock->twelve_month_yield ?: 0, 2);
             $stock->daily_increase_rate = $this->rate($stock->daily_increase_money, $stock->unit_net_value, 365);
             $stock->month_increase_rate = $this->rate($stock->month_increase_rate, $stock->unit_net_value, 12);
             $stock->daily_increase_money = number_format($stock->daily_increase_money ?: 0, 2);

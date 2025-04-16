@@ -25,10 +25,10 @@ return new class extends Migration {
             $table->double('month_yield', 5, 2)->nullable()->comment('近一个月年化收益率 ladder_rate.monthyield');
             $table->double('season_yield', 5, 2)->nullable()->comment('近三个月年化收益率 ladder_rate.seasonyield');
             $table->double('month', 5, 2)->nullable()->comment('近一个月收益率 ladder_rate.month');
-            $table->double('threemonth', 5, 2)->nullable()->comment('近三个月收益率 ladder_rate.threemonth');
-            $table->double('halfyearyield', 5, 2)->nullable()->comment('近六个月年化收益率 ladder_rate.seasonyield');
-            $table->double('sixmonth', 5, 2)->nullable()->comment('近六个月收益率 ladder_rate.sixmonth');
-            $table->double('twelvemonthyield', 5, 2)->nullable()->comment('近一年年化收益率 ladder_rate.seasonyield');
+            $table->double('three_month', 5, 2)->nullable()->comment('近三个月收益率 ladder_rate.threemonth');
+            $table->double('half_year_yield', 5, 2)->nullable()->comment('近六个月年化收益率 ladder_rate.seasonyield');
+            $table->double('six_month', 5, 2)->nullable()->comment('近六个月收益率 ladder_rate.sixmonth');
+            $table->double('twelve_month_yield', 5, 2)->nullable()->comment('近一年年化收益率 ladder_rate.seasonyield');
             $table->timestamp('start_buy_time')->nullable()->comment('');
             $table->double('daily_increase_money')->nullable()->comment('万份收益 当日');
             $table->double('daily_increase_change')->nullable()->comment('日净值变动');

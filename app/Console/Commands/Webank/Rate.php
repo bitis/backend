@@ -32,7 +32,7 @@ class Rate extends Command
         $start_date = '20250101';
         $end_date = today()->format('Ymd');
 
-        $stocks = WeBankStock::all();
+        $stocks = WeBankStock::where('id', '>', 20)->get();
 
         $end_date = today()->format('Ymd');
 
@@ -79,7 +79,7 @@ class Rate extends Command
         $response = $client->get('https://personalv6.webankwealth.com/wm-hjhtr/wm-pqs/query/ta/stock_rates', ['query' => $query]);
         $data = json_decode($response->getBody()->getContents(), true);
 
-        dd($data);
+
         foreach ($data['ret_data'] as $rate) {
             WeBankStockRate::firstOrCreate([
                 'prod_code' => $rate['prod_code'],

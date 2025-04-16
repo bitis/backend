@@ -28,7 +28,7 @@ class DailyMoney extends Command
      */
     public function handle()
     {
-        $stocks = WeBankStock::all();
+        $stocks = WeBankStock::where('id', '>', 20)->get();
 
         foreach ($stocks as $stock) {
             $pre_month_last_day = WeBankStockRate::where('prod_code', $stock->code)
@@ -48,7 +48,7 @@ class DailyMoney extends Command
                 ->where('earnings_rate_date', '<', '2025-04-01')
                 ->orderBy('earnings_rate_date', 'desc')
                 ->first();
-            $stock->pre_month_increase_money = 10000 * ($_right->unit_net_value - $_left->unit_net_value);
+            if ($_left && $_right) $stock->pre_month_increase_money = 10000 * ($_right->unit_net_value - $_left->unit_net_value);
 
             $stock->save();
         }

@@ -31,7 +31,10 @@ class Stock extends Command
         $stocks = $data['ret_data']['list'];
 
         foreach ($stocks as $stock) {
-            WeBankStock::create([
+            WeBankStock::updateOrCreate([
+                'name' => $stock['product_name'],
+                'code' => $stock['product_code'],
+            ], [
                 'name' => $stock['product_name'],
                 'code' => $stock['product_code'],
                 'days_of_product_period' => $stock['days_of_product_period'],
@@ -41,14 +44,14 @@ class Stock extends Command
                 'rate_value' => $this->numberOrNull($stock['rate_value']),
                 'unit_net_value' => $this->numberOrNull($stock['unit_net_value']),
                 'adjust_unit_net_value' => $this->numberOrNull($stock['adjust_unit_net_value']),
-                'fundbeginyield' => $this->numberOrNull($stock['ladder_rate']['fundbeginyield']),
-                'monthyield' => $this->numberOrNull($stock['ladder_rate']['monthyield']),
+                'fund_begin_yield' => $this->numberOrNull($stock['ladder_rate']['fundbeginyield']),
+                'month_yield' => $this->numberOrNull($stock['ladder_rate']['monthyield']),
                 'month' => $this->numberOrNull($stock['ladder_rate']['month']),
-                'seasonyield' => $this->numberOrNull($stock['ladder_rate']['seasonyield']),
-                'threemonth' => $this->numberOrNull($stock['ladder_rate']['threemonth']),
-                'halfyearyield' => $this->numberOrNull($stock['ladder_rate']['seasonyield']),
-                'sixmonth' => $this->numberOrNull($stock['ladder_rate']['sixmonth']),
-                'twelvemonthyield' => $this->numberOrNull($stock['ladder_rate']['seasonyield']),
+                'season_yield' => $this->numberOrNull($stock['ladder_rate']['seasonyield']),
+                'three_month' => $this->numberOrNull($stock['ladder_rate']['threemonth']),
+                'half_year_yield' => $this->numberOrNull($stock['ladder_rate']['seasonyield']),
+                'six_month' => $this->numberOrNull($stock['ladder_rate']['sixmonth']),
+                'twelve_month_yield' => $this->numberOrNull($stock['ladder_rate']['seasonyield']),
                 'start_buy_time' => $this->formatDate($stock['start_buy_time']),
             ]);
         }

@@ -66,6 +66,10 @@ class WeBankController extends Controller
         $end_date = $request->input('end_date') ?: date('Y-m-d');
         $amount = $request->input('amount') ?: 10000;
 
+        if (strtotime($start_date) >= strtotime($end_date)) {
+            return fail("卖出日期应晚于买入日期");
+        }
+
         $stock = WeBankStock::where('code', $code)->first();
 
         $rates = WeBankStockRate::where('prod_code', $code)
@@ -77,7 +81,11 @@ class WeBankController extends Controller
         $stock->amount = $amount;
         $stock->confirm_date = ''; // 确认日期
         $stock->confirm_value = 0; // 确认净值
+        $stock->sell_value = 0; // 卖出净值
         $stock->confirm_number = 0; // 确认份额
+        $stock->total_bonus = 0; // 总收益
+        $stock->day_of_zero_bonus = 0; // 0收天数
+        $stock->average_bonus = 0; // 日均收益
 
         $stock->earliest_date = today()->addDays(-366)->max($stock->start_buy_time)->format('Y-m-d');
 
@@ -92,17 +100,26 @@ class WeBankController extends Controller
                 continue;
             }
             $after_amount = $stock->confirm_number * $rate->unit_net_value;
+
+            $bonus = $after_amount - $before_amount;
+            $stock->total_bonus += $bonus;
+            $stock->day_of_zero_bonus += $bonus == 0 ? 1 : 0;
+
             $results[] = [
                 'date' => $rate->earnings_rate_date,
                 'unit_value' => number_format($rate->unit_net_value, '6'),
                 'number' => number_format($stock->confirm_number, 2),
                 'amount' => number_format($after_amount, 2),
-                'change' => number_format($after_amount - $before_amount, 2)
+                'change' => number_format($bonus, 2)
             ];
             $before_amount = $after_amount;
+            $stock->sell_value = $rate->unit_net_value;
         }
 
         $stock->results = array_reverse($results);
+        $stock->total_days = Carbon::parse($end_date)->diffInDays(Carbon::parse($start_date));
+        $stock->average_bonus = $stock->total_bonus / $stock->total_days;
+        $stock->period_yield = ($stock->sell_value - $stock->confirm_value) / $stock->confirm_value / $stock->total_days * 365;
 
         return success($stock);
     }

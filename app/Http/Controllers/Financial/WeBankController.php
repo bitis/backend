@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Financial;
 
 use App\Models\WeBankStock;
 use App\Models\WeBankStockRate;
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -77,6 +78,8 @@ class WeBankController extends Controller
         $stock->confirm_date = ''; // 确认日期
         $stock->confirm_value = 0; // 确认净值
         $stock->confirm_number = 0; // 确认份额
+
+        $stock->earliest_date = today()->addDays(-366)->max($stock->start_buy_time)->format('Y-m-d');
 
         $results = [];
         $before_amount = $amount;

@@ -82,6 +82,7 @@ class WeBankController extends Controller
         $stock->confirm_date = ''; // 确认日期
         $stock->confirm_value = 0; // 确认净值
         $stock->sell_value = 0; // 卖出净值
+        $stock->sell_date = ''; // 卖出日期
         $stock->confirm_number = 0; // 确认份额
         $stock->total_bonus = 0; // 总收益
         $stock->day_of_zero_bonus = 0; // 0收天数
@@ -114,10 +115,11 @@ class WeBankController extends Controller
             ];
             $before_amount = $after_amount;
             $stock->sell_value = $rate->unit_net_value;
+            $stock->sell_date = $rate->earnings_rate_date;
         }
 
         $stock->results = array_reverse($results);
-        $stock->total_days = Carbon::parse($end_date)->diffInDays(Carbon::parse($start_date));
+        $stock->total_days = Carbon::parse($stock->sell_date)->diffInDays(Carbon::parse($stock->confirm_date));
         $stock->average_bonus = $stock->total_bonus / $stock->total_days;
         $stock->period_yield = ($stock->sell_value - $stock->confirm_value) / $stock->confirm_value / $stock->total_days * 365;
 

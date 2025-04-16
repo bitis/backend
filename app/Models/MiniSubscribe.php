@@ -17,4 +17,7 @@ class MiniSubscribe extends Model
         'price',
         'type'
     ];
+
+    const TYPE_VISA = 1;
+    const TYPE_LENOVO = 2;
 }

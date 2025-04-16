@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands\Monitor;
 
+use App\Jobs\MiniMessageJob;
+use App\Models\MiniSubscribe;
 use App\Models\VisaProduct;
 use EasyWeChat\MiniApp\Application;
 use GuzzleHttp\Client;
@@ -52,28 +54,31 @@ class Lenovo extends Command
             $product->save();
 
             if ($product->stock > 0) {
-                $content = $app->getClient()->postJson('/cgi-bin/message/subscribe/send', [
-                    'template_id' => 'oV29BXiP_LQKUdbZtSd93ce7Gl1YiYPa7y9Y_qp0n5k',
-                    'page' => 'pages/visa/detail?id=' . $product->id,
-                    'touser' => 'oVKEG7M1GZ3Le_9yLatRzdXRi5vk',
-                    'data' => [
-                        'thing1' => [
-                            'value' => $product->name
-                        ],
-                        'time2' => [
-                            'value' => now()->toDateTimeString()
-                        ],
-                        'number5' => [
-                            'value' => $product->stock
-                        ],
-                        'thing3' => [
-                            'value' => '联想立减金'
-                        ]
-                    ],
-                    'miniprogram_state' => 'developer'
-                ])->getContent();
+                $subscribes = MiniSubscribe::where('product_id', $product->id)
+                    ->where('type', MiniSubscribe::TYPE_LENOVO)
+                    ->get();
 
-                $this->info($content);
+                foreach ($subscribes as $subscribe) {
+                    MiniMessageJob::dispatch(
+                        'oV29BXiP_LQKUdbZtSd93ce7Gl1YiYPa7y9Y_qp0n5k',
+                        $subscribe->user_id,
+                        [
+                            'thing1' => [
+                                'value' => $product->name
+                            ],
+                            'time2' => [
+                                'value' => now()->toDateTimeString()
+                            ],
+                            'number5' => [
+                                'value' => $product->stock
+                            ],
+                            'thing3' => [
+                                'value' => '联想立减金'
+                            ]
+                        ],
+                        'pages/visa/detail?id=' . $product->id
+                    );
+                }
             }
         }
     }

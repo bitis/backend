@@ -39,7 +39,6 @@ class WeBankController extends Controller
             $stock->season_yield = number_format($stock->season_yield ?: 0, 2);
             $stock->month = number_format($stock->month ?: 0, 2);
             $stock->three_month = number_format($stock->three_month ?: 0, 2);
-            $stock->halfyearyield = number_format($stock->half_year_yield ?: 0, 2);
             $stock->half_year_yield = number_format($stock->half_year_yield ?: 0, 2);
             $stock->six_month = number_format($stock->six_month ?: 0, 2);
             $stock->twelve_month_yield = number_format($stock->twelve_month_yield ?: 0, 2);
@@ -73,6 +72,7 @@ class WeBankController extends Controller
             ->orderBy('earnings_rate_date')
             ->get();
 
+        $stock->halfyearyield = $stock->half_year_yield;
         $stock->amount = $amount;
         $stock->confirm_date = ''; // 确认日期
         $stock->confirm_value = 0; // 确认净值

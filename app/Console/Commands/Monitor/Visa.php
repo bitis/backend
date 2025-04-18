@@ -92,8 +92,8 @@ class Visa extends Command
                         'pages/visa/detail?id=' . $product->id
                     );
                 }
-                sleep(2);
             }
+            sleep(2);
         }
     }
 }

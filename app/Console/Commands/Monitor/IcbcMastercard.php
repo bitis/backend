@@ -5,7 +5,6 @@ namespace App\Console\Commands\Monitor;
 use App\Jobs\MiniMessageJob;
 use App\Models\MiniSubscribe;
 use App\Models\VisaProduct;
-use EasyWeChat\MiniApp\Application;
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
 
@@ -30,41 +29,32 @@ class IcbcMastercard extends Command
      */
     public function handle()
     {
-        $products = VisaProduct::where('type', VisaProduct::TYPE_ICBC_MASTERCARD)->get();
+        $products = VisaProduct::where('type', VisaProduct::TYPE_ICBC_MASTERCARD)->pluck('v_id');
 
-//        foreach ($products as $product) {
-//            $product->url = 'https://vtravel.link2shops.com/yiyuan/#/detail?activityId=' . $product->activityId . '&goodsId=' . $product->v_id . '&channelId=' . $product->channelId . '&platformTp=T0060';
-//        }
+        $json = (new Client())->post('https://bcsscs.icbc.com.cn/api-goods/config/goods/recommend/list?corpId=2000001795', [
+            'json' => [
+                'corpId' => '2000001795',
+                'goodsNoArr' => $products,
+                'activityNoArr' => []
+            ],
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36 NetType/WIFI MicroMessenger/7.0.20.1781(0x6700143B) WindowsWechat(0x63090c33) XWEB/11581 Flue',
+            ]
+        ])->getBody()->getContents();
+        $list = json_decode($json, true)['data']['data'];
 
-        foreach ($products as $product) {
-            $json = (new Client)->post('https://bcsscs.icbc.com.cn/api-goods/goodsSearch/goodsDetail/2000001795?corpId=2000001795', [
-                'json' => [
-                    'corpId' => '2000001795',
-                    'goodsNo' => $product->v_id,
-                ],
-                'headers' => [
-                    'Content-Type' => 'application/json',
-                    'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36 NetType/WIFI MicroMessenger/7.0.20.1781(0x6700143B) WindowsWechat(0x63090c33) XWEB/11581 Flue',
-                ]
-            ])->getBody()->getContents();
-            $p = json_decode($json, true)['goodsMap'];
+        foreach ($list as $item) {
+            $product = VisaProduct::where('type', VisaProduct::TYPE_ICBC_MASTERCARD)
+                ->where('v_id', $item['goodsNo'])->first();
             $product->update([
-//                'name' => $p['name'],
-//                'subtitle' => $p['subtitle'],
-//                'sellPrice' => $p['sellPrice'],
-//                'purchasePrice' => $p['purchasePrice'],
-//                'stockStatus' => $p['stockStatus'],
-//                'goodsIntroduction' => $p['goodsIntroduction'],
-//                'purchaseNotes' => $p['purchaseNotes'],
-//                'goodsTagOne' => $p['goodsTagOne'],
-//                'goodsTagTwo' => $p['goodsTagTwo'],
-                'stock' => $p['stock'],
+                'stock' => $item['storageStatus'] ? 1 : 0,
                 'updated_at' => now()
             ]);
 
-            if ($p['stock'] > 0) {
+            if ($product['stock']) {
                 $subscribes = MiniSubscribe::where('product_id', $product->id)
-                    ->where('type', MiniSubscribe::TYPE_LENOVO)
+                    ->where('type', MiniSubscribe::TYPE_ICBC_MASTERCARD)
                     ->get();
 
                 foreach ($subscribes as $subscribe) {
@@ -82,7 +72,7 @@ class IcbcMastercard extends Command
                                 'value' => $product->stock
                             ],
                             'thing3' => [
-                                'value' => '数字潮人一元购'
+                                'value' => '工行万事达一元购'
                             ]
                         ],
                         'pages/visa/detail?id=' . $product->id
@@ -91,5 +81,6 @@ class IcbcMastercard extends Command
                 sleep(2);
             }
         }
+
     }
 }

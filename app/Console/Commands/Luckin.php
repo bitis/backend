@@ -30,7 +30,7 @@ class Luckin extends Command
     {
         $this->client = new Client();
 
-        $timer = strtotime('2025-04-12 12:00:00');
+        $timer = strtotime('2025-04-17 12:00:00');
 
         $validCode = '';
 
@@ -71,6 +71,9 @@ class Luckin extends Command
             $this->time();
             return;
         }
+        //https://mall2-demo.jw2008.cn/order/confirmEquityPoint?activityId=QYD1885513038220345344&skuCode=SKU0027051&zxId=54d1848da6b48116dd478f669c330da88f552433ae22926cad2184b63d3ea6224da76b1fb7f738021f137e53f4551517cc64905846d799c3a90fd411cf8869ee&appkey=NIBjFewXdd2SB3DMxv5YRP7FUwPwlp
+//        cc64905846d799c3a90fd411cf8869ee,
+//        9a565513dd635b6c139c42578399ce43
         $response = $this->client->post('https://mall-api2-demo.jw2008.cn/mall-basic-portal/v2/oms/order/equityPoint/submitOrder', [
             'headers' => $this->headers(),
             'json' => [
@@ -78,7 +81,7 @@ class Luckin extends Command
                 "skuCode" => "SKU0027051",
                 "validCode" => $validCode,
                 "eCode" => "",
-                "zxId" => "54d1848da6b48116dd478f669c330da88f552433ae22926cad2184b63d3ea6224da76b1fb7f738021f137e53f45515179a565513dd635b6c139c42578399ce43"
+                "zxId" => "54d1848da6b48116dd478f669c330da88f552433ae22926cad2184b63d3ea6224da76b1fb7f738021f137e53f4551517cc64905846d799c3a90fd411cf8869ee"
             ]
 
         ]);
@@ -103,7 +106,7 @@ class Luckin extends Command
     public function headers(): array
     {
         return [
-            'Authorization' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJhdWQiOiJtYWxsLWNsaWVudCIsInVtc1VzZXJJZCI6MzM4ODk5MywiQWRtaW5Ub2tlbiI6Imh0dHA6Ly9tYWxsLWF1dGgvaW5uZXIvdG9rZW4vZ2V0QWRtaW5Ub2tlbj90b2tlbj0iLCJyZW1vdGVJcCI6IjExNS42MC4xOTQuMjM1IiwibG9hZEJhbGFuY2VyIjoibWFsbC1hdXRoIiwibW9iaWxlIjoiMTUxMzg2NzQ1MDIiLCJhcHBrZXkiOiJOSUJqRmV3WGRkMlNCM0RNeHY1WVJQN0ZVd1B3bHAiLCJleHAiOjE3NDQ0MzA4MjMsIkNsaWVudFRva2VuIjoiaHR0cDovL21hbGwtYXV0aC9pbm5lci90b2tlbi9nZXRDbGllbnRUb2tlbj90b2tlbj0iLCJjaGFubmVsSWQiOjQzfQ.qeLRbBEJp7-w6kGKAIqceBEOeeeJ2Hd15rfUfpBIOm-ihabKYuc4Z_p7FaEpq9D3WKoglMbTChmUe4t9z69rjw',
+            'Authorization' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJhdWQiOiJtYWxsLWNsaWVudCIsInVtc1VzZXJJZCI6MzM4ODk5MywiQWRtaW5Ub2tlbiI6Imh0dHA6Ly9tYWxsLWF1dGgvaW5uZXIvdG9rZW4vZ2V0QWRtaW5Ub2tlbj90b2tlbj0iLCJyZW1vdGVJcCI6IjExNS42MC4xOTQuMzIiLCJsb2FkQmFsYW5jZXIiOiJtYWxsLWF1dGgiLCJtb2JpbGUiOiIxNTEzODY3NDUwMiIsImFwcGtleSI6Ik5JQmpGZXdYZGQyU0IzRE14djVZUlA3RlV3UHdscCIsImV4cCI6MTc0NDg2MjQ4MCwiQ2xpZW50VG9rZW4iOiJodHRwOi8vbWFsbC1hdXRoL2lubmVyL3Rva2VuL2dldENsaWVudFRva2VuP3Rva2VuPSIsImNoYW5uZWxJZCI6NDN9.PHK84lIDLj0-DGXTcIMRbKtPiRa3kMgNbCIYF1HW_2FxViNdOdNLt31DXeCQbwnmJwX2l9-NBF8_pblT0dJKnA',
             'User-Agent' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1 Edg/134.0.0.0',
             'appkey' => 'NIBjFewXdd2SB3DMxv5YRP7FUwPwlp',
             'Content-Type' => 'application/json'

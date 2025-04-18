@@ -20,4 +20,5 @@ class MiniSubscribe extends Model
 
     const TYPE_VISA = 1;
     const TYPE_LENOVO = 2;
+    const TYPE_ICBC_MASTERCARD = 3;
 }

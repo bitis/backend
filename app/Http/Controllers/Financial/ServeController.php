@@ -33,13 +33,17 @@ class ServeController extends Controller
         $server = $app->getServer();
 
         $server->addEventListener('subscribe', function (Message $message, Closure $next) {
-            Log::log('info', 'subscribe', $message->toArray());
+            Log::log('subscribe', 'subscribe', $message->toArray());
 
             return '感谢您关注!';
         });
 
-        $server->addEventListener('subscribe', function ($message, Closure $next) {
-            Log::log('info', 'subscribe', $message);
+        $server->addEventListener('text', function (Message $message, Closure $next) {
+            Log::log('text', 'subscribe', $message->toArray());
+
+            if ($message->getOriginalContents() == 'openid') {
+                return $message->FromUserName;
+            }
 
             return '感谢您关注!';
         });

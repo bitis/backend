@@ -35,6 +35,8 @@ class ServeController extends Controller
         Log::log('info', 'subscribe', (array)$message);
         $server->addEventListener('subscribe', function ($message, Closure $next) {
             Log::log('info', 'subscribe', $message);
+
+            return '感谢您关注!';
         });
 
         return $server->serve();

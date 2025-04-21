@@ -25,7 +25,7 @@ class ServeController extends Controller
         return $server->serve();
     }
 
-    public function official(): ResponseInterface
+    public function official()
     {
         $app = new OfficialAccount(config('wechat.finance'));
 

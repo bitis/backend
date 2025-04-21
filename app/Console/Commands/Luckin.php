@@ -30,7 +30,7 @@ class Luckin extends Command
     {
         $this->client = new Client();
 
-        $timer = strtotime('2025-04-17 12:00:00');
+        $timer = strtotime(date('Y-m-d') . ' 12:00:00');
 
         $validCode = '';
 

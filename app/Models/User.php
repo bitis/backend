@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Models\Enumerations\UserStatus;
 use App\Models\Traits\DefaultDatetimeFormat;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -13,7 +15,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser
 {
     use HasApiTokens, HasFactory, Notifiable, DefaultDatetimeFormat, SoftDeletes;
 
@@ -26,6 +28,7 @@ class User extends Authenticatable
         'name',
         'avatar',
         'mobile',
+        'email',
         'store_id',
         'mobile_verified_at',
         'password',
@@ -69,5 +72,10 @@ class User extends Authenticatable
     public function job(): BelongsTo
     {
         return $this->belongsTo(StoreJob::class);
+    }
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return true;
     }
 }

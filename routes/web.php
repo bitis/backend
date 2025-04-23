@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::get('/', fn() => redirect('admin'));
+Route::get('/', fn() => redirect('admin'));
 Route::get('qrcode', 'QrCodeController@gen');
 
 Route::prefix('agreement')->group(function () {

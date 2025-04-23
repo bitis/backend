@@ -16,9 +16,9 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class StoreResource extends Resource
 {
     protected static ?string $model = Store::class;
-    protected static ?string $modelLabel = '门店管理';
+    protected static ?string $modelLabel = '门店';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-s-building-storefront';
     protected static bool $shouldSkipAuthorization = true;
 
     public static function form(Form $form): Form

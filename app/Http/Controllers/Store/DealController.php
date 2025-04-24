@@ -188,8 +188,9 @@ class DealController extends Controller
     public function normal(Request $request): JsonResponse
     {
         $member = $request->input('member');
-        $amount = $request->input('amount');
-        $products = $request->input('products');
+        $type = $request->input('type');
+        $amount = $request->input('amount', 0);
+        $products = $request->input('products', []);
         $payment = $request->input('payment');
 
         if (!empty($member['id'])) {
@@ -207,7 +208,8 @@ class DealController extends Controller
                 ]);
         }
 
-        if (empty($amount) && empty($products)) return fail('请选择消费项目');
+        if ($type == Order::TYPE_FAST && empty($amount)) return fail('请输入消费金额');
+        if ($type == Order::TYPE_NORMAL && empty($products)) return fail('请选择消费项目');
 
         $total_price = 0;
         $total_original_price = 0;
@@ -236,7 +238,7 @@ class DealController extends Controller
                 'member_id' => $member['id'],
                 'store_id' => $this->store_id,
                 'order_number' => Order::generateNumber($this->store_id),
-                'type' => Order::TYPE_NORMAL,
+                'type' => $type,
                 'intro' => '普通消费',
                 'total_amount' => $total_original_price,
                 'deduct_amount' => $total_deduct_price,

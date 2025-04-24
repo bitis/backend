@@ -258,6 +258,7 @@ class DealController extends Controller
                     'order_id' => $order->id,
                     'product_id' => $_product->id,
                     'product_name' => $_product->name,
+                    'product_image' => $_product->images[0],
                     'number' => $mProduct['number'],
                     'price' => $mProduct['price'],
                     'total_price' => $mProduct['total_price'],

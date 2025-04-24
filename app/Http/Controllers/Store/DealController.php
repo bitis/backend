@@ -188,6 +188,7 @@ class DealController extends Controller
     public function normal(Request $request): JsonResponse
     {
         $member = $request->input('member');
+        $amount = $request->input('amount');
         $products = $request->input('products');
         $payment = $request->input('payment');
 
@@ -206,7 +207,7 @@ class DealController extends Controller
                 ]);
         }
 
-        if (empty($products)) return fail('请选择要消费的商品');
+        if (empty($amount) && empty($products)) return fail('请选择消费项目');
 
         $total_price = 0;
         $total_original_price = 0;

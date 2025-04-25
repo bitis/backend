@@ -74,4 +74,9 @@ class Product extends Model
     {
         return $this->hasMany(ProductSpec::class);
     }
+
+    public function getImagesAttribute($val): array
+    {
+        return json_decode($val, true) ?: ["https://static1.yuguaikeji.com/images/p1.png"];
+    }
 }

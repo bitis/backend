@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands\Webank;
+namespace App\Console\Commands\Financial;
 
 use App\Models\WeBankStock;
 use App\Models\WeBankStockRate;
@@ -8,14 +8,14 @@ use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
 
-class Update extends Command
+class WeBank extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'we-bank:update';
+    protected $signature = 'financial:webank';
 
     /**
      * The console command description.
@@ -32,7 +32,7 @@ class Update extends Command
         $start_date = today()->addDays(-7)->format('Ymd');
         $end_date = today()->format('Ymd');
 
-        $stocks = WeBankStock::all();
+        $stocks = WeBankStock::where('type', 'WeBank')->get();
 
         foreach ($stocks as $stock) {
             $param = [

@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Console\Commands\Webank;
+namespace App\Console\Commands\Financial;
 
 use App\Models\WeBankStock;
 use App\Models\WeBankStockRate;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 
-class DailyMoney extends Command
+class WeDailyMoney extends Command
 {
     /**
      * The name and signature of the console command.
@@ -28,7 +28,7 @@ class DailyMoney extends Command
      */
     public function handle()
     {
-        $stocks = WeBankStock::where('id', '>', 20)->get();
+        $stocks = WeBankStock::where('type', 'WeBank')->where('id', '>', 20)->get();
 
         foreach ($stocks as $stock) {
             $pre_month_last_day = WeBankStockRate::where('prod_code', $stock->code)

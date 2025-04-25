@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands\Webank;
+namespace App\Console\Commands\Financial;
 
 use App\Models\WeBankStock;
 use Illuminate\Console\Command;

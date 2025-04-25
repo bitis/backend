@@ -210,7 +210,6 @@ class DealController extends Controller
 
         if ($type == Order::TYPE_FAST && empty($amount)) return fail('请输入消费金额');
         elseif ($type == Order::TYPE_NORMAL && empty($products)) return fail('请选择消费项目');
-        else return fail('参数错误');
 
         $total_price = 0;
         $total_original_price = 0;

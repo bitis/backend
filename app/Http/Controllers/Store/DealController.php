@@ -189,7 +189,8 @@ class DealController extends Controller
     {
         $member = $request->input('member');
         $type = $request->input('type');
-        $amount = $request->input('amount', 0);
+        $price = $request->input('price', 0);
+        $original_price = $request->input('original_price', 0);
         $products = $request->input('products', []);
         $payment = $request->input('payment');
 
@@ -275,7 +276,8 @@ class DealController extends Controller
 
         return success([
             'member' => $member,
-            'amount' => $amount,
+            'price' => $price,
+            'original_price' => $original_price,
             'products' => $products,
             'total_price' => $total_price,
             'total_original_price' => $total_original_price,

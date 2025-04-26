@@ -31,22 +31,22 @@ class CiticBank extends Command
     public function handle()
     {
         $cookies = $this->refreshCookie();
-        $stocks = WeBankStock::where('type', 'CiticBank')->limit(1)->get();
+        $stocks = WeBankStock::where('type', '中信信芯家族')->get();
 
         foreach ($stocks as $stock) {
-            $this->sync($stock->code, $stock->body, $cookies);
+            $this->sync($stock, $cookies);
         }
     }
 
-    public function sync($code, $param, $cookies): void
+    public function sync($stock, $cookies): void
     {
         $client = new Client();
-        $response = $client->get('https://wap.bank.ecitic.com/NMBFOServer/api.do', [
+        $response = $client->post('https://wap.bank.ecitic.com/NMBFOServer/api.do', [
             'query' => [
                 'act' => 'PENFHNLC',
                 'isWeb' => 1
             ],
-            'json' => json_decode($param),
+            'json' => json_decode($stock->body, true),
             'headers' => [
                 'cookie' => $cookies
             ]
@@ -64,25 +64,25 @@ class CiticBank extends Command
             $date = $this->formatDate($rate['ISSDATE']);
 
             if (WeBankStockRate::where([
-                'prod_code' => $code,
+                'prod_code' => $stock->code,
                 'earnings_rate_date' => $date
             ])->exists()) continue;
 
             $today = WeBankStockRate::firstOrCreate([
-                'prod_code' => $code,
+                'prod_code' => $stock->code,
                 'earnings_rate_date' => $date
             ], [
                 'accu_net_value' => $rate['TOTNAV'],
                 'unit_net_value' => $rate['NAV'],
             ]);
 
-            $yesterday_value = WeBankStockRate::where('prod_code', $code)
+            $yesterday_value = WeBankStockRate::where('prod_code', $stock->code)
                 ->where('earnings_rate_date', '<', $date)
                 ->orderBy('earnings_rate_date', 'desc')
                 ->first()?->unit_net_value;
 
             if ($today && $yesterday_value) {
-                $stock = WeBankStock::where('code', $code)->first();
+                $stock = WeBankStock::where('code', $stock->code)->first();
                 $stock->daily_increase_change = $today->unit_net_value - $yesterday_value;
                 $stock->daily_increase_money = ($today->unit_net_value * 10000 - $yesterday_value * 10000);
                 $today->daily_increase_money = $stock->daily_increase_money;
@@ -96,16 +96,40 @@ class CiticBank extends Command
 
                 $stock->save();
                 $today->save();
-            }
 
-            WeBankStock::where('code', $code)->update([
-                'unit_net_value' => $rate['NAV'],
-//                'fund_begin_yield' => $rate['fund_begin_yield'],
+                $yearRate = $this->yearRates($stock->year_rate_body, $cookies);
+
+                WeBankStock::where('code', $stock->code)->update([
+                    'unit_net_value' => $rate['NAV'],
+                    'rate_value' => $rate['NAV'],
+                    'fund_begin_yield' => $yearRate[1]['YEARRATE'],
 //                'month_yield' => $rate['month_yield'],
-//                'season_yield' => $rate['season_yield'],
-                'value_date' => $date,
-            ]);
+                    'season_yield' => $yearRate[0]['YEARRATE'],
+                    'value_date' => $date,
+                ]);
+            }
         }
+    }
+
+    public function yearRates($param, $cookies)
+    {
+        $client = new Client();
+        $response = $client->post('https://wap.bank.ecitic.com/NMBFOServer/api.do', [
+            'query' => [
+                'act' => 'PE05LSYJ',
+                'isWeb' => 1
+            ],
+            'json' => json_decode($param),
+            'headers' => [
+                'cookie' => $cookies
+            ]
+        ]);
+        $data = json_decode($response->getBody()->getContents(), true);
+        $result = json_decode($data['dataPackage']['business'], true);
+
+        if ($result['RETCODE'] != 'AAAAAAA') echo $result['RETMSG'];
+
+        return $result['resultList'];
     }
 
     /**

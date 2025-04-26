@@ -9,7 +9,7 @@ use GuzzleHttp\Client;
 use Illuminate\Console\Command;
 use Illuminate\Support\Arr;
 
-class Citic extends Command
+class CiticBank extends Command
 {
     /**
      * The name and signature of the console command.

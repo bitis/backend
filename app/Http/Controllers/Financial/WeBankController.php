@@ -24,10 +24,13 @@ class WeBankController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
+        $type = $request->input('type', '微众活期+Plus');
         $column = $request->input('column');
         $direction = $request->input('direction');
 
-        $stocks = WeBankStock::when($column, function ($query, $column) use ($direction) {
+        $stocks = WeBankStock::when($type, function ($query, $type) use ($direction) {
+            $query->where('type', $type);
+        })->when($column, function ($query, $column) use ($direction) {
             $query->orderBy($column, $direction);
         })->orderBy('start_buy_time', 'desc')->get();
 

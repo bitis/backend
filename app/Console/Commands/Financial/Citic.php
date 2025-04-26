@@ -23,21 +23,22 @@ class Citic extends Command
      *
      * @var string
      */
-    protected $description = '更新每日净值';
+    protected $description = '更新中信信芯家族净值';
 
     /**
      * Execute the console command.
      */
     public function handle()
     {
+        $cookies = $this->refreshCookie();
         $stocks = WeBankStock::where('type', 'CiticBank')->limit(1)->get();
 
         foreach ($stocks as $stock) {
-            $this->sync($stock->code, $stock->body);
+            $this->sync($stock->code, $stock->body, $cookies);
         }
     }
 
-    public function sync($code, $param): void
+    public function sync($code, $param, $cookies): void
     {
         $client = new Client();
         $response = $client->get('https://wap.bank.ecitic.com/NMBFOServer/api.do', [
@@ -47,7 +48,7 @@ class Citic extends Command
             ],
             'json' => json_decode($param),
             'headers' => [
-                'cookie' => 'JSESSIONID=03WkB3A7kNwBQnmzchADVOzkeKxDz5; Path=/NMBFOServer; HttpOnly'
+                'cookie' => $cookies
             ]
         ]);
         $data = json_decode($response->getBody()->getContents(), true);
@@ -116,5 +117,21 @@ class Citic extends Command
         return substr($start_buy_time, 0, 4) . '-'
             . substr($start_buy_time, 4, 2) . '-'
             . substr($start_buy_time, 6, 2);
+    }
+
+    private function refreshCookie(): string
+    {
+        $response = (new Client())->get('https://wap.bank.ecitic.com/NMBFOServer/api.do?act=PEMBPKQY&isWeb=1', [
+            'json' => [
+                "ISWEBENCRYPY" => 1
+            ],
+            'headers' => [
+                'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:137.0) Gecko/20100101 Firefox/137.0',
+            ]
+        ]);
+
+        return collect($response->getHeader('Set-Cookie'))->map(function ($cookie) {
+            return explode(';', $cookie)[0];
+        })->implode(';');
     }
 }

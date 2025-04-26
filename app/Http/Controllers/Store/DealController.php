@@ -189,7 +189,8 @@ class DealController extends Controller
     {
         $member = $request->input('member');
         $type = $request->input('type');
-        $amount = $request->input('amount', 0);
+        $price = $request->input('price', 0);
+        $original_price = $request->input('original_price', 0);
         $products = $request->input('products', []);
         $payment = $request->input('payment');
 
@@ -208,12 +209,12 @@ class DealController extends Controller
                 ]);
         }
 
-        if ($type == Order::TYPE_FAST && empty($amount)) return fail('请输入消费金额');
-        if ($type == Order::TYPE_NORMAL && empty($products)) return fail('请选择消费项目');
+        if ($type == Order::TYPE_FAST && empty($price)) return fail('请输入消费金额');
+        elseif ($type == Order::TYPE_NORMAL && empty($products)) return fail('请选择消费项目');
 
-        $total_price = 0;
-        $total_original_price = 0;
-        $total_deduct_price = 0;
+        $total_price = $price;
+        $total_original_price = $original_price;
+        $total_deduct_price = $original_price - $price;
 
         foreach ($products as &$product) {
             $product['total_price'] = $product['price'] * $product['number'];
@@ -252,7 +253,6 @@ class DealController extends Controller
                 $_product = Product::where('store_id', $this->store_id)->find($mProduct['product_id']);
 
                 $_order_product = OrderProduct::create([
-                    'product_image',
                     'deduct_desc',
                     'type' => $_product->type,
                     'order_id' => $order->id,
@@ -271,10 +271,30 @@ class DealController extends Controller
 
                 if ($mProduct['staffs']) OrderStaff::write($mProduct['staffs'], $_order_product);
             }
+
+            if ($type == Order::TYPE_FAST) {
+                $_order_product = OrderProduct::create([
+                    'type' => OrderProduct::TYPE_FAST_CONSUME, // 快捷收款
+                    'order_id' => $order->id,
+                    'product_id' => 0,
+                    'product_name' => '快捷收款',
+                    'number' => 1,
+                    'price' => $price,
+                    'total_price' => $total_price,
+                    'original_price' => $original_price,
+                    'total_original_price' => $original_price,
+                    'deduct_price' => $total_deduct_price,
+                    'deduct_desc' => $total_deduct_price ? '手动改价' : null,
+                    'total_deduct_price' => $total_deduct_price,
+//                    'level_deduct' => isset($mProduct['level_deduct']) ? $mProduct['level_deduct'] * $mProduct['number'] : 0,
+                ]);
+            }
         }
 
         return success([
             'member' => $member,
+            'price' => $price,
+            'original_price' => $original_price,
             'products' => $products,
             'total_price' => $total_price,
             'total_original_price' => $total_original_price,

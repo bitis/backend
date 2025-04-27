@@ -177,6 +177,14 @@ Route::namespace('Store')->prefix('store')->group(function () {
                 Route::post('destroy', 'PrinterController@destroy');
             });
         });
+
+        /**
+         * 反馈
+         */
+        Route::prefix('feedback')->group(function () {
+            Route::post('list', 'FeedbackController@index');
+            Route::post('form', 'FeedbackController@form');
+        });
     });
 
 });

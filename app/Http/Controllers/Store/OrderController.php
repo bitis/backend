@@ -17,7 +17,7 @@ class OrderController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $orders = Order::with(['products', 'member:id,avatar,name,mobile'])
+        $orders = Order::with(['products', 'member:id,avatar,name,mobile', 'payment'])
             ->where('store_id', $this->store_id)
             ->when($request->input('member_id'), function ($query, $member_id) {
                 $query->where('member_id', $member_id);

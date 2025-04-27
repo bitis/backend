@@ -7,6 +7,7 @@ use App\Models\WeBankStockRate;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
+use Illuminate\Support\Arr;
 
 class WeBank extends Command
 {
@@ -110,13 +111,15 @@ class WeBank extends Command
                 $today->save();
             }
 
-            WeBankStock::where('code', $rate['prod_code'])->update([
+            WeBankStock::where('code', $rate['prod_code'])->update(
+                Arr::whereNotNull([
                 'unit_net_value' => $rate['unit_net_value'],
                 'fund_begin_yield' => $rate['fund_begin_yield'],
                 'month_yield' => $rate['month_yield'],
-                'season_yield' => $rate['season_yield'],
+                    'season_yield' => empty($rate['season_yield']) ? null : $rate['season_yield'],
                 'value_date' => $rate['earnings_rate_date'],
-            ]);
+                ])
+            );
         }
     }
 }

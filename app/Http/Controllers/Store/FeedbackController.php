@@ -31,7 +31,7 @@ class FeedbackController extends Controller
 
         Feedback::create([
             'store_id' => $this->store_id,
-            'content' => $contents,
+            'contents' => $contents,
             'images' => $request->input('images'),
         ]);
 

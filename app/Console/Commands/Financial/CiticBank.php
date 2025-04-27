@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
 use Illuminate\Support\Arr;
+use function Livewire\trigger;
 
 class CiticBank extends Command
 {
@@ -102,9 +103,9 @@ class CiticBank extends Command
                 WeBankStock::where('code', $stock->code)->update([
                     'unit_net_value' => $rate['NAV'],
                     'rate_value' => $rate['NAV'],
-                    'fund_begin_yield' => $yearRate[1]['YEARRATE'],
+                    'fund_begin_yield' => trim($yearRate[1]['YEARRATE'], '%'),
 //                'month_yield' => $rate['month_yield'],
-                    'season_yield' => $yearRate[0]['YEARRATE'],
+                    'season_yield' => trim($yearRate[0]['YEARRATE'], '%'),
                     'value_date' => $date,
                 ]);
             }

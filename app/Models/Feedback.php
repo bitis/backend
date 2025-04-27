@@ -2,22 +2,22 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Traits\DefaultDatetimeFormat;
 use Illuminate\Database\Eloquent\Model;
 
 class Feedback extends Model
 {
-    use HasFactory;
+    use DefaultDatetimeFormat;
 
     protected $fillable = [
         'store_id',
         'contents',
-        'image',
+        'images',
         'reply',
         'status',
     ];
 
     protected $casts = [
-        'image' => 'array',
+        'images' => 'array',
     ];
 }

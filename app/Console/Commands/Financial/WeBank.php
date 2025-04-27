@@ -113,11 +113,11 @@ class WeBank extends Command
 
             WeBankStock::where('code', $rate['prod_code'])->update(
                 Arr::whereNotNull([
-                'unit_net_value' => $rate['unit_net_value'],
-                'fund_begin_yield' => $rate['fund_begin_yield'],
-                'month_yield' => $rate['month_yield'],
+                    'unit_net_value' => $rate['unit_net_value'],
+                    'fund_begin_yield' => $rate['fund_begin_yield'],
+                    'month_yield' => empty($rate['month_yield']) ? null : $rate['month_yield'],
                     'season_yield' => empty($rate['season_yield']) ? null : $rate['season_yield'],
-                'value_date' => $rate['earnings_rate_date'],
+                    'value_date' => $rate['earnings_rate_date'],
                 ])
             );
         }

@@ -12,7 +12,7 @@ class FeedbackController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): JsonResponse
     {
         $feedbacks = Feedback::where('store_id', $this->store_id)
             ->orderBy('created_at', 'desc')

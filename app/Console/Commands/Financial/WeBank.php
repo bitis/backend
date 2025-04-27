@@ -32,7 +32,7 @@ class WeBank extends Command
         $start_date = today()->addDays(-7)->format('Ymd');
         $end_date = today()->format('Ymd');
 
-        $stocks = WeBankStock::where('type', 'WeBank')->get();
+        $stocks = WeBankStock::where('type', '微众活期+Plus')->get();
 
         foreach ($stocks as $stock) {
             $param = [

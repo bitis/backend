@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('monitor:visa')->everyMinute()->runInBackground();
         $schedule->command('monitor:lenovo')->everyMinute()->runInBackground();
         $schedule->command('financial:webank')->weekdays()->between('0:00', '10:00')->everyFiveMinutes();
+        $schedule->command('financial:citic')->weekdays()->between('0:00', '10:00')->everyFiveMinutes();
     }
 
     /**

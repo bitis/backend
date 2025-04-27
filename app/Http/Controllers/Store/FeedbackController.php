@@ -26,9 +26,12 @@ class FeedbackController extends Controller
         if (Feedback::where('store_id', $this->store_id)->where('status', 0)->count() > 10)
             return fail('提交次数过多，请稍后再试');
 
+        $contents = $request->input('contents');
+        if (empty($contents)) return fail('请输入反馈内容');
+
         Feedback::create([
             'store_id' => $this->store_id,
-            'content' => $request->input('content'),
+            'content' => $contents,
             'images' => $request->input('images'),
         ]);
 

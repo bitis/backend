@@ -93,7 +93,7 @@ class Visa extends Command
                     );
                 }
             }
-            sleep(2);
+            sleep(5);
         }
     }
 }

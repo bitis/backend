@@ -37,6 +37,7 @@ class Visa extends Command
 //        }
 
         foreach ($products as $product) {
+            echo $product->name . "\n";
             $json = (new Client(['verify' => false, 'timeout' => 10]))->post('https://vtravel.link2shops.com/vfuliApi/api/client/ypJyActivity/goodsDetail', [
                 'json' => [
                     'activityId' => $product->activityId,

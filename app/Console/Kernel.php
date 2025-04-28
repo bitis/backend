@@ -13,9 +13,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         $schedule->command('XiaomiSports 15138674502 liuyuan321')->dailyAt('8:00');
-        $schedule->command('monitor:visa')->everyTwoMinutes()->runInBackground();
-        $schedule->command('monitor:lenovo')->everyMinute()->runInBackground();
-        $schedule->command('monitor:icbc_mastercard')->everyMinute()->runInBackground();
+        $schedule->command('monitor:visa')->everyTwoMinutes()->between('8:00', '20:00')->runInBackground();
+        $schedule->command('monitor:lenovo')->everyMinute()->between('8:00', '18:00')->runInBackground();
+        $schedule->command('monitor:icbc_mastercard')->everyMinute()->between('9:00', '12:00')->runInBackground();
         $schedule->command('financial:webank')->weekdays()->between('0:00', '10:00')->everyFiveMinutes();
         $schedule->command('financial:citic')->weekdays()->between('0:00', '10:00')->everyFiveMinutes();
     }

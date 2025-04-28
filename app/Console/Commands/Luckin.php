@@ -71,7 +71,14 @@ class Luckin extends Command
             $this->time();
             return;
         }
-        //https://mall2-demo.jw2008.cn/order/confirmEquityPoint?activityId=QYD1885513038220345344&skuCode=SKU0027051&zxId=54d1848da6b48116dd478f669c330da88f552433ae22926cad2184b63d3ea6224da76b1fb7f738021f137e53f4551517cc64905846d799c3a90fd411cf8869ee&appkey=NIBjFewXdd2SB3DMxv5YRP7FUwPwlp
+
+        $zxId = '';
+
+//        path: "/order/confirmEquityPoint",
+//                            query: {activityId: e.activityId, skuCode: e.skuCode, zxId: e.zxId}
+
+        // 搜索 order/confirmEquityPoint 定位JS内容进行修改
+        //https://mall2-demo.jw2008.cn/order/confirmEquityPoint?activityId=QYD1885513038220345344&skuCode=SKU0027051&zxId=
 //        cc64905846d799c3a90fd411cf8869ee,
 //        9a565513dd635b6c139c42578399ce43
         $response = $this->client->post('https://mall-api2-demo.jw2008.cn/mall-basic-portal/v2/oms/order/equityPoint/submitOrder', [
@@ -81,7 +88,7 @@ class Luckin extends Command
                 "skuCode" => "SKU0027051",
                 "validCode" => $validCode,
                 "eCode" => "",
-                "zxId" => "54d1848da6b48116dd478f669c330da88f552433ae22926cad2184b63d3ea6224da76b1fb7f738021f137e53f4551517cc64905846d799c3a90fd411cf8869ee"
+                "zxId" => $zxId
             ]
 
         ]);

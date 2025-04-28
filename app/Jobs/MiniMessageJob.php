@@ -43,7 +43,7 @@ class MiniMessageJob implements ShouldQueue
                 'touser' => $user->openid,
                 'data' => $this->message,
             ])->getContent();
-            Log::info('MSG', json_decode($response));
+            Log::info('MSG', json_decode($response, true));
         } catch (\Exception $e) {
             $this->fail($e);
         }

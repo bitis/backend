@@ -72,7 +72,7 @@ class Lenovo extends Command
                                     'value' => $product->stock
                                 ],
                                 'thing3' => [
-                                    'value' => '记得回来点几下订阅按钮，不然下次就收不到了'
+                                    'value' => '记得回来点几下订阅按钮，以免影响后续推送'
                                 ]
                             ],
                             'pages/visa/detail?id=' . $product->id

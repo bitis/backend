@@ -9,6 +9,10 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 class MiniMessageJob implements ShouldQueue
 {
@@ -31,12 +35,16 @@ class MiniMessageJob implements ShouldQueue
     {
         $user = MiniUser::find($this->uid);
 
-        $this->app->getClient()->postJson('/cgi-bin/message/subscribe/send', [
-            'template_id' => $this->template_id,
-            'page' => $this->page,
-            'touser' => $user->openid,
-            'data' => $this->message,
-        ])->getContent();
+        try {
+            $this->app->getClient()->postJson('/cgi-bin/message/subscribe/send', [
+                'template_id' => $this->template_id,
+                'page' => $this->page,
+                'touser' => $user->openid,
+                'data' => $this->message,
+            ])->getContent();
+        } catch (\Exception $e) {
+            $this->fail($e);
+        }
 
     }
 }

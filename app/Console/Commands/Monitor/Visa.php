@@ -31,7 +31,6 @@ class Visa extends Command
     public function handle()
     {
         $products = VisaProduct::where('type', VisaProduct::TYPE_VISA)->get();
-        $app = new Application(config('wechat.finance'));
 
 //        foreach ($products as $product) {
 //            $product->url = 'https://vtravel.link2shops.com/yiyuan/#/detail?activityId=' . $product->activityId . '&goodsId=' . $product->v_id . '&channelId=' . $product->channelId . '&platformTp=T0060';
@@ -68,7 +67,7 @@ class Visa extends Command
 
             if ($p['stock'] > 0) {
                 $subscribes = MiniSubscribe::where('product_id', $product->id)
-                    ->where('type', MiniSubscribe::TYPE_LENOVO)
+                    ->where('type', MiniSubscribe::TYPE_VISA)
                     ->get();
 
                 foreach ($subscribes as $subscribe) {

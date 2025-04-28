@@ -72,11 +72,11 @@ class Luckin extends Command
             return;
         }
 
-        $zxId = '';
+        $zxId = '54d1848da6b48116dd478f669c330da8829eba2ed7a586aa1ab6055e10ef5ae14da76b1fb7f738021f137e53f4551517ce1a48e9b59d86db823e6936088ec8f0';
 
 //        path: "/order/confirmEquityPoint",
 //                            query: {activityId: e.activityId, skuCode: e.skuCode, zxId: e.zxId}
-
+//
         // 搜索 order/confirmEquityPoint 定位JS内容进行修改
         //https://mall2-demo.jw2008.cn/order/confirmEquityPoint?activityId=QYD1885513038220345344&skuCode=SKU0027051&zxId=
 //        cc64905846d799c3a90fd411cf8869ee,
@@ -113,7 +113,7 @@ class Luckin extends Command
     public function headers(): array
     {
         return [
-            'Authorization' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJhdWQiOiJtYWxsLWNsaWVudCIsInVtc1VzZXJJZCI6NDIzNjgyMCwiQWRtaW5Ub2tlbiI6Imh0dHA6Ly9tYWxsLWF1dGgvaW5uZXIvdG9rZW4vZ2V0QWRtaW5Ub2tlbj90b2tlbj0iLCJyZW1vdGVJcCI6IjExNS42MC4xOTguMjQ5IiwibG9hZEJhbGFuY2VyIjoibWFsbC1hdXRoIiwibW9iaWxlIjoiMTgzMzYyMjEzMjMiLCJhcHBrZXkiOiJOSUJqRmV3WGRkMlNCM0RNeHY1WVJQN0ZVd1B3bHAiLCJleHAiOjE3NDUzODEyODgsIkNsaWVudFRva2VuIjoiaHR0cDovL21hbGwtYXV0aC9pbm5lci90b2tlbi9nZXRDbGllbnRUb2tlbj90b2tlbj0iLCJjaGFubmVsSWQiOjQzfQ.pCF-j1wDrhNZ0hrYUAqDrz8p8fu2_n4wV4tCTEfZSM8HGp4msgboZv7eXjkhTbscOeYesZN71VVGIXnJjmVvqA',
+            'Authorization' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJhdWQiOiJtYWxsLWNsaWVudCIsInVtc1VzZXJJZCI6NDIzNjgyMCwiQWRtaW5Ub2tlbiI6Imh0dHA6Ly9tYWxsLWF1dGgvaW5uZXIvdG9rZW4vZ2V0QWRtaW5Ub2tlbj90b2tlbj0iLCJyZW1vdGVJcCI6IjExNS42MC4xOTUuMjI1IiwibG9hZEJhbGFuY2VyIjoibWFsbC1hdXRoIiwibW9iaWxlIjoiMTgzMzYyMjEzMjMiLCJhcHBrZXkiOiJOSUJqRmV3WGRkMlNCM0RNeHY1WVJQN0ZVd1B3bHAiLCJleHAiOjE3NDU4MTMwNDgsIkNsaWVudFRva2VuIjoiaHR0cDovL21hbGwtYXV0aC9pbm5lci90b2tlbi9nZXRDbGllbnRUb2tlbj90b2tlbj0iLCJjaGFubmVsSWQiOjQzfQ.Kkn6grDMbKjzxvD39udErbFZglAHAeMFPxO3vnlcIOhaBFndF8falPOuNwmnSANls2iWo7DCdN1aS69MqjL2Kw',
             'User-Agent' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1 Edg/134.0.0.0',
             'appkey' => 'NIBjFewXdd2SB3DMxv5YRP7FUwPwlp',
             'Content-Type' => 'application/json'

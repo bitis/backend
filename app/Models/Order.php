@@ -65,6 +65,11 @@ class Order extends Model
         return $this->belongsTo(Member::class, 'member_id', 'id');
     }
 
+    public function payment(): BelongsTo
+    {
+        return $this->belongsTo(PaymentChannel::class, 'payment_id', 'id');
+    }
+
     /**
      * @param $deductions
      * @param $memberId

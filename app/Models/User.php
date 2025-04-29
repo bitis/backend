@@ -66,7 +66,7 @@ class User extends Authenticatable implements FilamentUser
 
     public function store(): BelongsTo
     {
-        return $this->belongsTo(Store::class);
+        return $this->belongsTo(Store::class)->with('industry');
     }
 
     public function job(): BelongsTo

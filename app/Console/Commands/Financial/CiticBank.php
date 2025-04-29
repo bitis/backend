@@ -57,7 +57,7 @@ class CiticBank extends Command
 
         if ($result['RETCODE'] != 'AAAAAAA') echo $result['RETMSG'];
 
-        $rates = Arr::sort($result['resultList'], function ($val) {
+        $rates = Arr::sortDesc($result['resultList'], function ($val) {
             return $val['ISSDATE'];
         });
 
@@ -97,18 +97,18 @@ class CiticBank extends Command
 
                 $stock->save();
                 $today->save();
-
-                $yearRate = $this->yearRates($stock->year_rate_body, $cookies);
-
-                WeBankStock::where('code', $stock->code)->update([
-                    'unit_net_value' => $rate['NAV'],
-                    'rate_value' => $rate['NAV'],
-                    'fund_begin_yield' => trim($yearRate[1]['YEARRATE'], '%'),
-//                'month_yield' => $rate['month_yield'],
-                    'season_yield' => trim($yearRate[0]['YEARRATE'], '%'),
-                    'value_date' => $date,
-                ]);
             }
+
+            $yearRate = $this->yearRates($stock->year_rate_body, $cookies);
+
+            WeBankStock::where('code', $stock->code)->update([
+                'unit_net_value' => $rate['NAV'],
+                'rate_value' => $rate['NAV'],
+                'fund_begin_yield' => trim($yearRate[1]['YEARRATE'], '%'),
+//                'month_yield' => $rate['month_yield'],
+                'season_yield' => trim($yearRate[0]['YEARRATE'], '%'),
+                'value_date' => $date,
+            ]);
         }
     }
 

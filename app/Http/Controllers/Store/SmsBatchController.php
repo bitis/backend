@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver;
 
-class SmsController extends Controller
+class SmsBatchController extends Controller
 {
     /**
      * 提交记录

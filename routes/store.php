@@ -150,13 +150,13 @@ Route::namespace('Store')->prefix('store')->group(function () {
             Route::post('read', 'MessageController@read');
         });
 
-        Route::prefix('sms')->group(function () {
-            Route::post('send', 'SmsController@form');
-            Route::post('upload', 'SmsController@upload');
-            Route::post('history', 'SmsController@history');
-            Route::post('detailRecord', 'SmsController@detailRecord');
-            Route::post('createSignature', 'SmsController@createSignature');
-            Route::post('getSignatures', 'SmsController@getSignatures');
+        Route::prefix('sms-batch')->group(function () {
+            Route::post('send', 'SmsBatchController@form');
+            Route::post('upload', 'SmsBatchController@upload');
+            Route::post('history', 'SmsBatchController@history');
+            Route::post('detailRecord', 'SmsBatchController@detailRecord');
+            Route::post('createSignature', 'SmsBatchController@createSignature');
+            Route::post('getSignatures', 'SmsBatchController@getSignatures');
         });
 
         /**

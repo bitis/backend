@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class SmsConfig extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'store_id',
+        'is_new',
+        'balance',
+        'consume_switch'
+    ];
 }

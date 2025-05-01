@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\CloudFile;
 use App\Models\SmsConfig;
 use App\Models\SmsDetail;
+use App\Models\SmsLog;
 use App\Models\SmsRecord;
 use App\Models\SmsSignature;
 use Exception;
@@ -25,15 +26,19 @@ class SmsConfigController extends Controller
     }
 
     /**
-     * 提交记录
+     * 短信记录
      *
      * @param Request $request
      * @return JsonResponse
      */
-    public function history(Request $request): JsonResponse
+    public function logs(Request $request): JsonResponse
     {
+        $logs = SmsLog::where('store_id', $this->store_id)
+            ->when($request->input('type'), fn($query, $type) => $query->where('type', $type))
+            ->orderBy('created_at', 'desc')
+            ->paginate(getPerPage());
 
-        return success($records);
+        return success($logs);
     }
 
     /**

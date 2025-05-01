@@ -179,6 +179,7 @@ Route::namespace('Store')->prefix('store')->group(function () {
             Route::prefix('sms')->group(function () { // 短信管理
                 Route::post('detail', 'SmsConfigController@detail');
                 Route::post('form', 'SmsConfigController@form');
+                Route::post('logs', 'SmsConfigController@logs');
             });
         });
 

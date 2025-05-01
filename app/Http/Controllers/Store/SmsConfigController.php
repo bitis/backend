@@ -46,7 +46,6 @@ class SmsConfigController extends Controller
      */
     public function form(Request $request): JsonResponse
     {
-
         SmsConfig::where(['store_id' => $this->store_id])->update([
             'consume_switch' => $request->input('consume_switch'),
         ]);

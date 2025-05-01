@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class SmsDetail extends Model
 {
-    use HasFactory, DefaultDatetimeFormat;
+    use DefaultDatetimeFormat;
 
     protected $fillable = [
         'store_id',

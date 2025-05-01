@@ -177,8 +177,8 @@ Route::namespace('Store')->prefix('store')->group(function () {
                 Route::post('destroy', 'PrinterController@destroy');
             });
             Route::prefix('sms')->group(function () { // 短信管理
-                Route::post('detail', 'PrinterController@index');
-                Route::post('form', 'PrinterController@form');
+                Route::post('detail', 'SmsConfigController@index');
+                Route::post('form', 'SmsConfigController@form');
             });
         });
 

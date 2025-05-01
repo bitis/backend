@@ -32,15 +32,7 @@ class SmsConfigController extends Controller
      */
     public function history(Request $request): JsonResponse
     {
-        $records = SmsRecord::where('store_id', $this->store_id)
-            ->when($request->input('title'),
-                fn($query, $title) => $query->where('title', 'like', '%' . $title . '%')
-            )
-            ->when($request->input('created_at'),
-                fn($query, $title) => $query->where('created_at', '>', strtotime($title[0]))
-                    ->where('created_at', '<', strtotime($title[1] . ' 23:59:59'))
-            )
-            ->paginate(getPerPage());
+
         return success($records);
     }
 
@@ -49,43 +41,12 @@ class SmsConfigController extends Controller
      */
     public function form(Request $request): JsonResponse
     {
-        $content = $request->input('content');
-        $signature = $request->input('signature');
-        $mobiles = $request->input('mobiles');
-        $import_mobiles = [];
 
-        if ($file = $request->input('file')) {
-            $temp = Storage::disk()->get($file);
-        }
+        $config = SmsConfig::where(['store_id' => $this->store_id])->update([
+            'consume_switch' => $request->input('consume_switch'),
+        ]);
 
-        try {
-            DB::beginTransaction();
-            $record = SmsRecord::create([
-                'store_id' => $this->store_id,
-                'title' => $request->input('title'),
-                'content' => $request->input('content'),
-                'signature' => $signature,
-                'file' => $file ?? null,
-                'content_length' => mb_strlen($signature) + mb_strlen($content) + 7,
-                'mobile_count' => count($mobiles) + count($import_mobiles),
-            ]);
-
-            foreach ($mobiles as $mobile) {
-                SmsDetail::create([
-                    'store_id' => $this->store_id,
-                    'sms_record_id' => $record->id,
-                    'mobile' => $mobile,
-                    'source' => 1,
-                    'content' => $signature . $request->input('content') . "，拒收请回复R",
-                ]);
-            }
-            DB::commit();
-        } catch (Exception $exception) {
-            DB::rollBack();
-            throw $exception;
-        }
-
-        return success($record);
+        return success($config);
     }
 
     /**

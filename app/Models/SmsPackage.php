@@ -12,6 +12,7 @@ class SmsPackage extends Model
 
     protected $fillable = [
         'name',
+        'description',
         'number',
         'price',
         'unit_price',

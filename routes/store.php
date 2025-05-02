@@ -185,7 +185,7 @@ Route::namespace('Store')->prefix('store')->group(function () {
 
         Route::prefix('sms-order')->group(function () {
             Route::post('packages', 'SmsOrderController@packages');
-            Route::post('order', 'FeedbackController@order');
+            Route::post('order', 'SmsOrderController@order');
         });
 
         /**

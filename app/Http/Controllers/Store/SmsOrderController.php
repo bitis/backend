@@ -27,11 +27,35 @@ class SmsOrderController extends Controller
 
     public function order(Request $request): JsonResponse
     {
+        $id = $request->input('id');
+        $payment_channel = $request->input('payment_channel');
+
+        $package = SmsPackage::find($id);
+        if (!$package) {
+            return fail('找不到该套餐');
+        }
+
+        if ($payment_channel == 'alipay') {
+            return $this->alipay($package);
+        } elseif ($payment_channel == 'wechat') {
+            return $this->wechat($package);
+        }
+
         return success();
     }
 
     public function notify()
     {
 
+    }
+
+    private function alipay($package)
+    {
+        return success();
+    }
+
+    private function wechat($package)
+    {
+        return success();
     }
 }

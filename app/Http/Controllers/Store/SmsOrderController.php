@@ -49,12 +49,12 @@ class SmsOrderController extends Controller
 
     }
 
-    private function alipay($package)
+    private function alipay($package): JsonResponse
     {
         return success();
     }
 
-    private function wechat($package)
+    private function wechat($package): JsonResponse
     {
         return success();
     }

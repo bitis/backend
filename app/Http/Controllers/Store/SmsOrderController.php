@@ -43,6 +43,7 @@ class SmsOrderController extends Controller
         }
 
         $order = SmsOrder::create([
+            'store_id' => $this->store_id,
             'package_id' => $id,
             'order_no' => Str::random(16),
             'name' => $package->name,

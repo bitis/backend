@@ -21,4 +21,13 @@ class SmsLog extends Model
         'failed_count',
         'status',
     ];
+
+    const TYPE_SEND = 1;
+    const TYPE_ORDER = 2;
+
+    const TYPE = [
+        self::TYPE_SEND => '发送',
+        self::TYPE_ORDER => '购买短信包',
+    ];
+
 }

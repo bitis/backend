@@ -22,6 +22,7 @@ return new class extends Migration {
         Schema::create('sms_packages', function (Blueprint $table) {
             $table->id();
             $table->string('name')->comment('套餐名称');
+            $table->integer('package_id')->comment('套餐ID套餐ID');
             $table->string('description')->comment('套餐介绍');
             $table->integer('number')->comment('短信数量');
             $table->decimal('price')->comment('价格');

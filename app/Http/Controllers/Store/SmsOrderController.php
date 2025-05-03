@@ -7,6 +7,7 @@ use App\Models\CloudFile;
 use App\Models\SmsConfig;
 use App\Models\SmsDetail;
 use App\Models\SmsLog;
+use App\Models\SmsOrder;
 use App\Models\SmsPackage;
 use App\Models\SmsRecord;
 use App\Models\SmsSignature;
@@ -41,7 +42,16 @@ class SmsOrderController extends Controller
             return $this->wechat($package);
         }
 
-        return success();
+        $order = SmsOrder::create([
+            'package_id' => $id,
+            'order_no' => Str::random(16),
+            'name' => $package->name,
+            'number' => $package->number,
+            'price' => $package->price,
+            'payment_channel' => $payment_channel
+        ]);
+
+        return success($order);
     }
 
     public function notify()

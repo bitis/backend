@@ -12,6 +12,7 @@ class SmsOrder extends Model
 
     protected $fillable = [
         'store_id',
+        'package_id',
         'name',
         'order_no',
         'number',

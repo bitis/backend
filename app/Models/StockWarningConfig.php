@@ -9,5 +9,5 @@ class StockWarningConfig extends Model
 {
     use DefaultDatetimeFormat;
 
-    protected $fillable = ['min_number', 'status'];
+    protected $fillable = ['store_id', 'min_number', 'status'];
 }

@@ -27,6 +27,7 @@ Route::namespace('Store')->prefix('store')->group(function () {
 
         Route::prefix('dashboard')->group(function () {
             Route::post('consume-data', 'DashboardController@consumeData');
+            Route::post('app-index', 'DashboardController@appIndex');
         });
 
         Route::prefix('member')->group(function () {

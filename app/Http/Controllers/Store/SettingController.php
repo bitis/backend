@@ -3,26 +3,25 @@
 namespace App\Http\Controllers\Store;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\Login;
-use App\Http\Requests\Auth\Register;
-use App\Models\Enumerations\UserStatus;
-use App\Models\Store;
-use App\Models\User;
-use App\Models\VerificationCode;
+use App\Models\StockWarningConfig;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
 class SettingController extends Controller
 {
-    public function setStockWarning(Request $request)
+    public function getStockWarning(): JsonResponse
     {
-
+        return success(StockWarningConfig::firstOrCreate(
+            ['store_id' => $this->store_id],
+            ['min_number' => 10, 'status' => 0]
+        ));
     }
 
-    public function getStockWarning(Request $request)
+    public function setStockWarning(Request $request): JsonResponse
     {
-        $store = $request->user()->store;
+        return success(StockWarningConfig::updateOrCreate(
+            ['store_id' => $this->store_id],
+            $request->only(['min_number', 'status'])
+        ));
     }
 }

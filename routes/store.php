@@ -182,6 +182,11 @@ Route::namespace('Store')->prefix('store')->group(function () {
                 Route::post('form', 'SmsConfigController@form');
                 Route::post('logs', 'SmsConfigController@logs');
             });
+
+            Route::prefix('stock')->group(function () { // 库存提醒设置
+                Route::post('detail', 'SettingController@getStockWarning');
+                Route::post('form', 'SettingController@setStockWarning');
+            });
         });
 
         Route::prefix('sms-order')->group(function () {

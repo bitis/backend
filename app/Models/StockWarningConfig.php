@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Traits\DefaultDatetimeFormat;
 use Illuminate\Database\Eloquent\Model;
 
 class StockWarningConfig extends Model
 {
-    use HasFactory;
+    use DefaultDatetimeFormat;
+
+    protected $fillable = ['min_number', 'status'];
 }

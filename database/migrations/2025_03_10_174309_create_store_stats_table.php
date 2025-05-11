@@ -24,9 +24,9 @@ return new class extends Migration {
             $table->integer('staff_sale_amount')->default(0)->comment('员工业绩金额');
             $table->integer('staff_bonus_amount')->default(0)->comment('员工提成金额');
             $table->integer('profit_amount')->default(0)->comment('利润');
-            $table->unsignedTinyInteger('date')->comment('日期');
-            $table->unsignedTinyInteger('month')->comment('月份');
-            $table->unsignedTinyInteger('year')->comment('年份');
+            $table->date('date')->comment('日期');
+            $table->unsignedMediumInteger('month')->comment('月份');
+            $table->unsignedMediumInteger('year')->comment('年份');
             $table->timestamps();
         });
     }

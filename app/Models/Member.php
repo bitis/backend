@@ -53,7 +53,7 @@ class Member extends Model
             StoreStat::updateOrCreate([
                 'store_id' => $member->store_id,
                 'date' => date('Y-m-d')
-            ])->update([
+            ], [
                 'new_users' => DB::raw("new_member + 1"),
                 'month' => date('Ym'),
                 'year' => date('Y')

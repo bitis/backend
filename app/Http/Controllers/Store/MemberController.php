@@ -27,6 +27,7 @@ class MemberController extends Controller
         $words = $request->input('words');
 
         $members = Member::with('grade')
+            ->where('store_id', $this->store_id)
             ->when($words, function ($query, $words) {
                 $query->where('mobile', 'like', "%$words%")
                     ->orWhere('name', 'like', "%$words%");

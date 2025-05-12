@@ -13,7 +13,7 @@ class SettingController extends Controller
     {
         return success(StockWarningConfig::firstOrCreate(
             ['store_id' => $this->store_id],
-            ['min_number' => 10, 'status' => 0]
+            ['min_number' => 10, 'allow' => 0]
         ));
     }
 
@@ -21,7 +21,7 @@ class SettingController extends Controller
     {
         return success(StockWarningConfig::updateOrCreate(
             ['store_id' => $this->store_id],
-            $request->only(['min_number', 'status'])
+            $request->only(['min_number', 'allow'])
         ));
     }
 }

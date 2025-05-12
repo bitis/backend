@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->integer('store_id');
             $table->integer('min_number')->default(0)->comment('最小库存');
-            $table->boolean('status')->default(0)->comment('是否启用');
+            $table->boolean('allow')->default(0)->comment('是否启用');
             $table->timestamps();
         });
     }

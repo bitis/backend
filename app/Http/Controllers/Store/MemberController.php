@@ -176,7 +176,7 @@ class MemberController extends Controller
         ];
 
         $berthday = [
-            'name' => '生日会员',
+            'name' => '生日',
             'key' => 'birthday',
             'values' => [
                 ['id' => '1', 'name' => '今天'],

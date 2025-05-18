@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Store;
 use App\Http\Controllers\Controller;
 use App\Models\BalanceTransaction;
 use App\Models\CloudFile;
+use App\Models\Grade;
 use App\Models\Member;
 use App\Models\MemberCard;
 use App\Models\OfficialAccountConfig;
@@ -153,5 +154,37 @@ class MemberController extends Controller
             ->paginate(getPerPage());
 
         return success($transactions);
+    }
+
+    public function filters(): JsonResponse
+    {
+        $grades = [
+            'name' => '会员等级',
+            'key' => 'grade_id',
+            'values' => Grade::where('store_id', $this->store_id)->select(['id', 'name'])->get()->toArray()
+        ];
+
+        $sleep = [
+            'name' => '沉睡会员',
+            'key' => 'sleep',
+            'values' => [
+                ['id' => '1', 'name' => '一个月内未消费'],
+                ['id' => '3', 'name' => '三个月内未消费'],
+                ['id' => '6', 'name' => '六个月内未消费'],
+                ['id' => '12', 'name' => '一年内未消费'],
+            ]
+        ];
+
+        $berthday = [
+            'name' => '生日会员',
+            'key' => 'birthday',
+            'values' => [
+                ['id' => '1', 'name' => '今天'],
+                ['id' => '2', 'name' => '最近7天'],
+                ['id' => '3', 'name' => '当月'],
+            ]
+        ];
+
+        return success([$grades, $sleep, $berthday]);
     }
 }

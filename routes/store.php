@@ -38,6 +38,7 @@ Route::namespace('Store')->prefix('store')->group(function () {
             Route::post('destroy', 'MemberController@destroy');
             Route::post('transaction', 'MemberController@transaction');
             Route::post('qrcode', 'MemberController@qrcode');
+            Route::post('filters', 'MemberController@filters');
 
             Route::prefix('grade')->group(function () {
                 Route::post('list', 'GradeController@index');

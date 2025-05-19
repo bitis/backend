@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Store;
 
+use App\Common\Filter;
 use App\Http\Controllers\Controller;
 use App\Models\BalanceTransaction;
 use App\Models\CloudFile;
@@ -27,8 +28,19 @@ class MemberController extends Controller
     {
         $words = $request->input('words');
 
+        $filters = $request->input('filters');
+
+        foreach ($filters as $filter) {
+            match ($filter->key) {
+                'grade_id' => ['grade_id', '=', $filter->value],
+                'sleep' => ['last_consume_at', '<=', now()->addMonths($filter->value * -1)],
+                'birthday' => Filter::birthday($filter->value)
+            };
+        }
+
         $members = Member::with('grade')
             ->where('store_id', $this->store_id)
+            ->whereRaw()
             ->when($words, function ($query, $words) {
                 $query->where('mobile', 'like', "%$words%")
                     ->orWhere('name', 'like', "%$words%");
@@ -175,7 +187,7 @@ class MemberController extends Controller
             ]
         ];
 
-        $berthday = [
+        $birthday = [
             'name' => '生日',
             'key' => 'birthday',
             'values' => [
@@ -185,6 +197,6 @@ class MemberController extends Controller
             ]
         ];
 
-        return success([$grades, $sleep, $berthday]);
+        return success([$grades, $sleep, $birthday]);
     }
 }

@@ -10,7 +10,7 @@ use App\Models\Grade;
 use App\Models\Member;
 use App\Models\MemberCard;
 use App\Models\OfficialAccountConfig;
-use EasyWeChat\Factory;
+use EasyWeChat\OfficialAccount\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -141,15 +141,18 @@ class MemberController extends Controller
     public function qrcode(Request $request): JsonResponse
     {
         $config = OfficialAccountConfig::find($this->store()->official_account_id)->toArray();
-        $app = Factory::officialAccount($config);
-        $result = $app->qrcode->temporary(json_encode([
-            'k' => 'member-bind',
-            'v' => $request->input('id')
-        ]), 2592000);
-
-        return success([
-            'url' => $app->qrcode->url($result["ticket"])
+        $app = new Application($config);
+        $response = $app->getClient()->post('cgi-bin/qrcode/create', [
+            'json' => [
+                'expire_seconds' => 86400,
+                'action_name' => 'QR_SCENE',
+                'action_info' => [
+                    "scene" => ["scene_str" => 'member', 'member_id' => $request->input('id')]
+                ]
+            ]
         ]);
+
+        return success(sprintf('https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=%s', urlencode($response['ticket'])));
     }
 
     /**

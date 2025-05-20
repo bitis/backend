@@ -30,17 +30,17 @@ class MemberController extends Controller
 
         $filters = $request->input('filters');
 
-        foreach ($filters as $filter) {
-            match ($filter->key) {
-                'grade_id' => ['grade_id', '=', $filter->value],
-                'sleep' => ['last_consume_at', '<=', now()->addMonths($filter->value * -1)],
-                'birthday' => Filter::birthday($filter->value)
-            };
-        }
-
         $members = Member::with('grade')
             ->where('store_id', $this->store_id)
-            ->whereRaw()
+            ->when($filters, function ($query, $filters) {
+                foreach ($filters as $filter) {
+                    match ($filter->key) {
+                        'grade_id' => $query->where('grade_id', '=', $filter->value),
+                        'sleep' => $query->where('last_consume_at', '<=', now()->addMonths($filter->value * -1)),
+                        'birthday' => $query->whereRaw(Filter::birthday($filter->value))
+                    };
+                }
+            })
             ->when($words, function ($query, $words) {
                 $query->where('mobile', 'like', "%$words%")
                     ->orWhere('name', 'like', "%$words%");

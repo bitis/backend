@@ -34,10 +34,10 @@ class MemberController extends Controller
             ->where('store_id', $this->store_id)
             ->when($filters, function ($query, $filters) {
                 foreach ($filters as $filter) {
-                    match ($filter->key) {
-                        'grade_id' => $query->where('grade_id', '=', $filter->value),
-                        'sleep' => $query->where('last_consume_at', '<=', now()->addMonths($filter->value * -1)),
-                        'birthday' => $query->whereRaw(Filter::birthday($filter->value))
+                    match ($filter['key']) {
+                        'grade_id' => $query->where('grade_id', '=', $filter['value']),
+                        'sleep' => $query->where('last_consume_at', '<=', now()->addMonths($filter['value'] * -1)),
+                        'birthday' => $query->whereRaw(Filter::birthday($filter['value']))
                     };
                 }
             })

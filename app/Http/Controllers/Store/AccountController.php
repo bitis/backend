@@ -183,6 +183,48 @@ class AccountController extends Controller
         return success();
     }
 
+    /**
+     * 修改手机号
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function mobile(Request $request): JsonResponse
+    {
+        $user = $request->user();
+        $mobile = $request->input('mobile');
+
+        if (!VerificationCode::verify($mobile, $request->input('verify_code')))
+            return fail('验证码错误');
+
+        $user->mobile = $mobile;
+        $user->save();
+
+        return success();
+    }
+
+
+    /**
+     * 修改密码
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function password(Request $request): JsonResponse
+    {
+        $user = $request->user();
+        $password = $request->input('password');
+
+        if (!Hash::check($password, $user->password)) {
+            return fail('密码校验失败');
+        }
+
+        $user->password = bcrypt($request->input('new_password'));
+        $user->save();
+
+        return success();
+    }
+
     public function destroy(Request $request): JsonResponse
     {
         $user = $request->user();

@@ -25,6 +25,11 @@ Route::namespace('Store')->prefix('store')->group(function () {
         Route::post('detail', 'StoreController@detail');
         Route::post('form', 'StoreController@form');
 
+        Route::prefix('account')->group(function () {
+            Route::post('mobile', 'AccountController@mobile');
+            Route::post('password', 'AccountController@password');
+        });
+
         Route::prefix('dashboard')->group(function () {
             Route::post('consume-data', 'DashboardController@consumeData');
             Route::post('appIndex', 'DashboardController@appIndex');

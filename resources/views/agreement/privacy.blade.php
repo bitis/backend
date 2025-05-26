@@ -14,7 +14,7 @@
 </head>
 
 <body>
-<div style="margin: 20px 10px 20px 10px;">
+<div style="margin: 0 10px 20px 10px;">
     <h1 style="text-align:center;"><span style="font-size:18px">“思睿门店通”隐私政策</span></h1>
     <p></p>
     <p><span style="font-size:14px">更新日期：2025年3月27日</span></p>

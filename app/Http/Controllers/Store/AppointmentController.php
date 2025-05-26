@@ -41,7 +41,7 @@ class AppointmentController extends Controller
     public function form(Request $request): JsonResponse
     {
         $appointment = Appointment::where('store_id', $this->store_id)
-            ->findOr(request('id'), fn() => new Appointment(['store_id' => $this->store_id]));
+            ->findOr($request->input('id'), fn() => new Appointment(['store_id' => $this->store_id]));
 
         $appointment->fill($request->only([
             'member_id',
@@ -68,7 +68,7 @@ class AppointmentController extends Controller
      */
     public function detail(Request $request): JsonResponse
     {
-        $appointment = Appointment::where('store_id', $this->store_id)->find(request('id'));
+        $appointment = Appointment::where('store_id', $this->store_id)->find($request->input('id'));
 
         return success($appointment);
     }

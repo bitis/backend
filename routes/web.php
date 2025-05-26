@@ -18,6 +18,8 @@ Route::get('/', fn() => redirect('admin'));
 Route::get('qrcode', 'QrCodeController@gen');
 
 Route::prefix('agreement')->group(function () {
-    Route::get('privacy', fn() => view('agreement.privacy'));
     Route::get('user', fn() => view('agreement.user'));
+    Route::get('privacy', fn() => view('agreement.privacy'));
+    Route::get('permission', fn() => view('agreement.permission'));
+    Route::get('information_sharing', fn() => view('agreement.information_sharing'));
 });

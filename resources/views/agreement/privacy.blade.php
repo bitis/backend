@@ -289,7 +289,7 @@
     <p></p>
     <p><strong><span style="font-size:14px">8 联系我们</span></strong></p>
     <p><strong><span style="font-size:14px">8.1 投诉与举报</span></strong></p>
-    <p><span style="font-size:14px">如果您认为您的个人信息权利可能受到侵害，或者发现侵害个人信息权利的线索，您可以在思睿门店通手机客户端中的【我】-右上角【设置】-【意见反馈】，进入用户反馈界面，或通过发送邮件至jimeng.ai@bytedance.com与我们联系。</span>
+    <p><span style="font-size:14px">如果您认为您的个人信息权利可能受到侵害，或者发现侵害个人信息权利的线索，您可以在思睿门店通手机客户端中的【我】-右上角【设置】-【意见反馈】，进入用户反馈界面，或通过发送邮件至service@siruiw.cn与我们联系。</span>
     </p>
     <p><span style="font-size:14px">我们核查后会在十五个工作日内反馈您的投诉与举报。</span></p>
     <p><strong><span style="font-size:14px">8.2 其他问题</span></strong></p>

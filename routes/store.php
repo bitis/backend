@@ -145,6 +145,7 @@ Route::namespace('Store')->prefix('store')->group(function () {
         Route::prefix('appointment')->group(function () {
             Route::post('list', 'AppointmentController@index');
             Route::post('form', 'AppointmentController@form');
+            Route::post('detail', 'AppointmentController@detail');
             Route::post('setStatus', 'AppointmentController@setStatus');
             Route::prefix('config')->group(function () { // 预约设置
                 Route::post('detail', 'AppointmentController@config');

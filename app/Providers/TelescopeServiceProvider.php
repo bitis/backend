@@ -51,13 +51,6 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
         ]);
     }
 
-    protected function authorization(): void
-    {
-        Telescope::auth(function ($request) {
-            return app()->environment('local') || $request->user('web')?->account == 'admin';
-        });
-    }
-
     protected function gate(): void
     {
         Gate::define('viewTelescope', function (User $user) {

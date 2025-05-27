@@ -25,13 +25,6 @@ class AppointmentConfig extends Model
 
     public static function getByStoreId(int $storeId)
     {
-        return static::firstOrCreate(['store_id' => $storeId], [
-            'earliest' => '09:00',
-            'latest' => '21:00',
-            'interval' => 30,
-            'max_number' => 5,
-            'before_time' => 30,
-            'status' => 0
-        ]);
+        return static::first(['store_id' => $storeId]);
     }
 }

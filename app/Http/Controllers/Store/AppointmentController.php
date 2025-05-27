@@ -93,7 +93,7 @@ class AppointmentController extends Controller
      */
     public function config(): JsonResponse
     {
-        return success(AppointmentConfig::getByStoreId($this->store_id));
+        return success(AppointmentConfig::where('store_id', $this->store_id)->first());
     }
 
     /**

@@ -18,6 +18,7 @@ class AppointmentConfig extends Model
         'interval',
         'max_number',
         'before_time',
+        'slots',
         'status'
     ];
 

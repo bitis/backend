@@ -97,23 +97,24 @@ class AppointmentController extends Controller
     }
 
     /**
-     * 更新配置
+     * 预约配置
      *
      * @param Request $request
      * @return JsonResponse
      */
     public function configForm(Request $request): JsonResponse
     {
-        AppointmentConfig::updateOrCreate(['store_id' => $this->store_id], [
+        AppointmentConfig::updateOrCreate(['store_id' => $this->store_id],
             $request->only([
                 'earliest',
                 'latest',
                 'interval',
                 'max_number',
                 'before_time',
+                'slots',
                 'status',
             ])
-        ]);
+        );
 
         return success();
     }

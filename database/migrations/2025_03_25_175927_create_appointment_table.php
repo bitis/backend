@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->char('latest', 5)->comment('最晚预约时间 H:i');
             $table->smallInteger('interval')->comment('时间间隔 分钟');
             $table->smallInteger('max_number')->comment('预约人数限制');
-            $table->smallInteger('before_time')->comment('预约时间限制 提前时间 分钟');
+            $table->smallInteger('before_time')->nullable()->comment('预约时间限制 提前时间 分钟');
             $table->tinyInteger('status')->default(1)->comment('状态 1 启用 2 禁用');
             $table->json('slots')->comment('预约时间段');
             $table->timestamps();

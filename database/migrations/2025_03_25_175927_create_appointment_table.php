@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->smallInteger('max_number')->comment('预约人数限制');
             $table->smallInteger('before_time')->comment('预约时间限制 提前时间 分钟');
             $table->tinyInteger('status')->default(1)->comment('状态 1 启用 2 禁用');
+            $table->json('slots')->comment('预约时间段');
             $table->timestamps();
         });
 

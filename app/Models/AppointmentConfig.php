@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Models\Traits\DefaultDatetimeFormat;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AppointmentConfig extends Model
 {
@@ -20,6 +19,10 @@ class AppointmentConfig extends Model
         'before_time',
         'slots',
         'status'
+    ];
+
+    protected $casts = [
+        'slots' => 'json'
     ];
 
     protected $hidden = ['created_at', 'updated_at'];

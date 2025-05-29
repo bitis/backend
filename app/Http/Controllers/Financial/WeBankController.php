@@ -30,7 +30,7 @@ class WeBankController extends Controller
 
         $stocks = WeBankStock::when($type, function ($query, $type) use ($direction) {
             $query->where('type', $type);
-        })->orderBy($column ?: 'daily_increase_money', $direction ?: 'direction')->get();
+        })->orderBy($column ?: 'daily_increase_money', $direction ?: 'desc')->get();
 
         foreach ($stocks as $stock) {
             $stock->rate_value = number_format($stock->rate_value ?: 0, 2);

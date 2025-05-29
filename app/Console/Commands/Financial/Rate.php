@@ -32,7 +32,7 @@ class Rate extends Command
         $start_date = '20250101';
         $end_date = today()->format('Ymd');
 
-        $stocks = WeBankStock::where('id', '>', 20)->get();
+        $stocks = WeBankStock::where('id', '>=', 30)->get();
 
         $end_date = today()->format('Ymd');
 

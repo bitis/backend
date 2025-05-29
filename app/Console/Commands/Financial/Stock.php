@@ -26,6 +26,7 @@ class Stock extends Command
      */
     public function handle()
     {
+        // https://personalv6.webankwealth.com/wm-htrserver/finance/product_shelf/query_product_list
         $json = file_get_contents('stock.json');
         $data = json_decode($json, true);
         $stocks = $data['ret_data']['list'];

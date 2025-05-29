@@ -28,7 +28,7 @@ class WeDailyMoney extends Command
      */
     public function handle()
     {
-        $stocks = WeBankStock::where('type', 'WeBank')->where('id', '>', 20)->get();
+        $stocks = WeBankStock::where('type', 'WeBank')->where('id', '>=', 30)->get();
 
         foreach ($stocks as $stock) {
             $pre_month_last_day = WeBankStockRate::where('prod_code', $stock->code)

@@ -32,7 +32,7 @@ class WeBankController extends Controller
             $query->where('type', $type);
         })->when($column, function ($query, $column) use ($direction) {
             $query->orderBy($column, $direction);
-        })->orderBy('start_buy_time', 'desc')->get();
+        })->orderBy('daily_increase_money', 'desc')->get();
 
         foreach ($stocks as $stock) {
             $stock->rate_value = number_format($stock->rate_value ?: 0, 2);

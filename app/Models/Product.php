@@ -52,7 +52,7 @@ class Product extends Model
 
     public function getTypeTextAttribute(): string
     {
-        return self::MAP_TYPE[$this->type];
+        return $this->type ? self::MAP_TYPE[$this->type] : '';
     }
 
     public function category(): BelongsTo

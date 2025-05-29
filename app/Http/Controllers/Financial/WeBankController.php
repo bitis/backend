@@ -25,14 +25,14 @@ class WeBankController extends Controller
     public function index(Request $request): JsonResponse
     {
         $type = $request->input('type', '微众活期+Plus');
-        $column = $request->input('column');
-        $direction = $request->input('direction');
+        $column = $request->input('column', 'daily_increase_money');
+        $direction = $request->input('direction', 'desc');
 
         $stocks = WeBankStock::when($type, function ($query, $type) use ($direction) {
             $query->where('type', $type);
         })->when($column, function ($query, $column) use ($direction) {
             $query->orderBy($column, $direction);
-        })->orderBy('daily_increase_money', 'desc')->get();
+        })->get();
 
         foreach ($stocks as $stock) {
             $stock->rate_value = number_format($stock->rate_value ?: 0, 2);

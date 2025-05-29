@@ -45,6 +45,7 @@ class AppointmentController extends Controller
             ->where('store_id', $this->store_id)
             ->where('type', Product::TYPE_SERVICE)
             ->limit(50)
+            ->selectRaw('name as label, id as value')
             ->get();
 
         return success($services);

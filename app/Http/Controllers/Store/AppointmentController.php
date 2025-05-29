@@ -8,6 +8,7 @@ use App\Models\AppointmentConfig;
 use App\Models\Product;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AppointmentController extends Controller
 {
@@ -40,10 +41,9 @@ class AppointmentController extends Controller
      */
     public function services(): JsonResponse
     {
-        $services = Product::where('store_id', $this->store_id)
+        $services = DB::table((new Product())->getTable())
+            ->where('store_id', $this->store_id)
             ->where('type', Product::TYPE_SERVICE)
-            ->selectRaw('name as label, id as value')
-            ->setAppends([])
             ->limit(50)
             ->get();
 

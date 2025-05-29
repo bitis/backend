@@ -28,7 +28,7 @@ class ProductController extends Controller
             ->when($request->input('category_id'), fn($query, $category) => $query->where('category_id', $category))
             ->when($request->input('words'), fn($query, $keyword) => $query->where('name', 'like', "%{$keyword}%"))
             ->when($request->input('select'), function ($query, $select) {
-                if ($select == 'appointment') $query->select('name as label, id as value');
+                if ($select == 'appointment') $query->select(['name as label', 'id as value']);
             })
             ->paginate(getPerPage());
 

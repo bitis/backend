@@ -144,6 +144,7 @@ Route::namespace('Store')->prefix('store')->group(function () {
 
         Route::prefix('appointment')->group(function () {
             Route::post('list', 'AppointmentController@index');
+            Route::post('services', 'AppointmentController@services');
             Route::post('form', 'AppointmentController@form');
             Route::post('detail', 'AppointmentController@detail');
             Route::post('setStatus', 'AppointmentController@setStatus');

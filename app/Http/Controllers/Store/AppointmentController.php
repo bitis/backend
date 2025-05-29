@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Store;
 use App\Http\Controllers\Controller;
 use App\Models\Appointment;
 use App\Models\AppointmentConfig;
+use App\Models\Product;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -30,6 +31,23 @@ class AppointmentController extends Controller
             ->paginate(getPerPage());
 
         return success($appointments);
+    }
+
+    /**
+     * 可预约项目
+     *
+     * @return JsonResponse
+     */
+    public function services(): JsonResponse
+    {
+        $services = Product::where('store_id', $this->store_id)
+            ->where('type', Product::TYPE_SERVICE)
+            ->selectRaw('name as label, id as value')
+            ->setAppends([])
+            ->limit(50)
+            ->get();
+
+        return success($services);
     }
 
     /**

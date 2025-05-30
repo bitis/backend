@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Store;
 use App\Http\Controllers\Controller;
 use App\Models\Appointment;
 use App\Models\AppointmentConfig;
+use App\Models\Member;
 use App\Models\Product;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -63,16 +64,21 @@ class AppointmentController extends Controller
             ->findOr($request->input('id'), fn() => new Appointment(['store_id' => $this->store_id]));
 
         $appointment->fill($request->only([
-            'member_id',
-            'member_name',
+            'name',
             'mobile',
             'product_id',
-            'product_name',
-            'time',
             'time_text',
             'number',
             'remark',
         ]));
+
+        $time = $request->input('date') . ' ' . $request->input('time');
+
+        $member = Member::where('store_id', $this->store_id)->where('mobile', $request->input('mobile'))->first();
+        if ($member) $appointment->member_id = $member->id;
+
+        $product = Product::where('store_id', $this->store_id)->where('product_id', $request->input('product_id'))->first();
+        if ($product) $appointment->product_name = $product->product_name;
 
         $appointment->save();
 

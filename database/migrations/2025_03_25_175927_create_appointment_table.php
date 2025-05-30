@@ -26,14 +26,14 @@ return new class extends Migration {
         Schema::create('appointments', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('store_id');
-            $table->unsignedInteger('member_id');
-            $table->string('member_name')->comment('会员名');
+            $table->unsignedInteger('member_id')->nullable();
+            $table->string('name')->comment('会员名');
             $table->string('mobile', 15)->comment('预约手机号');
             $table->unsignedInteger('product_id')->comment('预约的项目ID');
             $table->string('product_name')->comment('预约的项目名称');
             $table->timestamp('time')->comment('预约时间');
             $table->char('time_text', 12)->comment('预约时间');
-            $table->unsignedInteger('number')->comment('预约人数');
+            $table->unsignedInteger('number')->default(1)->comment('预约人数');
             $table->string('remark')->nullable()->comment('备注');
             $table->tinyInteger('status')->default(1)->comment('状态');
             $table->softDeletes();

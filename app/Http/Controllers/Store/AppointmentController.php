@@ -76,7 +76,7 @@ class AppointmentController extends Controller
         if ($member) $appointment->member_id = $member->id;
 
         $product = Product::where('store_id', $this->store_id)->where('id', $request->input('product_id'))->first();
-        if ($product) $appointment->product_name = $product->product_name;
+        if ($product) $appointment->product_name = $product->name;
 
         $appointment->save();
 

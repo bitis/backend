@@ -13,13 +13,12 @@ class Appointment extends Model
 
     protected $fillable = [
         'store_id',
-        'member_id',
-        'member_name',
+        'name',
         'mobile',
+        'member_id',
         'product_id',
         'product_name',
-        'time',
-        'time_text',
+        'datetime',
         'number',
         'remark',
         'status'

@@ -67,7 +67,7 @@ class AppointmentController extends Controller
             'name',
             'mobile',
             'product_id',
-            'time_text',
+            'time',
             'number',
             'remark',
         ]));

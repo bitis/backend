@@ -31,7 +31,7 @@ return new class extends Migration {
             $table->string('mobile', 15)->comment('预约手机号');
             $table->unsignedInteger('product_id')->comment('预约的项目ID');
             $table->string('product_name')->comment('预约的项目名称');
-            $table->timestamp('time')->comment('预约时间');
+            $table->timestamp('datetime')->comment('预约时间');
             $table->char('time_text', 12)->comment('预约时间');
             $table->unsignedInteger('number')->default(1)->comment('预约人数');
             $table->string('remark')->nullable()->comment('备注');

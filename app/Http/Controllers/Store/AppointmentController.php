@@ -24,12 +24,12 @@ class AppointmentController extends Controller
         $appointments = Appointment::where('store_id', $this->store_id)
             ->when($request->input('member_id'), fn($query, $member_id) => $query->where('member_id', $member_id))
             ->when($request->input('status'), fn($query, $status) => $query->where('status', $status))
-            ->when($request->input('start_time'), fn($query, $start_time) => $query->where('time', '>=', $start_time))
-            ->when($request->input('end_time'), fn($query, $end_time) => $query->where('time', '<', $end_time))
+            ->when($request->input('start_time'), fn($query, $start_time) => $query->where('datetime', '>=', $start_time))
+            ->when($request->input('end_time'), fn($query, $end_time) => $query->where('datetime', '<', $end_time))
             ->when($request->input('search'), fn($query, $search) => $query->where(function ($query) use ($search) {
                 $query->where('name', 'like', "%{$search}%")->orWhere('mobile', 'like', "%{$search}%");
             }))
-            ->orderBy('time')
+            ->orderBy('datetime')
             ->paginate(getPerPage());
 
         return success($appointments);
@@ -104,7 +104,9 @@ class AppointmentController extends Controller
      */
     public function setStatus(Request $request): JsonResponse
     {
-        Appointment::where('store_id', $this->store_id)->where('id', $request->input('id'))->update(['status' => $request->input('status')]);
+        Appointment::where('store_id', $this->store_id)
+            ->where('id', $request->input('id'))
+            ->update(['status' => $request->input('status')]);
 
         return success();
     }

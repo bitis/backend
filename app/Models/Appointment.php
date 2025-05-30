@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Traits\DefaultDatetimeFormat;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Appointment extends Model
@@ -45,5 +46,10 @@ class Appointment extends Model
     public function getStatusNameAttribute(): string
     {
         return self::statusMap[$this->attributes['status']] ?? '未知';
+    }
+
+    public function service(): HasOne
+    {
+        return $this->hasOne(Product::class, 'id', 'product_id');
     }
 }

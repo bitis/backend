@@ -21,7 +21,8 @@ class AppointmentController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $appointments = Appointment::where('store_id', $this->store_id)
+        $appointments = Appointment::with('service')
+            ->where('store_id', $this->store_id)
             ->when($request->input('member_id'), fn($query, $member_id) => $query->where('member_id', $member_id))
             ->when($request->input('status'), fn($query, $status) => $query->where('status', $status))
             ->when($request->input('start_time'), fn($query, $start_time) => $query->where('datetime', '>=', $start_time))

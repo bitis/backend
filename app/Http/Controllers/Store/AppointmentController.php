@@ -73,6 +73,7 @@ class AppointmentController extends Controller
         ]));
 
         $time = $request->input('date') . ' ' . $request->input('time');
+        $appointment->time = $time;
 
         $member = Member::where('store_id', $this->store_id)->where('mobile', $request->input('mobile'))->first();
         if ($member) $appointment->member_id = $member->id;

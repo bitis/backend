@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Store;
 
 use App\Http\Controllers\Controller;
+use App\Models\Appointment;
 use App\Models\Member;
 use App\Models\Order;
 use App\Models\Product;
@@ -38,11 +39,15 @@ class DashboardController extends Controller
 
         $warning_num = StockWarningConfig::where('store_id', $this->store_id)->value('min_number') ?? 0;
         $stock_warning = Product::where('store_id', $this->store_id)->where('stock', '<=', $warning_num)->count();
+        $today_appointment = Appointment::where('store_id', $this->store_id)
+            ->whereDate('datetime', now()->toDateString())
+            ->where('status', Appointment::status_confirm)->count();
 
         return success([
             'stat' => $stat,
             'todos' => [
                 'stock_warning' => $stock_warning,
+                'today_appointment' => $today_appointment
             ],
         ]);
     }

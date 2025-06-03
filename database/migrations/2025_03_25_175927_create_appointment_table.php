@@ -36,6 +36,9 @@ return new class extends Migration {
             $table->unsignedInteger('number')->default(1)->comment('预约人数');
             $table->string('remark')->nullable()->comment('备注');
             $table->tinyInteger('status')->default(1)->comment('状态');
+            $table->timestamp('confirm_at')->comment('确认时间');
+            $table->timestamp('cancel_at')->comment('取消时间');
+            $table->timestamp('checkin_at')->comment('到店时间');
             $table->softDeletes();
             $table->timestamps();
         });

@@ -105,9 +105,18 @@ class AppointmentController extends Controller
      */
     public function setStatus(Request $request): JsonResponse
     {
+        $status = $request->input('status');
+
+        $at = match ($status) {
+            Appointment::status_submit, Appointment::status_timeout => [],
+            Appointment::status_confirm => ['confirm_at' => now()],
+            Appointment::status_checkin => ['checkin_at' => now()],
+            Appointment::status_cancel => ['cancel_at' => now()]
+        };
+
         Appointment::where('store_id', $this->store_id)
             ->where('id', $request->input('id'))
-            ->update(['status' => $request->input('status')]);
+            ->update(array_merge(['status' => $request->input('status')], $at));
 
         return success();
     }

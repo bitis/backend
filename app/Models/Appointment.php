@@ -22,21 +22,24 @@ class Appointment extends Model
         'datetime',
         'number',
         'remark',
-        'status'
+        'status',
+        'confirm_at',
+        'cancel_at',
+        'checkin_at'
     ];
 
-    const status_confirm = 1;
-    const status_service = 2;
-    const status_timeout = 3;
-    const status_finish = 4;
+    const status_submit = 1;
+    const status_confirm = 2;
+    const status_checkin = 3;
+    const status_timeout = 4;
     const status_cancel = 5;
 
     const statusMap = [
-        1 => '待确认',
-        2 => '待服务',
-        3 => '已超时',
-        4 => '已完成',
-        5 => '已取消'
+        self::status_submit => '待确认',
+        self::status_confirm => '已确认',
+        self::status_checkin => '已到店',
+        self::status_timeout => '已超时',
+        self::status_cancel => '已取消'
     ];
 
     protected $appends = ['status_name'];

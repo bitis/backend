@@ -104,6 +104,13 @@ Route::namespace('Store')->prefix('store')->group(function () {
             Route::post('destroy', 'CardController@destroy');
         });
 
+        Route::prefix('credit')->group(function () {
+            Route::post('list', 'CreditController@index');
+            Route::post('form', 'CreditController@form');
+            Route::post('detail', 'CreditController@detail');
+            Route::post('destroy', 'CreditController@destroy');
+        });
+
         Route::prefix('staff')->group(function () {
             Route::post('list', 'StaffController@index');
             Route::post('form', 'StaffController@form');

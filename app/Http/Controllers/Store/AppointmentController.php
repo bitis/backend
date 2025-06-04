@@ -118,7 +118,10 @@ class AppointmentController extends Controller
             ->where('id', $request->input('id'))
             ->update(array_merge(['status' => $request->input('status')], $at));
 
-        return success();
+        return success([
+            'status' => $status,
+            'text' => Appointment::statusMap[$status],
+        ]);
     }
 
     /**

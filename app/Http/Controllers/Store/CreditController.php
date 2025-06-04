@@ -43,7 +43,7 @@ class CreditController extends Controller
      */
     public function detail(Request $request): JsonResponse
     {
-        $credit = Credit::with(['products', 'products.product'])->find($request->input('id'))->toArray();
+        $credit = Credit::where('store_id', $this->store_id)->find($request->input('id'))->toArray();
 
         return success($credit);
     }

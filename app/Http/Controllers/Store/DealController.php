@@ -301,4 +301,24 @@ class DealController extends Controller
             'total_deduct_price' => $total_deduct_price
         ]);
     }
+
+    /**
+     * 储值
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function charge(Request $request): JsonResponse
+    {
+        $creditId = $request->input('credit_id');
+        $memberId = $request->input('member_id');
+        $pay_amount = $request->input('pay_amount');
+        $payment_id = $request->input('payment_id');
+        $order_number = Order::generateNumber($this->store_id);
+        $remark = $request->input('remark');
+
+        $staffs = $request->input('staffs');
+
+        return success();
+    }
 }

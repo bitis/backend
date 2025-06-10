@@ -54,11 +54,11 @@ class WeDailyMoney extends Command
             if ($today && $pre_month_last_day) $stock->month_increase_money = 10000 * ($today->unit_net_value - $pre_month_last_day->unit_net_value);
 
             $_left = WeBankStockRate::where('prod_code', $stock->code)
-                ->where('earnings_rate_date', '<', '2025-04-01')
+                ->where('earnings_rate_date', '<', '2025-' . now()->addMonths(-1)->format('m') . '-01')
                 ->orderBy('earnings_rate_date', 'desc')
                 ->first();
             $_right = WeBankStockRate::where('prod_code', $stock->code)
-                ->where('earnings_rate_date', '<', '2025-05-01')
+                ->where('earnings_rate_date', '<', '2025-' . date('m') . '-01')
                 ->orderBy('earnings_rate_date', 'desc')
                 ->first();
             if ($_left && $_right) $stock->pre_month_increase_money = 10000 * ($_right->unit_net_value - $_left->unit_net_value);

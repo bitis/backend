@@ -27,7 +27,7 @@ class WeDailyMoney extends Command
      */
     public function handle()
     {
-        $stocks = WeBankStock::where('type', '微众活期+Plus')->get();
+        $stocks = WeBankStock::get();
 
         foreach ($stocks as $stock) {
 

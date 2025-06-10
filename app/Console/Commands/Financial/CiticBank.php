@@ -31,7 +31,7 @@ class CiticBank extends Command
     public function handle()
     {
         $cookies = $this->refreshCookie();
-        $stocks = WeBankStock::where('type', '中信信芯家族')->where('id', '>=', 44)->get();
+        $stocks = WeBankStock::where('type', '中信信芯家族')->get();
 
         foreach ($stocks as $stock) {
             $this->sync($stock, $cookies);

@@ -23,6 +23,7 @@
         "laravel/sanctum": "^3.2",
         "laravel/telescope": "^4.15",
         "laravel/tinker": "^2.8",
+        "mews/captcha": "^3.4",
         "overtrue/easy-sms": "^2.4",
         "overtrue/flysystem-cos": "^5.1",
         "symfony/dom-crawler": "^7.0",

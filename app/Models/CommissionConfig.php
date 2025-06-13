@@ -57,11 +57,6 @@ class CommissionConfig extends Model
         return static::getConfig(CommissionConfigurableType::FastStored->value, $jobId);
     }
 
-    public static function getFastTimesConfig($jobId)
-    {
-        return static::getConfig(CommissionConfigurableType::FastTimes->value, $jobId);
-    }
-
     public static function getConfig($configurable_type, $jobId, $configurable_id = null)
     {
         if (empty($jobId)) return null;

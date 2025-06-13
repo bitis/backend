@@ -12,16 +12,14 @@ enum CommissionConfigurableType: int
     case FastConsume = 2;
     case OpenCard = 3;
     case FastStored = 4;
-    case FastTimes = 5;
 
     public function name(): string
     {
         return match ($this) {
-            CommissionConfigurableType::Product => '商品',
+            CommissionConfigurableType::Product => '商品项目',
             CommissionConfigurableType::FastConsume => '快速消费',
-            CommissionConfigurableType::OpenCard => '办卡',
-            CommissionConfigurableType::FastStored => '快速储值',
-            CommissionConfigurableType::FastTimes => '快速冲次',
+            CommissionConfigurableType::OpenCard => '会员办卡',
+            CommissionConfigurableType::FastStored => '会员储值',
         };
     }
 }

@@ -15,6 +15,11 @@ use Illuminate\Support\Facades\DB;
 
 class CommissionController extends Controller
 {
+    public function types(): JsonResponse
+    {
+        return success(CommissionConfigurableType::toArray());
+    }
+
     /**
      * 配置提成
      *

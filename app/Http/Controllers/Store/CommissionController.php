@@ -21,6 +21,46 @@ class CommissionController extends Controller
     }
 
     /**
+     * 获取可以配置的列表
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function configurable(Request $request): JsonResponse
+    {
+        $type = $request->input('type');
+
+        $list = [];
+
+        switch ($type) {
+            case CommissionConfigurableType::Product->value:
+            case CommissionConfigurableType::Service->value:
+                $list = Product::where('store_id', $this->store_id)->where('type', $type)->paginate(getPerPage());
+                break;
+            case CommissionConfigurableType::OpenCard->value:
+                $list = Card::where('store_id', $this->store_id)->paginate(getPerPage());
+                break;
+        }
+
+        return success($list);
+    }
+
+    /**
+     * 已配置的id
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function configured(Request $request): JsonResponse
+    {
+        $configured = CommissionConfig::where('store_id', $this->store_id)
+            ->where('configurable_type', $request->input('type'))
+            ->pluck('configurable_id');
+
+        return success($configured);
+    }
+
+    /**
      * 配置提成
      *
      * @param Request $request

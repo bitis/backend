@@ -84,16 +84,15 @@ class CommissionController extends Controller
                         'configurable_type' => $configurable_type,
                     ], Arr::except($config, ['store_id', 'configurable_id, configurable_type']));
                 }
-
-                switch ($configurable_type) {
-                    case CommissionConfigurableType::Product->value:
-                    case CommissionConfigurableType::Service->value:
-                        Product::where('id', $configurable_id)->update(['commission_config' => true]);
-                        break;
-                    case CommissionConfigurableType::OpenCard->value:
-                        Card::where('id', $configurable_id)->update(['commission_config' => true]);
-                        break;
-                }
+            }
+            switch ($configurable_type) {
+                case CommissionConfigurableType::Product->value:
+                case CommissionConfigurableType::Service->value:
+                    Product::whereIn('id', $configurable_ids)->update(['commission_config' => true]);
+                    break;
+                case CommissionConfigurableType::OpenCard->value:
+                    Card::whereIn('id', $configurable_ids)->update(['commission_config' => true]);
+                    break;
             }
             DB::commit();
         } catch (Exception $exception) {

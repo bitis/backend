@@ -11,6 +11,7 @@ use App\Models\User;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 class CommissionController extends Controller
@@ -77,24 +78,21 @@ class CommissionController extends Controller
             DB::beginTransaction();
             foreach ($configurable_ids as $configurable_id) {
                 foreach ($configs as $config) {
-                    CommissionConfig::where('configurable_id', $configurable_id)
-                        ->where('configurable_type', $configurable_type)
-                        ->where('job_id', $config['job_id'])
-                        ->delete($configurable_id);
-
-                    CommissionConfig::create(array_merge($config, [
+                    CommissionConfig::updateOrCreate([
                         'store_id' => $this->store_id,
                         'configurable_id' => $configurable_id,
                         'configurable_type' => $configurable_type,
-                    ]));
+                    ], Arr::except($config, ['store_id', 'configurable_id, configurable_type']));
                 }
 
-                if ($configurable_type == CommissionConfigurableType::Product->value) {
-                    Product::where('id', $configurable_id)->update(['commission_config' => true]);
-                }
-
-                if ($configurable_type == CommissionConfigurableType::OpenCard->value) {
-                    Card::where('id', $configurable_id)->update(['commission_config' => true]);
+                switch ($configurable_type) {
+                    case CommissionConfigurableType::Product->value:
+                    case CommissionConfigurableType::Service->value:
+                        Product::where('id', $configurable_id)->update(['commission_config' => true]);
+                        break;
+                    case CommissionConfigurableType::OpenCard->value:
+                        Card::where('id', $configurable_id)->update(['commission_config' => true]);
+                        break;
                 }
             }
             DB::commit();

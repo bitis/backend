@@ -16,7 +16,7 @@
         "alphasnow/aliyun-oss-flysystem": "^3.3",
         "barryvdh/laravel-snappy": "^1.0",
         "chillerlan/php-qrcode": "^5.0",
-        "filament/filament": "3.2",
+        "filament/filament": "^3.2",
         "guzzlehttp/guzzle": "^7.2",
         "jpush/jpush": "^3.6",
         "laravel/framework": "^10.10",

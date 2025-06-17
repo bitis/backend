@@ -138,7 +138,7 @@ Route::namespace('Store')->prefix('store')->group(function () {
             Route::post('configured', 'CommissionController@configured');
             Route::post('configurable', 'CommissionController@configurable');
             Route::post('form', 'CommissionController@form');
-            Route::get('detail', 'CommissionController@detail');
+            Route::post('detail', 'CommissionController@detail');
             Route::post('calc', 'CommissionController@calc');
         });
 

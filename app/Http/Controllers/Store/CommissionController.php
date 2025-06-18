@@ -69,29 +69,27 @@ class CommissionController extends Controller
      */
     public function form(Request $request): JsonResponse
     {
-        $configurable_ids = $request->input('configurable_ids');
+        $configurable_id = $request->input('configurable_id');
         $configurable_type = $request->input('configurable_type');
 
         $configs = $request->input('configs'); // [job_id, type, deduct_cost, rate, fixed_amount]
 
         try {
             DB::beginTransaction();
-            foreach ($configurable_ids as $configurable_id) {
-                foreach ($configs as $config) {
-                    CommissionConfig::updateOrCreate([
-                        'store_id' => $this->store_id,
-                        'configurable_id' => $configurable_id,
-                        'configurable_type' => $configurable_type,
-                    ], Arr::except($config, ['store_id', 'configurable_id, configurable_type']));
-                }
+            foreach ($configs as $config) {
+                CommissionConfig::updateOrCreate([
+                    'store_id' => $this->store_id,
+                    'configurable_id' => $configurable_id,
+                    'configurable_type' => $configurable_type,
+                ], Arr::except($config, ['store_id', 'configurable_id, configurable_type']));
             }
             switch ($configurable_type) {
                 case CommissionConfigurableType::Product->value:
                 case CommissionConfigurableType::Service->value:
-                    Product::whereIn('id', $configurable_ids)->update(['commission_config' => true]);
+                    Product::whereIn('id', $configurable_id)->update(['commission_config' => true]);
                     break;
                 case CommissionConfigurableType::OpenCard->value:
-                    Card::whereIn('id', $configurable_ids)->update(['commission_config' => true]);
+                    Card::whereIn('id', $configurable_id)->update(['commission_config' => true]);
                     break;
             }
             DB::commit();

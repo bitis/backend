@@ -114,7 +114,7 @@ class CommissionController extends Controller
         $configurable_id = $request->input('configurable_id');
         $configurable_type = $request->input('configurable_type');
 
-        $configurable = match ($configurable_type) {
+        $configurable = match (intval($configurable_type)) {
             CommissionConfigurableType::Product->value,
             CommissionConfigurableType::Service->value => Product::where('store_id', $this->store_id)->first(),
             CommissionConfigurableType::OpenCard->value => Card::where('store_id', $this->store_id)->first(),

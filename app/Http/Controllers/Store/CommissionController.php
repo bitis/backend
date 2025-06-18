@@ -114,10 +114,18 @@ class CommissionController extends Controller
         $configurable_id = $request->input('configurable_id');
         $configurable_type = $request->input('configurable_type');
 
-        return success(CommissionConfig::with('job')
+        $configurable = match ($configurable_type) {
+            CommissionConfigurableType::Product->value,
+            CommissionConfigurableType::Service->value => Product::where('store_id', $this->store_id)->first(),
+            CommissionConfigurableType::OpenCard->value => Card::where('store_id', $this->store_id)->first(),
+        };
+
+        $configurable->configs = CommissionConfig::with('job')
             ->where('configurable_id', $configurable_id)
             ->where('configurable_type', $configurable_type)
-            ->get());
+            ->get();
+
+        return success($configurable);
     }
 
     /**

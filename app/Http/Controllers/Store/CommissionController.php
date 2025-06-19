@@ -86,10 +86,10 @@ class CommissionController extends Controller
             switch ($configurable_type) {
                 case CommissionConfigurableType::Product->value:
                 case CommissionConfigurableType::Service->value:
-                    Product::whereIn('id', $configurable_id)->update(['commission_config' => true]);
+                    Product::where('id', $configurable_id)->update(['commission_config' => true]);
                     break;
                 case CommissionConfigurableType::OpenCard->value:
-                    Card::whereIn('id', $configurable_id)->update(['commission_config' => true]);
+                    Card::where('id', $configurable_id)->update(['commission_config' => true]);
                     break;
             }
             DB::commit();

@@ -13,6 +13,7 @@ class CommissionConfig extends Model
     use HasFactory;
 
     protected $fillable = [
+        'store_id',
         'job_id',
         'configurable_type',
         'configurable_id',

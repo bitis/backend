@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Store;
 use App\Http\Controllers\Controller;
 use App\Models\Card;
 use App\Models\CommissionConfig;
+use App\Models\Credit;
 use App\Models\Enumerations\CommissionConfigurableType;
 use App\Models\Product;
 use App\Models\User;
@@ -40,6 +41,9 @@ class CommissionController extends Controller
                 break;
             case CommissionConfigurableType::OpenCard->value:
                 $list = Card::where('store_id', $this->store_id)->paginate(getPerPage());
+                break;
+            case CommissionConfigurableType::Stored->value:
+                $list = Credit::where('store_id', $this->store_id)->paginate(getPerPage());
                 break;
         }
 
@@ -117,6 +121,8 @@ class CommissionController extends Controller
             CommissionConfigurableType::Product->value,
             CommissionConfigurableType::Service->value => Product::where('store_id', $this->store_id)->find($configurable_id),
             CommissionConfigurableType::OpenCard->value => Card::where('store_id', $this->store_id)->find($configurable_id),
+            CommissionConfigurableType::Stored->value => Credit::where('store_id', $this->store_id)->find($configurable_id),
+            CommissionConfigurableType::FastConsume->value => json_decode('{"id":1, "name":"快速消费提成设置", "images":[]"}'),
         };
 
         $configurable->configs = CommissionConfig::with('job')

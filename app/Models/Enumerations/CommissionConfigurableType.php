@@ -12,7 +12,7 @@ enum CommissionConfigurableType: int
     case Service = 2;
     case FastConsume = 3;
     case OpenCard = 4;
-    case FastStored = 5;
+    case Stored = 5;
 
     public function name(): string
     {
@@ -21,7 +21,7 @@ enum CommissionConfigurableType: int
             CommissionConfigurableType::Service => '服务项目',
             CommissionConfigurableType::FastConsume => '快速消费',
             CommissionConfigurableType::OpenCard => '会员办卡',
-            CommissionConfigurableType::FastStored => '会员储值',
+            CommissionConfigurableType::Stored => '会员储值',
         };
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Store;
 use App\Common\Printer\XPrinter;
 use App\Exceptions\PrinterException;
 use App\Http\Controllers\Controller;
+use App\Models\PrintConfig;
 use App\Models\Printer;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -14,8 +15,7 @@ class PrinterController extends Controller
 {
     public function index(): JsonResponse
     {
-        $printers = Printer::where('store_id', $this->store_id)->all();
-        return success($printers);
+        return success(Printer::where('store_id', $this->store_id)->first());
     }
 
     public function form(Request $request, XPrinter $xPrinter): JsonResponse
@@ -50,9 +50,30 @@ class PrinterController extends Controller
         return success();
     }
 
-    public function destroy(Request $request): JsonResponse
+    public function config(): JsonResponse
     {
-        Printer::where('store_id', $this->store_id)->where('id', $request->input('id'))->delete();
+        return success(PrintConfig::where('store_id', $this->store_id)->first());
+    }
+
+    /**
+     * 打印配置
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function configForm(Request $request): JsonResponse
+    {
+        PrintConfig::updateOrCreate([
+            'store_id' => $this->store_id
+        ], $request->only([
+            'auto_print',
+            'name',
+            'endnote',
+            'phone',
+            'address',
+            'operator',
+            'member_name',
+        ]));
 
         return success();
     }

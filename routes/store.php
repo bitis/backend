@@ -191,9 +191,10 @@ Route::namespace('Store')->prefix('store')->group(function () {
 
         Route::prefix('setting')->group(function () {
             Route::prefix('printer')->group(function () {
-                Route::post('list', 'PrinterController@index');
+                Route::post('detail', 'PrinterController@detail');
                 Route::post('form', 'PrinterController@form');
-                Route::post('destroy', 'PrinterController@destroy');
+                Route::post('config', 'PrinterController@config');
+                Route::post('config-form', 'PrinterController@configForm');
             });
             Route::prefix('sms')->group(function () { // 短信管理
                 Route::post('detail', 'SmsConfigController@detail');

@@ -122,7 +122,7 @@ class CommissionController extends Controller
             CommissionConfigurableType::Service->value => Product::where('store_id', $this->store_id)->find($configurable_id),
             CommissionConfigurableType::OpenCard->value => Card::where('store_id', $this->store_id)->find($configurable_id),
             CommissionConfigurableType::Stored->value => Credit::where('store_id', $this->store_id)->find($configurable_id),
-            CommissionConfigurableType::FastConsume->value => json_decode('{"id":1, "name":"快速消费提成设置", "images":[]"}'),
+            CommissionConfigurableType::FastConsume->value => json_decode('{"id":1, "name":"快速消费提成设置", "images":[]}'),
         };
 
         $configurable->configs = CommissionConfig::with('job')

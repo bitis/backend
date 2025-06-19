@@ -114,8 +114,8 @@ class CommissionController extends Controller
 
         $configurable = match (intval($configurable_type)) {
             CommissionConfigurableType::Product->value,
-            CommissionConfigurableType::Service->value => Product::where('store_id', $this->store_id)->first(),
-            CommissionConfigurableType::OpenCard->value => Card::where('store_id', $this->store_id)->first(),
+            CommissionConfigurableType::Service->value => Product::where('store_id', $this->store_id)->find($configurable_id),
+            CommissionConfigurableType::OpenCard->value => Card::where('store_id', $this->store_id)->find($configurable_id),
         };
 
         $configurable->configs = CommissionConfig::with('job')

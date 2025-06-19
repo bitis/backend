@@ -79,9 +79,10 @@ class CommissionController extends Controller
             foreach ($configs as $config) {
                 CommissionConfig::updateOrCreate([
                     'store_id' => $this->store_id,
+                    'job_id' => $config['job_id'],
                     'configurable_id' => $configurable_id,
                     'configurable_type' => $configurable_type,
-                ], Arr::except($config, ['store_id', 'configurable_id, configurable_type']));
+                ], Arr::except($config, ['store_id', 'configurable_id, configurable_type', 'job_id']));
             }
             switch ($configurable_type) {
                 case CommissionConfigurableType::Product->value:

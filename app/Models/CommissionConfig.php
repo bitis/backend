@@ -26,6 +26,10 @@ class CommissionConfig extends Model
 
     protected $hidden = ['deleted_at', 'created_at', 'updated_at'];
 
+    protected $casts = [
+        'deduct_cost' => 'boolean',
+    ];
+
     const TYPE_FIXED = 1;
     const TYPE_RATE = 2;
 

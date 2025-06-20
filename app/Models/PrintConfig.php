@@ -18,5 +18,7 @@ class PrintConfig extends Model
         'address',
         'operator',
         'member_name',
+        'printer_id',
+        'print_ready',
     ];
 }

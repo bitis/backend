@@ -13,7 +13,7 @@ use Illuminate\Support\Arr;
 
 class PrinterController extends Controller
 {
-    public function index(): JsonResponse
+    public function detail(): JsonResponse
     {
         return success(Printer::where('store_id', $this->store_id)->first());
     }
@@ -43,6 +43,8 @@ class PrinterController extends Controller
 
             $printer->fill(Arr::only($info, ['version', 'type', 'cutter']));
             $printer->save();
+
+            PrintConfig::updateOrCreate(['store_id' => $this->store_id], ['printer_id' => $printer->id, 'print_ready' => 1]);
         } catch (PrinterException $e) {
             return fail($e->getMessage());
         }

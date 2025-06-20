@@ -20,6 +20,8 @@ return new class extends Migration {
             $table->boolean('address')->default(false)->comment('联系地址');
             $table->boolean('operator')->default(false)->comment('操作员');
             $table->boolean('member_name')->default(false)->comment('会员名称');
+            $table->integer('printer_id')->nullable()->unsigned()->comment('打印机ID');
+            $table->boolean('print_ready')->default(false)->comment('打印机就绪');
             $table->timestamps();
         });
     }

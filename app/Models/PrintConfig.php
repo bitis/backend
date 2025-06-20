@@ -21,4 +21,13 @@ class PrintConfig extends Model
         'printer_id',
         'print_ready',
     ];
+
+    protected $casts = [
+        'auto_print' => 'boolean',
+        'phone' => 'boolean',
+        'address' => 'boolean',
+        'operator' => 'boolean',
+        'member_name' => 'boolean',
+        'print_ready' => 'boolean',
+    ];
 }

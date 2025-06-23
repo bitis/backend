@@ -4,6 +4,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::namespace('Store')->prefix('store')->group(function () {
 
+    Route::prefix('bulletin')->group(function () {
+        Route::get('/', 'BulletinController@index');
+        Route::get('detail', 'BulletinController@detail');
+    });
+
     Route::prefix('price')->group(function () {
         Route::any('alipayNotify', 'PriceController@alipayNotify')->name('order.price.alipay_notify');
         Route::any('wechatNotify', 'PriceController@wechatNotify')->name('order.price.wechat_notify');

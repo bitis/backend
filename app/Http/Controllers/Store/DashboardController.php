@@ -10,7 +10,6 @@ use App\Models\Order;
 use App\Models\Product;
 use App\Models\StockWarningConfig;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
@@ -58,7 +57,7 @@ class DashboardController extends Controller
     {
         $bulletin = Bulletin::where('is_show', 1)->orderBy('sort_num', 'desc')->first();
 
-        $bulletin->url = route('bulletin.detail', $bulletin->id);
+        $bulletin->url = route('bulletin.detail', ['id' => $bulletin->id]);
 
         return success($bulletin);
     }

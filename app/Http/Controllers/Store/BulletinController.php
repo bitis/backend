@@ -14,8 +14,12 @@ class BulletinController extends Controller
         return success(Bulletin::where('show_at', '>=', now())->where('is_show', 1)->orderBy('sort_num', 'desc')->get());
     }
 
-    public function detail(Request $request): JsonResponse
+    public function detail(Request $request)
     {
-        return success(Bulletin::find($request->input('id')));
+        $bulletin = Bulletin::find($request->input('id'));
+
+        if ($request->acceptsJson()) return success($bulletin);
+
+        return view('store.bulletin.detail', ['bulletin' => $bulletin]);
     }
 }

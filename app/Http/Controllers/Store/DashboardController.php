@@ -56,7 +56,7 @@ class DashboardController extends Controller
 
     public function notice(): JsonResponse
     {
-        $bulletin = Bulletin::where('is_show', 1)->orderBy('sort', 'desc')->first();
+        $bulletin = Bulletin::where('is_show', 1)->orderBy('sort_num', 'desc')->first();
 
         $bulletin->url = route('bulletin.detail', $bulletin->id);
 

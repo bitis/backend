@@ -18,7 +18,7 @@ class BulletinController extends Controller
     {
         $bulletin = Bulletin::find($request->input('id'));
 
-        if ($request->acceptsJson()) return success($bulletin);
+        if ($request->isMethod('POST')) return success($bulletin);
 
         return view('store.bulletin.detail', ['bulletin' => $bulletin]);
     }

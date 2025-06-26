@@ -6,7 +6,7 @@ Route::namespace('Store')->prefix('store')->group(function () {
 
     Route::prefix('bulletin')->group(function () {
         Route::get('/', 'BulletinController@index');
-        Route::get('detail', 'BulletinController@detail')->name('bulletin.detail');
+        Route::any('detail', 'BulletinController@detail')->name('bulletin.detail');
     });
 
     Route::prefix('price')->group(function () {

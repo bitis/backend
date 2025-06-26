@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages;
 
+use App\Filament\Resources\AdminResource\Widgets\StatsOverview;
 use Filament\Pages\Page;
 use Filament\Facades\Filament;
 use Filament\Widgets\Widget;
@@ -29,7 +30,9 @@ class Dashboard extends Page
      */
     public function getWidgets(): array
     {
-        return Filament::getWidgets();
+        return [
+            StatsOverview::class,
+        ];
     }
 
     /**

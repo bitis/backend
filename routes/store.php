@@ -6,7 +6,7 @@ Route::namespace('Store')->prefix('store')->group(function () {
 
     Route::prefix('bulletin')->group(function () {
         Route::get('/', 'BulletinController@index');
-        Route::get('detail', 'BulletinController@detail');
+        Route::get('detail', 'BulletinController@detail')->name('bulletin.detail');
     });
 
     Route::prefix('price')->group(function () {
@@ -38,6 +38,7 @@ Route::namespace('Store')->prefix('store')->group(function () {
         Route::prefix('dashboard')->group(function () {
             Route::post('consume-data', 'DashboardController@consumeData');
             Route::post('appIndex', 'DashboardController@appIndex');
+            Route::post('notice', 'DashboardController@notice');
         });
 
         Route::prefix('member')->group(function () {

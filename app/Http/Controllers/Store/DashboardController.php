@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Store;
 
 use App\Http\Controllers\Controller;
 use App\Models\Appointment;
+use App\Models\Bulletin;
 use App\Models\Member;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\StockWarningConfig;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
@@ -50,5 +52,14 @@ class DashboardController extends Controller
                 'today_appointment' => $today_appointment
             ],
         ]);
+    }
+
+    public function notice(): JsonResponse
+    {
+        $bulletin = Bulletin::where('is_show', 1)->orderBy('sort', 'desc')->first();
+
+        $bulletin->url = route('bulletin.detail', $bulletin->id);
+
+        return success($bulletin);
     }
 }

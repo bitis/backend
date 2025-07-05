@@ -20,6 +20,7 @@ return new class extends Migration {
             $table->integer('use_card_amount')->default(0)->comment('使用储值卡销售金额');
             $table->integer('use_card_times')->default(0)->comment('使用次卡次数');
             $table->integer('use_money_amount')->default(0)->comment('使用现金销售金额');
+            $table->integer('sale_amount')->default(0)->comment('总销售金额');
             $table->integer('cost_amount')->default(0)->comment('商品成本金额');
             $table->integer('staff_sale_amount')->default(0)->comment('员工业绩金额');
             $table->integer('staff_bonus_amount')->default(0)->comment('员工提成金额');

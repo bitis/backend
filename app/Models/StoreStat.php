@@ -19,6 +19,7 @@ class StoreStat extends Model
         'use_card_amount', // 使用储值卡销售金额
         'use_card_times', // 使用储值卡销售次数
         'use_money_amount', // 使用现金销售金额
+        'sale_amount', // 总销售额
         'cost_amount', // 商品成本
         'staff_sale_amount', // 员工业绩
         'staff_bonus_amount',// 员工提成

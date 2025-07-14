@@ -21,7 +21,7 @@ return new class extends Migration
             $table->decimal('total_amount', 12)->comment('金额');
             $table->decimal('deduct_amount', 12)->comment('抵扣金额');
             $table->decimal('pay_amount', 12)->comment('实际支付金额');
-            $table->tinyInteger('payment_id' )->comment('支付方式');
+            $table->tinyInteger('payment_id' )->nullable()->comment('支付方式');
             $table->integer('operator_id')->nullable()->comment('操作人ID');
             $table->boolean('refund')->default(0)->comment('是否退款 0 未退款 1 退款');
             $table->timestamp('refund_at')->nullable()->comment('退款时间');

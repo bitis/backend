@@ -18,6 +18,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('monitor:icbc_mastercard')->everyMinute()->between('9:00', '12:00')->runInBackground();
         $schedule->command('financial:webank')->weekdays()->between('0:00', '10:00')->everyFiveMinutes();
         $schedule->command('financial:citic')->weekdays()->between('0:00', '10:00')->everyFiveMinutes();
+
+        $schedule->command('app:stats-init')->at('0:00')->runInBackground();
     }
 
     /**

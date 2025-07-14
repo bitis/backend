@@ -126,7 +126,7 @@ class ConsumeController extends Controller
                 'total_amount' => $request->input('total_amount'),
                 'deduct_amount' => $request->input('deduct_amount'),
                 'pay_amount' => $request->input('pay_amount'),
-                'payment_type' => $request->input('payment_type'),
+                'payment_id' => $request->input('payment_id'),
                 'operator_id' => $this->operator_id,
                 'remark' => $request->input('remark'),
             ]);

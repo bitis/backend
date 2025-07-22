@@ -29,7 +29,7 @@ class StatsInit extends Command
     {
         Store::orderBy('id', 'asc')->chunk(100, function ($stores) {
             foreach ($stores as $store) {
-                StoreStat::findOrCreate(['store_id' => $store->id, 'date' => date('Y-m-d')], [
+                StoreStat::firstOrCreate(['store_id' => $store->id, 'date' => date('Y-m-d')], [
                     'month' => date('Ym'),
                     'year' => date('Y'),
                 ]);

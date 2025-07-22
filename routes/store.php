@@ -41,6 +41,10 @@ Route::namespace('Store')->prefix('store')->group(function () {
             Route::post('notice', 'DashboardController@notice');
         });
 
+        Route::prefix('stat')->group(function () {
+            Route::post('income', 'StatsController@notice');
+        });
+
         Route::prefix('member')->group(function () {
             Route::post('list', 'MemberController@index');
             Route::post('form', 'MemberController@form');

@@ -34,7 +34,7 @@ class StatsController extends Controller
         $end = $request->input('end') ?? today()->format('Y-m-d');
 
         $data = StoreStat::where('store_id', $this->store_id)
-            ->whereBetween('created_at', [$start, $end])
+            ->whereBetween('date', [$start, $end])
             ->paginate(getPerPage());
 
         return success($data);

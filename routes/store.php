@@ -42,7 +42,7 @@ Route::namespace('Store')->prefix('store')->group(function () {
         });
 
         Route::prefix('stat')->group(function () {
-            Route::post('income', 'StatsController@income');
+            Route::post('income', 'StatsController@incomeData');
         });
 
         Route::prefix('member')->group(function () {

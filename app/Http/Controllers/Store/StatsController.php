@@ -35,6 +35,7 @@ class StatsController extends Controller
 
         $data = StoreStat::where('store_id', $this->store_id)
             ->whereBetween('date', [$start, $end])
+            ->orderBy('date', 'desc')
             ->paginate(getPerPage());
 
         return success($data);
